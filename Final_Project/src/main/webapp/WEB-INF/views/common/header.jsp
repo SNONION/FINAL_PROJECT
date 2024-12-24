@@ -782,7 +782,7 @@
 	    </div>
 		<div id="bottomButtons">
 			<button class="bottom-btn" id="closeSidebar">
-				<i class="fas fa-home w3-large" style="color: rgb(106, 78, 35);"></i>
+				<i class="fas fa-square" style="color: rgb(106, 78, 35);"></i>
 			</button>
 			<button class="bottom-btn" id="backChatList">
 				<i class="fas fa-arrow-left" style="color: rgb(106, 78, 35);"></i>

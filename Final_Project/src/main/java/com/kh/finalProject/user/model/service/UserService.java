@@ -3,6 +3,7 @@ package com.kh.finalProject.user.model.service;
 import java.util.ArrayList;
 
 import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.user.model.vo.Agree;
 import com.kh.finalProject.user.model.vo.User;
 import com.kh.finalProject.user.model.vo.UserInfo;
@@ -44,5 +45,11 @@ public interface UserService {
 
 	// 닉네임 변경하는 메소드
 	int updateNickname(User user);
+
+	// 위치정보 (시/도 , 구 , 동) 중복확인
+	Location checkLocationDul(Location locationInfo);
+
+	// 중복되는 위치가 없는 경우 위치정보를 필터에 삽입 하는 메소드
+	int insertLocationFilter(Location locationInfo);
 
 }

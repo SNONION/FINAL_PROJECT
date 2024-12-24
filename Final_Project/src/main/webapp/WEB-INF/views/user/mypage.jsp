@@ -292,7 +292,7 @@
 					<li><a href="${contextPath}/board/buyProductList" id="mypage-menu-btn">구매내역</a><br></li>
 					<li><a href="#" id="mypage-menu-btn">택배내역</a><br></li>
 					<li><a href="${contextPath}/board/myPickPage" id="mypage-menu-btn">찜한상품</a><br></li>
-					<li><a href="#" id="mypage-menu-btn">KH페이 구매내역</a><br></li>
+					<li><a href="#" id="mypage-menu-btn">KAKAO 구매내역</a><br></li>
 				</ul>
 				<hr>
 				<span id="sub-title-area">내 정보</span>
