@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.user.model.dao.UserDao;
 import com.kh.finalProject.user.model.vo.Agree;
 import com.kh.finalProject.user.model.vo.User;
@@ -91,6 +92,18 @@ public class UserServiceImpl implements UserService{
 	public int updateNickname(User user) {
 		
 		return userDao.updateNickname(sqlSession, user);
+	}
+
+	@Override
+	public Location checkLocationDul(Location locationInfo) {
+		
+		return userDao.checkLocationDul(sqlSession, locationInfo);
+	}
+
+	@Override
+	public int insertLocationFilter(Location locationInfo) {
+		
+		return userDao.insertLocationFilter(sqlSession, locationInfo);
 	}
 
 }

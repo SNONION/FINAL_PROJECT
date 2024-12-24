@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.user.model.vo.Agree;
 import com.kh.finalProject.user.model.vo.User;
 import com.kh.finalProject.user.model.vo.UserInfo;
@@ -71,6 +72,16 @@ public class UserDao {
 	public int updateNickname(SqlSessionTemplate sqlSession, User user) {
 		
 		return sqlSession.update("userMapper.updateNickname", user);
+	}
+
+	public Location checkLocationDul(SqlSessionTemplate sqlSession, Location locationInfo) {
+		
+		return sqlSession.selectOne("userMapper.checkLocationDul", locationInfo);
+	}
+
+	public int insertLocationFilter(SqlSessionTemplate sqlSession, Location locationInfo) {
+		
+		return sqlSession.insert("userMapper.insertLocationFilter", locationInfo);
 	}
 
 }

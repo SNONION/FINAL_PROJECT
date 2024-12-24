@@ -30,6 +30,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.kh.finalProject.common.model.vo.AddressInfo;
 import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.common.template.ChangeFileName;
 import com.kh.finalProject.user.model.service.UserService;
 import com.kh.finalProject.user.model.vo.Agree;
@@ -49,7 +50,7 @@ public class UserController {
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
-	// 현재 위치의 주소 (시/도 구 동) 정보를 가지고 오는 메소드
+	// 현재 위치의 주소 (시/도 구 동) 정보를 가지고 오는 메소드 + 해당 주소가 필터에 없다면 DB에 삽입하는 메소드
 	@ResponseBody
 	@RequestMapping(value="searchLocation", produces="application/json;charset=UTF-8")
 	public AddressInfo getLocationName(String latitude, String longitude) throws Exception{
@@ -84,6 +85,23 @@ public class UserController {
 													   .regionDepthName1(addressName.get("region_1depth_name").getAsString())
 													   .regionDepthName2(addressName.get("region_2depth_name").getAsString())
 													   .regionDepthName3(addressName.get("region_3depth_name").getAsString()).build();
+		
+		new Location();
+		Location locationInfo = Location.builder()
+											  .locationName(addressName.get("region_1depth_name").getAsString())
+											  .locationDetail1(addressName.get("region_2depth_name").getAsString())
+											  .locationDetail2(addressName.get("region_3depth_name").getAsString())
+											  .build();
+		
+		Location locDulCheck = userService.checkLocationDul(locationInfo);
+		
+		if(locDulCheck == null) {
+			int result = userService.insertLocationFilter(locationInfo);
+			
+			if(result > 0) {
+				log.debug("주소 삽입");
+			}
+		}
 		
 		// 현재 위치 기반 시/도 구 동 출력
 		return addressInfo;

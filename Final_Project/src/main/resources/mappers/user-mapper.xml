@@ -64,6 +64,13 @@
 		<result column="GRADE_CONTENT" property="gradeContent"/>
 	</resultMap>
 	
+	<resultMap type="Location" id="LocResultSet">
+		<result column="LOCATION_NO" property="locationNo"/>
+		<result column="LOCATION_NAME" property="locationName"/>
+		<result column="LOCATION_DETAIL_1" property="locationDetail1"/>
+		<result column="LOCATION_DETAIL_2" property="locationDetail2"/>
+	</resultMap>
+	
 	<select id="loginUser" parameterType="User" resultMap="userResultSet">
 		SELECT	*
 		FROM	TB_USER
@@ -178,5 +185,17 @@
 		SET		NICKNAME = #{nickname}
 		WHERE	USER_ID = #{userId}
 	</update>
+	
+	<select id="checkLocationDul" parameterType="Location" resultMap="LocResultSet">
+		SELECT	*
+		FROM	TB_LOCATION
+		WHERE	LOCATION_NAME = #{locationName}
+		AND		LOCATION_DETAIL_1 = #{locationDetail1}
+		AND		LOCATION_DETAIL_2 = #{locationDetail2}
+	</select>
+	
+	<insert id="insertLocationFilter" parameterType="Location">
+		INSERT INTO TB_LOCATION VALUES(SEQ_LNO.NEXTVAL, #{locationName}, #{locationDetail1}, #{locationDetail2})
+	</insert>
 
 </mapper>
