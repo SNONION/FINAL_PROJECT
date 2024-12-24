@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	
+	<!-- VO 작성 후 별칭 설정 -->
+	<typeAliases>
+		<typeAlias type="com.kh.finalProject.user.model.vo.User" alias="User"/>
+		<typeAlias type="com.kh.finalProject.user.model.vo.Agree" alias="Agree"/>
+		<typeAlias type="com.kh.finalProject.user.model.vo.UserInfo" alias="UserInfo"/>
+		<typeAlias type="com.kh.finalProject.common.model.vo.Category" alias="Category"/>
+		<typeAlias type="com.kh.finalProject.productBoard.model.vo.ProductBoard" alias="ProductBoard"/>
+		<typeAlias type="com.kh.finalProject.productBoard.model.vo.Notice" alias="Notice"/>
+		<typeAlias type="com.kh.finalProject.productBoard.model.vo.Request" alias="Request"/>
+		<typeAlias type="com.kh.finalProject.productBoard.model.vo.Response" alias="Response"/>
+	</typeAliases>
+
+</configuration>

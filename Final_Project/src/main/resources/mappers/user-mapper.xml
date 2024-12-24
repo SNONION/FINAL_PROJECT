@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userMapper">
+
+	<resultMap type="ProductBoard" id="PBResultSet">
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_WRITER" property="boardWriter"/>
+		<result column="CATEGORY_NO" property="categoryNo"/>
+		<result column="LOCATION_NO" property="locationNo"/>
+		<result column="SELL_LOCATION" property="sellLocation"/>
+		<result column="KIND_NO" property="kindNo"/>
+		<result column="PRODUCT_STATUS" property="productStatus"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="BoardContent"/>
+		<result column="PRICE" property="price"/>
+		<result column="COUNT" property="count"/>
+		<result column="TRADE_SELL_STATUS" property="tradeSellStatus"/>
+		<result column="TRADE_BUY_STATUS" property="tradeBuyStatus"/>
+		<result column="BOARD_DECLARATION" property="boardDeclaration"/>
+		<result column="BOARD_RATIING" property="BoardRatting"/>
+		<result column="SELL_WAY" property="sellWay"/>
+		<result column="TAG_19_PRODUCT" property="tag19Product"/>
+		<result column="CREATE_DATE" property="createDAte"/>
+		<result column="MODIFY_DATE" property="modifyDAte"/>
+		<result column="BUYER_ID" property="buyerId"/>
+		<result column="AFTER_BUY_REPLY" property="afterBuyReply"/>
+	</resultMap>
+
+	<resultMap type="User" id="userResultSet">
+		<result column="USER_ID" property="userId"/>
+		<result column="USER_IMG" property="userImg"/>
+		<result column="INTRO_CONTENT" property="introContent"/>
+		<result column="USER_PWD" property="userPwd"/>
+		<result column="USER_NAME" property="userName"/>
+		<result column="AGE" property="age"/>
+		<result column="NICKNAME" property="nickname"/>
+		<result column="EMAIL" property="email"/>
+		<result column="PHONE" property="phone"/>
+		<result column="GENDER" property="gender"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="USER_DECLARATION" property="userDeclaration"/>
+		<result column="WARRNING_COUNT" property="warnningCount"/>
+		<result column="ID_USELESS" property="idUseless"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="KH_PAY_MONEY" property="khPay"/>
+		<result column="TRUST_POINT" property="trustPoint"/>
+	</resultMap>
+	
+	<resultMap type="Category" id="CateResultSet">
+		<result column="CATEGORY_NO" property="categoryNo"/>
+		<result column="CATEGORY_NAME" property="categoryName"/>
+		<result column="CATEGORY_DETAIL_NAME" property="categoryDetailName"/>
+	</resultMap>
+	
+	<resultMap type="UserInfo" id="UserInfoResultSet">
+		<result column="SELLCOUNT" property="sellCount"/>
+		<result column="BUYCOUNT" property="buyCount"/>
+		<result column="REPLYCOUNT" property="replyCount"/>
+		<result column="TRUST_IMG" property="trustImg"/>
+		<result column="GRADE_CONTENT" property="gradeContent"/>
+	</resultMap>
+	
+	<select id="loginUser" parameterType="User" resultMap="userResultSet">
+		SELECT	*
+		FROM	TB_USER
+		WHERE	USER_ID = #{userId}
+	</select>
+	
+	<select id="nicknameCheck" parameterType="User" resultMap="userResultSet">
+		SELECT	*
+		FROM	TB_USER
+		WHERE	NICKNAME = #{nickname}
+	</select>
+	
+	<insert id="insertAgree" parameterType="Agree">
+		INSERT INTO TB_AGREE(USER_ID,
+							 PRIVATE_INFO_AGREE,
+							 SERVICE_USE_AGREE,
+							 MARKETING_AGREE)
+		VALUES (#{userId},#{privateInfoAgreee},#{serviceUseAgree},#{marketingAgree})
+	</insert>
+	
+	<insert id="insertUser" parameterType="User">
+		INSERT INTO TB_USER(USER_ID,
+		                    USER_PWD,
+		                    USER_NAME,
+		                    AGE,
+		                    NICKNAME,
+		                    EMAIL,
+		                    PHONE,
+		                    GENDER,
+		                    ADDRESS)
+		VALUES(#{userId},#{userPwd},#{userName},#{age},#{nickname},#{email},#{phone},#{gender},#{address})
+	</insert>
+	
+	<select id="getCategory" resultMap="CateResultSet">
+		SELECT  *
+		FROM    TB_CATEGORY
+	</select>
+	
+	<select id="selectInfo" parameterType="User" resultType="UserInfo">
+		SELECT 
+		    (SELECT COUNT(DISTINCT 
+		    				CASE 
+		    					WHEN BOARD_WRITER = #{userId} 
+		    					THEN BOARD_WRITER 
+		    				END) 
+		     FROM 	TB_PRODUCTBOARD 
+		     WHERE 	BOARD_WRITER = #{userId}
+		     OR 	BUYER_ID = #{userId}
+		     OR 	AFTER_BUY_REPLY IS NOT NULL) SELLCOUNT,
+		     
+		    (SELECT COUNT(DISTINCT 
+		    				CASE 
+		    					WHEN BUYER_ID = #{userId} 
+		    					THEN BUYER_ID 
+		    				END) 
+		     FROM 	TB_PRODUCTBOARD 
+		     WHERE 	BOARD_WRITER = #{userId} 
+		     OR 	BUYER_ID = #{userId}
+		     OR 	AFTER_BUY_REPLY IS NOT NULL) BUYCOUNT,
+		     
+		    (SELECT COUNT(DISTINCT 
+		    				CASE 
+		    					WHEN AFTER_BUY_REPLY IS NOT NULL 
+		    					THEN AFTER_BUY_REPLY 
+		    				END) 
+		     FROM 	TB_PRODUCTBOARD 
+		     WHERE 	BOARD_WRITER = #{userId}
+		     OR 	BUYER_ID = #{userId}
+		     OR 	AFTER_BUY_REPLY IS NOT NULL) REPLYCOUNT,
+		     
+		    (SELECT TRUST_IMG
+		     FROM 	TB_TRUST_IMG 
+		     WHERE (SELECT 	TRUST_POINT 
+		            FROM 	TB_USER 
+		            WHERE 	USER_ID = #{userId}) BETWEEN MIN_TRUST AND MAX_TRUST) TRUSTIMG,
+		            
+		    (SELECT GRADE_CONTENT
+		     FROM 	TB_TRUST_IMG 
+		     WHERE (SELECT 	TRUST_POINT 
+		            FROM 	TB_USER 
+		            WHERE 	USER_ID = #{userId}) BETWEEN MIN_TRUST AND MAX_TRUST) GRADECONTENT
+		FROM    DUAL
+	</select>
+	
+	<update id="updateAddress" parameterType="User">
+		UPDATE	TB_USER
+		SET		ADDRESS = #{address}
+		WHERE	USER_ID = #{userId}
+	</update>
+	
+	<update id="updateOtherInfo" parameterType="User">
+		UPDATE	TB_USER
+		SET		EMAIL = #{email},
+				PHONE = #{phone}
+		WHERE	USER_ID = #{userId}
+	</update>
+	
+	<update id="changeProfileImg" parameterType="User">
+		UPDATE	TB_USER
+		SET		USER_IMG = #{userImg}
+		WHERE	USER_ID = #{userId}
+	</update>
+	
+	<update id="changeIntro" parameterType="User">
+		UPDATE	TB_USER
+		SET		INTRO_CONTENT = #{introContent}
+		WHERE	USER_ID = #{userId}
+	</update>
+	
+	<update id="updateNickname" parameterType="User">
+		UPDATE	TB_USER
+		SET		NICKNAME = #{nickname}
+		WHERE	USER_ID = #{userId}
+	</update>
+
+</mapper>

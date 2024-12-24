@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="productBoardMapper">
+
+	<resultMap type="ProductBoard" id="PBResultSet">
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_WRITER" property="boardWriter"/>
+		<result column="CATEGORY_NO" property="categoryNo"/>
+		<result column="LOCATION_NO" property="locationNo"/>
+		<result column="SELL_LOCATION" property="sellLocation"/>
+		<result column="KIND_NO" property="kindNo"/>
+		<result column="PRODUCT_STATUS" property="productStatus"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="BoardContent"/>
+		<result column="PRICE" property="price"/>
+		<result column="COUNT" property="count"/>
+		<result column="TRADE_SELL_STATUS" property="tradeSellStatus"/>
+		<result column="TRADE_BUY_STATUS" property="tradeBuyStatus"/>
+		<result column="BOARD_DECLARATION" property="boardDeclaration"/>
+		<result column="BOARD_RATIING" property="BoardRatting"/>
+		<result column="SELL_WAY" property="sellWay"/>
+		<result column="TAG_19_PRODUCT" property="tag19Product"/>
+		<result column="CREATE_DATE" property="createDAte"/>
+		<result column="MODIFY_DATE" property="modifyDAte"/>
+		<result column="BUYER_ID" property="buyerId"/>
+		<result column="AFTER_BUY_REPLY" property="afterBuyReply"/>
+		<result column="TITLE_IMG" property="titleImg"/>
+	</resultMap>
+	
+	<resultMap type="Notice" id="NResultSet">
+		<result column="NOTICE_NO" property="noticeNo"/>
+		<result column="NOTICE_TITLE" property="noticeTitle"/>
+		<result column="NOTICE_WRITER" property="noticeWriter"/>
+		<result column="NOTICE_CONTENT" property="noticeContent"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="COUNT" property="count"/>
+	</resultMap>
+	
+	<resultMap type="Request" id="RResultMap">
+		<result column="REQUEST_NO" property="requestNo"/>
+		<result column="REQUEST_WRITER" property="requestWriter"/>
+		<result column="REQUEST_TITLE" property="requestTitle"/>
+		<result column="REQUEST_CONTENT" property="requestContent"/>
+		<result column="REQUEST_DATE" property="requestDate"/>
+		<result column="LOCK_STATUS" property="lockStatus"/>
+	</resultMap>
+	
+	<resultMap type="Response" id="ResResultMap">
+		<result column="RESPONSE_NO" property="responseNo"/>
+		<result column="REQUEST_NO" property="requestNo"/>
+		<result column="RESPONSE_WRITER" property="responseWriter"/>
+		<result column="RESPONSE_CONTENT" property="responseContent"/>
+		<result column="RESPONSE_DATE" property="responseDate"/>
+	</resultMap>
+	
+	<select id="listCount" parameterType="User" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_PRODUCTBOARD
+		WHERE	BOARD_WRITER = #{userId}
+	</select>
+	
+	<select id="selectProductAll" parameterType="User" resultMap="PBResultSet">
+		SELECT	*
+		FROM	TB_PRODUCTBOARD
+		WHERE	BOARD_WRITER = #{userId}
+		ORDER BY CREATE_DATE DESC
+	</select>
+	
+	<select id="selectProductSell" parameterType="User" resultMap="PBResultSet">
+		SELECT	*
+		FROM	TB_PRODUCTBOARD
+		WHERE	BOARD_WRITER = #{userId}
+		AND		TRADE_SELL_STATUS = 'S'
+		AND		TRADE_BUY_STATUS = 'S'
+		ORDER BY CREATE_DATE DESC
+	</select>
+	
+	<select id="selectProductReserv" parameterType="User" resultMap="PBResultSet">
+		SELECT	*
+		FROM	TB_PRODUCTBOARD
+		WHERE	BOARD_WRITER = #{userId}
+		AND		TRADE_SELL_STATUS = 'R'
+		AND		TRADE_BUY_STATUS = 'R'
+		ORDER BY CREATE_DATE DESC
+	</select>
+	
+	<select id="selectProductDone" parameterType="User" resultMap="PBResultSet">
+		SELECT	*
+		FROM	TB_PRODUCTBOARD
+		WHERE	BOARD_WRITER = #{userId}
+		AND		TRADE_SELL_STATUS = 'D'
+		AND		TRADE_BUY_STATUS = 'D'
+		ORDER BY CREATE_DATE DESC
+	</select>
+	
+	<select id="noticeCount" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_NOTICE
+	</select>
+	
+	<select id="selectNotice" resultMap="NResultSet">
+		SELECT	*
+		FROM	TB_NOTICE
+		ORDER BY CREATE_DATE DESC
+	</select>
+	
+	<select id="selectNoticeOne" parameterType="Notice" resultMap="NResultSet">
+		SELECT	*
+		FROM	TB_NOTICE
+		WHERE	NOTICE_NO = #{noticeNo}
+	</select>
+	
+	<update id="updateCount" parameterType="Notice">
+		UPDATE	TB_NOTICE
+		SET		COUNT = COUNT + 1
+		WHERE	NOTICE_NO = #{noticeNo}
+	</update>
+	
+	<update id="updateNotice" parameterType="Notice">
+		UPDATE	TB_NOTICE
+		SET		NOTICE_TITLE = #{noticeTitle},
+				NOTICE_CONTENT = #{noticeContent},
+				MODIFY_DATE = SYSDATE
+		WHERE	NOTICE_NO = #{noticeNo}
+	</update>
+	
+	<delete id="deleteNotice" parameterType="Notice">
+		DELETE FROM	TB_NOTICE
+		WHERE	NOTICE_NO = #{noticeNo}
+	</delete>
+	
+	<insert id="insertNotice" parameterType="Notice">
+		INSERT INTO TB_NOTICE(NOTICE_NO,
+							  NOTICE_TITLE,
+							  NOTICE_WRITER,
+							  NOTICE_CONTENT)
+		VALUES(SEQ_NOTICENO.NEXTVAL, #{noticeTitle}, #{noticeWriter}, #{noticeContent})
+	</insert>
+	
+	<select id="myPickCount" parameterType="String" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_MYPICK
+		WHERE	USER_ID = #{userId}
+	</select>
+	
+	<select id="selectPBList" parameterType="String" resultMap="PBResultSet">
+		SELECT  *
+		FROM    TB_PRODUCTBOARD
+		WHERE   BOARD_NO IN (SELECT BOARD_NO
+		                     FROM   TB_MYPICK
+		                     WHERE  USER_ID = #{userId})
+	</select>
+	
+	<select id="buyProductCount" parameterType="String" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_PRODUCTBOARD
+		WHERE	BUYER_ID = #{userId}
+	</select>
+	
+	<select id="buyProductList" parameterType="String" resultMap="PBResultSet">
+		SELECT	*
+		FROM	TB_PRODUCTBOARD
+		WHERE	BUYER_ID = #{userId}
+	</select>
+	
+	<select id="requestCount" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_REQUEST
+	</select>
+	
+	<select id="requestList" resultMap="RResultMap">
+		SELECT	*
+		FROM	TB_REQUEST
+		ORDER BY REQUEST_NO DESC
+	</select>
+	
+	<select id="selectRequest" parameterType="Request" resultMap="RResultMap">
+		SELECT	*
+		FROM	TB_REQUEST
+		WHERE	REQUEST_NO = #{requestNo}
+	</select>
+	
+	<update id="updateRequest" parameterType="Request">
+		UPDATE	TB_REQUEST
+		SET		REQUEST_TITLE = #{requestTitle},
+				REQUEST_CONTENT = #{requestContent}
+		WHERE	REQUEST_WRITER = #{requestWriter}
+	</update>
+	
+	<delete id="deleteRequest" parameterType="_int">
+		DELETE FROM	TB_REQUEST
+		WHERE	REQUEST_NO = #{requestNo}
+	</delete>
+	
+	<insert id="insertRequest" parameterType="Request">
+		INSERT INTO TB_REQUEST(REQUEST_NO,
+							   REQUEST_WRITER,
+							   REQUEST_TITLE,
+							   REQUEST_CONTENT,
+							   LOCK_STATUS)
+		VALUES(SEQ_RQNO.NEXTVAL, #{requestWriter}, #{requestTitle}, #{requestContent}, #{lockStatus})
+	</insert>
+	
+	<insert id="insertResponse" parameterType="Response">
+		INSERT INTO TB_RESPONSE(RESPONSE_NO,
+								REQUEST_NO,
+								RESPONSE_WRITER,
+								RESPONSE_CONTENT)
+		VALUES(SEQ_RESNO.NEXTVAL, #{requestNo}, #{responseWriter}, #{responseContent})						
+	</insert>
+	
+	<select id="selectResponse" parameterType="Response" resultMap="ResResultMap">
+		SELECT	*
+		FROM	TB_RESPONSE
+		WHERE	REQUEST_NO = #{requestNo}
+	</select>
+	
+	<delete id="deleteResponse" parameterType="Response">
+		DELETE FROM	TB_RESPONSE
+		WHERE	REQUEST_NO = #{requestNo}
+	</delete>
+
+</mapper>

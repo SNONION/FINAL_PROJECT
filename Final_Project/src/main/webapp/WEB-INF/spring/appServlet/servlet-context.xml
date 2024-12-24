@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/board/toUpdateNoticeForm"/>
+			<mapping path="/board/toNoticeEnroll"/>
+			<mapping path="/board/insertNotice"/>
+			<mapping path="/board/updateNotice"/>
+			<mapping path="/board/deleteNotice"/>
+			<mapping path="/user/toPurchaseKH"/>
+			<mapping path="/user/mypage"/>
+			<mapping path="/user/userInfoUpdateForm"/>
+			<beans:bean class="com.kh.finalProject.common.interceptor.LoginCheckInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+	<!-- 
+		<context:component-scan base-package="com.kh.spring(예시경로)" /> : 
+		base-package에서 설정된 패키지와 그 이하 패키지들을 감시하여 등록 가능한 도구(Component)를 모두 찾아 등록 시켜주는 설정
+		@Component가 붙어있는 클래스들을 bean으로 등록시켜준다.
+		
+		component scan이 활성화시켜주는 해주는 어노테이션
+		ex) @Controller, @Servlet, @Repository, @Component
+		
+		root-context에서 스캔한 어노테이션들은 servlet-context에서는 제외한다 (중복등록 방지)
+	 -->
+	 
+	<!-- 
+		Servlet-context에서는 다른 어노테이션들은 가진 상태에서 
+		root-context의 세가지 어노테이션만 제거해주면 되기 떄문에 use-default-filter가 필요없다.
+	 -->
+	 
+	<context:component-scan base-package="com.kh.finalProject"/>
+	
+	<!-- 웹소켓 서버 등록 -->
+	<!-- id : 해당 서버를 부를 이름 class : 해당 서버의 풀경로 -->
+	<beans:bean id="ChattingServer" class="com.kh.finalProject.common.websocket.server.WebSocketChatServer" />
+	
+	<!--  접속을 받아줄 대상을 지정하는 작업 -->
+	<!-- allowed-origins : 어떤 요청 경로를 허용할 것인지 설명 -->
+	<websocket:handlers allowed-origins="http://localhost:8888/final">
+		<!-- handler : 어떤 서버가 요청을 받아줄 것인지 -->
+		<!-- 
+			path :
+				http://localhost:8888/final/chatting 형식이 아니라 
+				ws://localhost:8888/final/chatting 형태로 보내야함
+		 -->
+		<websocket:mapping handler="ChattingServer" path="/chatting"/>
+		
+		<!-- Http통신으로 요청되어진 HttpSession 정보를 가지고 오기 위한 설정 -->
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
+		
+	</websocket:handlers>
+	
+</beans:beans>

@@ -1,0 +1,76 @@
+package com.kh.finalProject.user.model.dao;
+
+import java.util.ArrayList;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.user.model.vo.Agree;
+import com.kh.finalProject.user.model.vo.User;
+import com.kh.finalProject.user.model.vo.UserInfo;
+
+@Repository
+public class UserDao {
+
+	public User loginUser(SqlSessionTemplate sqlSession, User user) {
+		
+		return sqlSession.selectOne("userMapper.loginUser", user);
+	}
+
+	public User checkId(SqlSessionTemplate sqlSession, String userId) {
+		
+		return sqlSession.selectOne("userMapper.loginUser", userId);
+	}
+
+	public User nicknameCheck(SqlSessionTemplate sqlSession, String nickname) {
+		
+		return sqlSession.selectOne("userMapper.nicknameCheck", nickname);
+	}
+
+	public int insertAgree(SqlSessionTemplate sqlSession, Agree agree) {
+		
+		return sqlSession.insert("userMapper.insertAgree", agree);
+	}
+
+	public int insertUser(SqlSessionTemplate sqlSession, User user) {
+		
+		return sqlSession.insert("userMapper.insertUser", user);
+	}
+
+	public ArrayList<Category> getCategory(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("userMapper.getCategory");
+	}
+
+	public UserInfo selectInfo(SqlSessionTemplate sqlSession, String userId) {
+		
+		return sqlSession.selectOne("userMapper.selectInfo", userId);
+	}
+
+	public int updateAddress(SqlSessionTemplate sqlSession, User user) {
+		
+		return sqlSession.update("userMapper.updateAddress", user);
+	}
+
+	public int updateOtherInfo(SqlSessionTemplate sqlSession, User user) {
+		
+		return sqlSession.update("userMapper.updateOtherInfo", user);
+	}
+
+	public int changeProfileImg(SqlSessionTemplate sqlSession, User loginUser) {
+		
+		return sqlSession.update("userMapper.changeProfileImg", loginUser);
+	}
+
+	public int changeIntro(SqlSessionTemplate sqlSession, User user) {
+		
+		return sqlSession.update("userMapper.changeIntro", user);
+	}
+
+	public int updateNickname(SqlSessionTemplate sqlSession, User user) {
+		
+		return sqlSession.update("userMapper.updateNickname", user);
+	}
+
+}

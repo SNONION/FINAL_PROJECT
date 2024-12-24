@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- 1 단계 : DB 연결을 위한 도구 설정 -->
+	<bean class="org.apache.commons.dbcp2.BasicDataSource" id="dataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="username" value="FINAL"/>
+		<property name="password" value="FINAL"/>
+	</bean>
+	
+	<!-- 2 단계 : myBatis에서 제공하는 SQL명령어 실행을 위한 도구 등록 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	
+		<!-- 위에서 만든 DB접속정보와 myBatis관련 실행 파일 및 매퍼 파일 경로 등록 -->
+		
+		<!-- configLocation : config파일 설정 위치 / classpath: classes 폴더 최상단경로 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
+		
+		<!-- mapperLocation : mapper파일 설정 위치  / *-mapper : *전체와일드카드 -->
+		<property name="mapperLocations" value="classpath:mappers/*-mapper.xml"/>
+		
+		<!-- 위에서 만든 DB접속정보가 담긴 dataSource 참조 -->
+		<property name="dataSource" ref="dataSource" />
+	</bean>	
+	
+	<!-- 3 단계 : sqlSessionFactory를 이용해서 SqlSession 도구 등록 -->
+	<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
+		<!-- sqlSessionFactory 넣어주기 -->
+		<constructor-arg ref="sqlSessionFactory"/>
+	</bean>	
+	
+	<!-- 
+		파일 업로드 관련 빈 등록
+		MultipartResolver
+	 -->
+	 
+	 <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+	 	<!-- 업로드 되는 파일의 인코딩 설정 -->
+	 	<property name="defaultEncoding" value="UTF-8"/>
+	 	<!-- 10 * 1024 * 1024 로 10MB 계산식이 들어가지 않기 때문에 계산 후에 넣어준다. -->
+	 	<property name="maxUploadSize" value="10000000"/> <!-- 업로드 파일 용향 제한 -->
+	 	<property name="maxInMemorySize" value="10000000"/> <!-- 임시 메모리 보관 최대크기 -->
+	 </bean>
+	 
+	 <tx:annotation-driven/>
+	  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	  	<property name="dataSource" ref="dataSource" />
+	  </bean>
+	  
+	  <!-- 
+	 	AOP 관련 사용 설정
+	 	@Aspect와 관련된 어노테이션 활성화
+	  -->
+	  <aop:aspectj-autoproxy/>
+	  
+	  <!-- 
+	  	root-context에서 필요한 component들을 활성화 시키기 위해서
+	  	base-package 설정 및 필요한 어노테이션 별도로 등록
+	  	Servlet-context보다 빠른 시점에 등록된다.
+	  	root-context와 Servlet-context에서 중복으로 등록되는 component들을 중복되지 않도록 지정 처리하기
+	  	
+	  	@Service, @Repository, @Aspect 세가지 어노테이션(컴포넌트)는 root-context에서 scan하겠다
+	  	user-default-filters : 기본 스캔 설정 (@Component, @Controller, @Service, @Repository,...)을 할지 여부
+	  	
+	  	*** context:component-scan ***
+	  	등록 시 root-context에서는 Namespaces에서 아직 context가 등록이 되어있지 않기 떄문에 먼저 등록을 한 후 작성해준다.
+	   -->
+	   
+	  <context:component-scan base-package="com.kh.finalProject"/>
+	  
+	  <!-- 
+	   		스케줄러를 사용하기 위한 task 어노테이션 활성화 태그 
+	   		@Scheduled 어노테이션 활성화
+	   -->
+	  <task:annotation-driven scheduler="taskScheduler"/>
+	  <!-- 해당 @Scheduled 어노테이션을 활성화하여 사용할 스케줄러 등록 -->
+	  
+	   <!-- 
+	   		스케줄러 정의 taskScheduler라는 이름의 스케줄러 등록
+	   		pool-size는 쓰레드의 갯수를 의미 : 쓰레드를 만들어두고 사용할 수 있는 갯수
+	    -->
+	   <task:scheduler id="taskScheduler" pool-size="10"/> 
+	   
+</beans>
