@@ -12,7 +12,7 @@ META-INF/
 .mtj.tmp/
 
 # Package Files #
-*.jar
+
 *.war
 *.nar
 *.ear
