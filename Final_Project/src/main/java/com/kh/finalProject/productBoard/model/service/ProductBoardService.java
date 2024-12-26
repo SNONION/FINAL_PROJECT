@@ -103,7 +103,7 @@ public interface ProductBoardService {
 	// 상품게시판에 게시물을 삽입하는 메소드
 	int insertProductBoard(ProductBoard pBoard);
 
-	// 상품게시판 정보를 만들어오는 메소드
+	// 상품게시판 번호를 만들어오는 메소드
 	int makeBoardNo();
 
 	// 상품게시판에 게시물 삽입 후 상품 정보테이블에 제품정보 삽입하는 메소드
