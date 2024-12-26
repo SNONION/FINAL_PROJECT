@@ -52,4 +52,7 @@ public interface UserService {
 	// 중복되는 위치가 없는 경우 위치정보를 필터에 삽입 하는 메소드
 	int insertLocationFilter(Location locationInfo);
 
+	// 회원 탈퇴 메소드
+	int deleteUserInfo(User loginUser);
+
 }

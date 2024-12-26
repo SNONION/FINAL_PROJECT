@@ -31,5 +31,6 @@ public class User {
 	private Date modifyDate; //	MODIFY_DATE	DATE
 	private int khPay; // KH 페이 (안전거래용 포인트)
 	private double trustPoint; // 신뢰도
+	private String status; // 회원 탈퇴여부 기본값 N
 	
 }

@@ -715,7 +715,7 @@
 						<c:choose>
 							<c:when test="${not empty loginUser}">
 								<a href="#" class="btn-kakao"><i class="fas fa-comment"></i>&nbsp;채팅</a> 
-								<a href="#" class="btn-kakao"><i class="fas fa-store"></i>&nbsp;판매</a> 
+								<a onclick="goSell();" class="btn-kakao"><i class="fas fa-store"></i>&nbsp;판매</a> 
 								<a href="${contextPath}/user/mypage" class="btn-kakao"><i class="fas fa-user"></i>&nbsp;MyPage</a>
 								<a href="${contextPath}/user/logout" class="btn-kakao" style="height: 39px;"><i class="fas fa-sign-in-alt"></i></a> 
 							</c:when>
@@ -754,7 +754,7 @@
 				        </li>
 				        <li class="nav-item"><a class="nav-link" href="${contextPath}/board/toNotice">공지사항</a></li>
 				        <li class="nav-item"><a class="nav-link" href="#">지역모임</a></li>
-				        <li class="nav-item"><a class="nav-link" href="#">요청하기</a></li>
+				        <li class="nav-item"><a class="nav-link" href="${contextPath}/board/productBoardEnrollForm">요청하기</a></li>
 				        <li class="nav-item"><a class="nav-link" href="${contextPath}/board/myPickPage">찜한목록</a></li>
 				        <li class="nav-item"><a class="nav-link" href="${contextPath}/user/toPurchaseKH">KAKAO구매</a></li>
 				
@@ -790,12 +790,37 @@
 		</div>
 	</div>
 	
+	<button type="button" onclick="scrollToTop();" id="scrollToTopBtn" class="btn-kakao" style="position: fixed; bottom: 100px; right: 20px; display: none; background-color: #ffcc00;">
+        ↑ 맨 위로
+    </button>
+	
 	<c:if test="${not empty loginUser}">
 		<!-- 우측 하단 채팅 버튼 -->
   		<button class="floating-btn" id="openSlideBtn"><i class="fas fa-comment" style="color: rgb(106, 78, 35);"></i></button>
 	</c:if>
+	
+	<script>
+	    // 스크롤이 내려지면 '맨 위로' 버튼을 보이게 설정
+	    $(window).scroll(function() {
+	        var scrollBtn = $("#scrollToTopBtn"); // 버튼을 jQuery로 선택
+	        if ($(this).scrollTop() > 200) {
+	            scrollBtn.show(); // 스크롤이 일정 위치 이상이면 버튼 표시
+	        } else {
+	            scrollBtn.hide(); // 그 외에는 숨김
+	        }
+	    });
+	
+	    // 페이지 맨 위로 스크롤
+	    function scrollToTop() {
+	        $('html, body').animate({scrollTop: 0}, 'smooth'); // 부드럽게 위로 이동
+	    }
+	</script>
   
 	<script>
+		function goSell(){
+			location.href="${contextPath}/board/productBoardEnrollForm";
+		}
+		
 		// 채팅에서 해당 닉네임 또는 채팅문의 클릭시 session에 해당 닉네임 저장(채팅용)
 		$("#userChatList").on("click", "div", function(){
 			var otherUser = $(this).text();
@@ -870,7 +895,7 @@
 		
 		// 관리자 채팅 접속
 		function connection(){
-			var url ="ws://localhost:8888/finalProject/chatting"
+			var url ="ws://localhost:8888/final/chatting"
 			
 			// 소켓이 없을 경우 생성
 			if(!socket){
@@ -1051,7 +1076,6 @@
 				var latitude = position.coords.latitude;
 				var longitude = position.coords.longitude;
 				
-				//var locationName = getLocationName(latitude, longitude);
 				getLocationName(latitude, longitude);
 				
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 

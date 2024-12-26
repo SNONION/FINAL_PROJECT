@@ -15,10 +15,13 @@
 		<typeAlias type="com.kh.finalProject.user.model.vo.UserInfo" alias="UserInfo"/>
 		<typeAlias type="com.kh.finalProject.common.model.vo.Category" alias="Category"/>
 		<typeAlias type="com.kh.finalProject.common.model.vo.Location" alias="Location"/>
+		<typeAlias type="com.kh.finalProject.common.model.vo.Kind" alias="Kind"/>
 		<typeAlias type="com.kh.finalProject.productBoard.model.vo.ProductBoard" alias="ProductBoard"/>
+		<typeAlias type="com.kh.finalProject.productBoard.model.vo.Media" alias="Media"/>
 		<typeAlias type="com.kh.finalProject.productBoard.model.vo.Notice" alias="Notice"/>
 		<typeAlias type="com.kh.finalProject.productBoard.model.vo.Request" alias="Request"/>
 		<typeAlias type="com.kh.finalProject.productBoard.model.vo.Response" alias="Response"/>
+		<typeAlias type="com.kh.finalProject.productBoard.model.vo.ProductInfo" alias="ProductInfo"/>
 	</typeAliases>
 
 </configuration>

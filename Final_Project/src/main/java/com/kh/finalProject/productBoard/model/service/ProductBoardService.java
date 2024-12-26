@@ -2,9 +2,14 @@ package com.kh.finalProject.productBoard.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.common.model.vo.Kind;
+import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.common.model.vo.PageInfo;
+import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
+import com.kh.finalProject.productBoard.model.vo.ProductInfo;
 import com.kh.finalProject.productBoard.model.vo.Request;
 import com.kh.finalProject.productBoard.model.vo.Response;
 import com.kh.finalProject.user.model.vo.User;
@@ -86,6 +91,26 @@ public interface ProductBoardService {
 	// 문의 응답 삭제 메소드
 	int deleteResponse(Response response);
 
+	// 위치 정보 리스트를 조회하는 메소드
+	ArrayList<Location> selectLocationList();
+
+	// 거래방법 리스트를 조회하는 메소드
+	ArrayList<Kind> selectKindList();
+
+	// 카테고리 선택 후 상세 카테고리 조회하는 메소드
+	ArrayList<Category> selectDetailCateList(Category category);
+
+	// 상품게시판에 게시물을 삽입하는 메소드
+	int insertProductBoard(ProductBoard pBoard);
+
+	// 상품게시판 정보를 만들어오는 메소드
+	int makeBoardNo();
+
+	// 상품게시판에 게시물 삽입 후 상품 정보테이블에 제품정보 삽입하는 메소드
+	int insertProductInfo(ProductInfo pInfo);
+
+	// 상품게시판에 게시물 삽입 후 상품 이미지 (미디어파일)를 삽입하는 메소드
+	int insertMediaFile(ArrayList<Media> mList);
 
 
 }

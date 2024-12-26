@@ -271,6 +271,117 @@
 	#changeNick:hover{
 		cursor: pointer;
 	}
+	
+	.card{
+		margin-top: 20px;
+	}
+	
+	.card:hover{
+		cursor: pointer;
+	}
+	
+	/* 제목 스타일 */
+	.card-title {
+	    font-size: 1.25rem;  /* 글자 크기 조금 크게 */
+	    font-weight: 600;    /* 좀 더 두꺼운 글씨 */
+	    color: #333;         /* 다크 그레이 색상 */
+	    margin-bottom: 10px; /* 아래 마진 추가 */
+	    text-align: center;  /* 제목 가운데 정렬 */
+	    line-height: 1.4;    /* 줄 간격 */
+	    transition: color 0.3s ease; /* 마우스를 올렸을 때 색상 변환 */
+	    
+	    /* 한 줄로만 나오게 하고, 넘칠 경우 '...'으로 표시 */
+	    white-space: nowrap;  /* 줄바꿈 방지 */
+	    overflow: hidden;     /* 넘치는 내용 숨기기 */
+	    text-overflow: ellipsis;  /* 넘치는 텍스트를 '...'으로 표시 */
+	}
+	
+	.card-title:hover {
+	    color: #007bff;      /* 마우스를 올렸을 때 파란색으로 변경 */
+	}
+	
+	/* 가격 스타일 */
+	.card-text {
+	    font-size: 1rem;        /* 적당한 크기의 글씨 */
+	    color: #e74c3c;         /* 빨간색 */
+	    font-weight: 500;       /* 중간 굵기의 글씨 */
+	    margin-top: 5px;        /* 위쪽 여백 */
+	    text-align: center;     /* 가격 가운데 정렬 */
+	    transition: color 0.3s ease; /* 마우스를 올렸을 때 색상 변환 */
+	}
+	
+	.card-text:hover {
+	    color: #c0392b;         /* 마우스를 올렸을 때 좀 더 어두운 빨간색 */
+	}
+	
+	/* 카드 바디 스타일 */
+	.card-body {
+	    padding: 15px;
+	    text-align: center;   /* 가운데 정렬 */
+	    background-color: #fff; /* 배경색 흰색 */
+	    border-top: 1px solid #f0f0f0; /* 카드 상단에 얇은 선 추가 */
+	}
+	
+	.scroll-container {
+	    width: 100%;
+	    height: 450px;
+	    overflow-x: scroll;  /* 가로 스크롤 항상 표시 */
+	    white-space: nowrap;  /* 이미지 및 카드들이 한 줄로 나열되도록 */
+	    border: none;
+	    
+	    /* 스크롤바 스타일링 (Firefox에서 적용) */
+	    scrollbar-width: thin; /* Firefox에서 스크롤바 너비를 얇게 */
+	    scrollbar-color: #888 #f1f1f1; /* Firefox에서 색상 설정 */
+	}
+	
+	/* 크롬, 사파리, 엣지에서 스크롤바 스타일링 */
+	.scroll-container::-webkit-scrollbar {
+	    height: 8px; /* 스크롤바 높이 설정 */
+	}
+	
+	.scroll-container::-webkit-scrollbar-thumb {
+	    background-color: #888; /* 스크롤바 원형 부분 색상 */
+	    border-radius: 50px; /* 원형 스크롤바 */
+	}
+	
+	.scroll-container::-webkit-scrollbar-track {
+	    background: transparent; /* 스크롤바 트랙 배경 색 투명 */
+	}
+	
+	.scroll-container::-webkit-scrollbar-button {
+	    display: none; /* 기본 화살표 제거 */
+	}
+	
+	#home {
+	    display: flex;  /* 이미지 및 카드들이 가로로 나열되도록 */
+	    justify-content: flex-start;
+	    align-items: center;
+	    flex-wrap: nowrap;  /* 한 줄로 나열되도록 설정 */
+	}
+	
+	.card {
+	    width: 200px;
+	    height: 200px;
+	    margin: auto;
+	    margin-top: 20px;
+	    margin-right: 10px;
+	    flex-shrink: 0; /* 카드가 압축되지 않도록 */
+	}
+	
+	.card img {
+	    width: 100%;
+	    object-fit: cover; /* 이미지를 잘라서 카드에 맞게 크기를 맞춤 */
+	}
+	
+	.card-body {
+	    padding: 10px;
+	}
+	
+	.card-title, .card-text {
+	    margin: 0;
+	    font-size: 14px;
+	}
+
 		
 	
 </style>
@@ -300,7 +411,7 @@
 					<li><a href="#" id="mypage-menu-btn">배송지관리</a><br></li>
 					<li><a href="#" id="mypage-menu-btn">거래후기</a><br></li>
 					<li><a href="${contextPath}/user/userInfoUpdateForm" id="mypage-menu-btn">내 정보 관리</a><br></li>
-					<li><a href="" id="mypage-menu-btn">회원탈퇴</a><br></li>
+					<li><a href="${contextPath}/user/userDeleteForm" id="mypage-menu-btn">회원탈퇴</a><br></li>
 				</ul>
 			</div>
 		</div>
@@ -404,8 +515,8 @@
 						<li class="nav-item"><a id="mypage-a-tag" class="nav-link" data-toggle="tab" href="#home">예약 중</a></li>
 						<li class="nav-item"><a id="mypage-a-tag" class="nav-link" data-toggle="tab" href="#home">판매완료</a></li>
 					</ul>
-					<div class="tab-content">
-						<div class="tab-pane container active" id="home"></div>
+					<div class="tab-content scroll-container">
+						<div class="tab-pane container active" id="home" style="display: flex; justify-content: flex-start;"></div>
 					</div>
 				</div>
 			</div>
@@ -604,34 +715,27 @@
 					type : "전체"
 				},
 				success : function(result){
+					
+					$("#home div").remove();
+					
 					if(result == ""){
-						$("#home div").remove();
 						$("#home").append($("<div style='height: 500px; display: flex; justify-content: center; align-items: center; font-size: 24px; color: gray; text-align: center;'>")
 								  .text("선택된 조건에 해당하는 상품이 없습니다."));
 					}
 					else{
-						
-						// 상품 게시판 구현 후 다시 구현
-						
-						$("#home div").remove();
-						
-						for(var i of result){
-							var topDiv = $("<div class='container'>");
-							var cardDiv = $("<div style='width:100px'");
-							var img = $("<img class='card-img-top' src='${contextPath}${i.titleImg}' style='width:100%'>");
-							var titleDiv = $("<div class='card-body'>");
-							var titleH4 = $("<h4 class='card-title'>").text(${i.boardTitle});
-							var priceP = $("<p class='card-text'>").text(${i.price} + "원");
+						for(var board of result){
+							var imgPath = "${contextPath}" + board.titleImg;
 							
-							titleDiv.append(titleH4);
-							titleDiv.append(priceP);
+							var div = $("<div class='card' style='width: 200px; height: 200px; margin: auto; margin-top: 80px; margin-right: 10px;'>");
+							var img = $("<img>").attr("src", imgPath);
+							var bodyDiv = $("<div class='card-body'>");
+							var title = $("<h6 class='card-title'>").text(board.boardTitle);
+							var priceTag = $("<p class='card-text'>").text(board.price + "원");
 							
-							cardDiv.append(img);
-							cardDiv.append(titleDiv);
+							bodyDiv.append(title).append(priceTag);
 							
-							topDiv.append(cardDiv);
-							
-							$("#home").append(topDiv);
+							div.append(img).append(bodyDiv);
+							$("#home").append(div);
 						}
 					}
 				},
@@ -652,31 +756,27 @@
 					type : type
 				},
 				success : function(result){
+					
+					$("#home div").remove();
+					
 					if(result == ""){
-						$("#home div").remove();
 						$("#home").append($("<div style='height: 400px; display: flex; justify-content: center; align-items: center; font-size: 24px; color: gray; text-align: center;'>")
 								  .text("선택된 조건에 해당하는 상품이 없습니다."));
 					}
 					else{
-						$("#home div").remove();
-						
-						for(var i of result){
-							var topDiv = $("<div class='container'>");
-							var cardDiv = $("<div style='width:100px'");
-							var img = $("<img class='card-img-top' src='${contextPath}${i.titleImg}' style='width:100%'>");
-							var titleDiv = $("<div class='card-body'>");
-							var titleH4 = $("<h4 class='card-title'>").text(${i.boardTitle});
-							var priceP = $("<p class='card-text'>").text(${i.price} + "원");
+						for(var board of result){
+							var imgPath = "${contextPath}" + board.titleImg;
 							
-							titleDiv.append(titleH4);
-							titleDiv.append(priceP);
+							var div = $("<div class='card' style='width: 200px; height: 200px; margin: auto; margin-top: 80px; margin-right: 10px;'>");
+							var img = $("<img>").attr("src", imgPath);
+							var bodyDiv = $("<div class='card-body'>");
+							var title = $("<h6 class='card-title'>").text(board.boardTitle);
+							var priceTag = $("<p class='card-text'>").text(board.price + "원");
 							
-							cardDiv.append(img);
-							cardDiv.append(titleDiv);
+							bodyDiv.append(title).append(priceTag);
 							
-							topDiv.append(cardDiv);
-
-							$("#home").append(topDiv);
+							div.append(img).append(bodyDiv);
+							$("#home").append(div);
 						}
 					}
 				},

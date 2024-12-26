@@ -6,9 +6,14 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.common.model.vo.Kind;
+import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.common.model.vo.PageInfo;
+import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
+import com.kh.finalProject.productBoard.model.vo.ProductInfo;
 import com.kh.finalProject.productBoard.model.vo.Request;
 import com.kh.finalProject.productBoard.model.vo.Response;
 import com.kh.finalProject.user.model.vo.User;
@@ -24,7 +29,7 @@ public class ProductBoardDao {
 	public ArrayList<ProductBoard> selectProductAll(SqlSessionTemplate sqlSession, User user, PageInfo pi) {
 		
 		int limit = pi.getListLimit();
-		int offset = (pi.getCurrentPage() - 1) + limit;
+		int offset = (pi.getCurrentPage() - 1) * limit;
 		
 		return (ArrayList)sqlSession.selectList("productBoardMapper.selectProductAll", user, new RowBounds(offset, limit));
 	}
@@ -32,7 +37,7 @@ public class ProductBoardDao {
 	public ArrayList<ProductBoard> selectProductSell(SqlSessionTemplate sqlSession, User user, PageInfo pi) {
 		
 		int limit = pi.getListLimit();
-		int offset = (pi.getCurrentPage() - 1) + limit;
+		int offset = (pi.getCurrentPage() - 1) * limit;
 		
 		return (ArrayList)sqlSession.selectList("productBoardMapper.selectProductSell", user, new RowBounds(offset, limit));
 	}
@@ -40,7 +45,7 @@ public class ProductBoardDao {
 	public ArrayList<ProductBoard> selectProductReserv(SqlSessionTemplate sqlSession, User user, PageInfo pi) {
 		
 		int limit = pi.getListLimit();
-		int offset = (pi.getCurrentPage() - 1) + limit;
+		int offset = (pi.getCurrentPage() - 1) * limit;
 		
 		return (ArrayList)sqlSession.selectList("productBoardMapper.selectProductReserv", user, new RowBounds(offset, limit));
 	}
@@ -48,7 +53,7 @@ public class ProductBoardDao {
 	public ArrayList<ProductBoard> selectProductDone(SqlSessionTemplate sqlSession, User user, PageInfo pi) {
 
 		int limit = pi.getListLimit();
-		int offset = (pi.getCurrentPage() - 1) + limit;
+		int offset = (pi.getCurrentPage() - 1) * limit;
 		
 		return (ArrayList)sqlSession.selectList("productBoardMapper.selectProductDone", user, new RowBounds(offset, limit));
 	}
@@ -61,7 +66,7 @@ public class ProductBoardDao {
 	public ArrayList<Notice> selectNotice(SqlSessionTemplate sqlSession, PageInfo pi) {
 		
 		int limit =pi.getListLimit();
-		int offset = (pi.getCurrentPage() - 1) + limit;
+		int offset = (pi.getCurrentPage() - 1) * limit;
 		
 		return (ArrayList)sqlSession.selectList("productBoardMapper.selectNotice", new RowBounds(offset, limit));
 		
@@ -100,7 +105,7 @@ public class ProductBoardDao {
 	public ArrayList<ProductBoard> selectPBList(SqlSessionTemplate sqlSession, String userId, PageInfo pi) {
 		
 		int limit = pi.getListLimit();
-		int offset = (pi.getCurrentPage() - 1) + limit;
+		int offset = (pi.getCurrentPage() - 1) * limit;
 		
 		return (ArrayList)sqlSession.selectList("productBoardMapper.selectPBList", userId, new RowBounds(offset, limit));
 	}
@@ -113,7 +118,7 @@ public class ProductBoardDao {
 	public ArrayList<ProductBoard> buyProductList(SqlSessionTemplate sqlSession, String userId, PageInfo pi) {
 		
 		int limit = pi.getListLimit();
-		int offset = (pi.getCurrentPage() - 1) + limit;
+		int offset = (pi.getCurrentPage() - 1) * limit;
 		
 		return (ArrayList)sqlSession.selectList("productBoardMapper.buyProductList", userId, new RowBounds(offset, limit));
 	}
@@ -126,7 +131,7 @@ public class ProductBoardDao {
 	public ArrayList<Request> requestList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		
 		int limit = pi.getListLimit();
-		int offset = (pi.getCurrentPage() - 1) + limit;
+		int offset = (pi.getCurrentPage() - 1) * limit;
 		
 		return (ArrayList)sqlSession.selectList("productBoardMapper.requestList", new RowBounds(offset, limit));
 	}
@@ -166,6 +171,40 @@ public class ProductBoardDao {
 		return sqlSession.delete("productBoardMapper.deleteResponse", response);
 	}
 
+	public ArrayList<Location> selectLocationList(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.selectLocationList");
+	}
+
+	public ArrayList<Kind> selectKindList(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.selectKindList");
+	}
+
+	public ArrayList<Category> selectDetailCateList(SqlSessionTemplate sqlSession, Category category) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.selectDetailCateList", category);
+	}
+
+	public int insertProductBoard(SqlSessionTemplate sqlSession, ProductBoard pBoard) {
+		
+		return sqlSession.insert("productBoardMapper.insertProductBoard", pBoard);
+	}
+
+	public int insertProductInfo(SqlSessionTemplate sqlSession, ProductInfo pInfo) {
+		
+		return sqlSession.insert("productBoardMapper.insertProductInfo", pInfo);
+	}
+
+	public int makeBoardNo(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("productBoardMapper.makeBoardNo");
+	}
+
+	public int insertMediaFile(SqlSessionTemplate sqlSession, ArrayList<Media> mList) {
+		
+		return sqlSession.insert("productBoardMapper.insertMediaFile", mList);
+	}
 
 
 }

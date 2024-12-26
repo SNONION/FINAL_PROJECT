@@ -25,12 +25,14 @@
 	
 	<interceptors>
 		<interceptor>
+			<mapping path="/board/productBoardEnrollForm"/>
 			<mapping path="/board/toUpdateNoticeForm"/>
 			<mapping path="/board/toNoticeEnroll"/>
 			<mapping path="/board/insertNotice"/>
 			<mapping path="/board/updateNotice"/>
 			<mapping path="/board/deleteNotice"/>
 			<mapping path="/user/toPurchaseKH"/>
+			<mapping path="/user/userDeleteForm"/>
 			<mapping path="/user/mypage"/>
 			<mapping path="/user/userInfoUpdateForm"/>
 			<beans:bean class="com.kh.finalProject.common.interceptor.LoginCheckInterceptor"/>

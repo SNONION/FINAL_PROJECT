@@ -48,6 +48,7 @@
 		<result column="CREATE_DATE" property="createDate"/>
 		<result column="KH_PAY_MONEY" property="khPay"/>
 		<result column="TRUST_POINT" property="trustPoint"/>
+		<result column="STATUS" property="status"/>
 	</resultMap>
 	
 	<resultMap type="Category" id="CateResultSet">
@@ -75,6 +76,7 @@
 		SELECT	*
 		FROM	TB_USER
 		WHERE	USER_ID = #{userId}
+		AND		STATUS = 'N'
 	</select>
 	
 	<select id="nicknameCheck" parameterType="User" resultMap="userResultSet">
@@ -197,5 +199,12 @@
 	<insert id="insertLocationFilter" parameterType="Location">
 		INSERT INTO TB_LOCATION VALUES(SEQ_LNO.NEXTVAL, #{locationName}, #{locationDetail1}, #{locationDetail2})
 	</insert>
+	
+	<update id="deleteUserInfo" parameterType="User">
+		UPDATE	TB_USER
+		SET		STATUS = 'Y'
+		WHERE	USER_ID = #{userId}
+		AND		STATUS = 'N'
+	</update>
 
 </mapper>

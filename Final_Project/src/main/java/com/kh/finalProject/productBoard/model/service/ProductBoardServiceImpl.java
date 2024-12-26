@@ -6,10 +6,15 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.common.model.vo.Kind;
+import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.common.model.vo.PageInfo;
 import com.kh.finalProject.productBoard.model.dao.ProductBoardDao;
+import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
+import com.kh.finalProject.productBoard.model.vo.ProductInfo;
 import com.kh.finalProject.productBoard.model.vo.Request;
 import com.kh.finalProject.productBoard.model.vo.Response;
 import com.kh.finalProject.user.model.vo.User;
@@ -172,6 +177,48 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 	public int deleteResponse(Response response) {
 		
 		return productBoardDao.deleteResponse(sqlSession, response);
+	}
+
+	@Override
+	public ArrayList<Location> selectLocationList() {
+		
+		return productBoardDao.selectLocationList(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Kind> selectKindList() {
+		
+		return productBoardDao.selectKindList(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Category> selectDetailCateList(Category category) {
+		
+		return productBoardDao.selectDetailCateList(sqlSession, category);
+	}
+
+	@Override
+	public int insertProductBoard(ProductBoard pBoard) {
+		
+		return productBoardDao.insertProductBoard(sqlSession, pBoard);
+	}
+
+	@Override
+	public int makeBoardNo() {
+		
+		return productBoardDao.makeBoardNo(sqlSession);
+	}
+	
+	@Override
+	public int insertProductInfo(ProductInfo pInfo) {
+		
+		return productBoardDao.insertProductInfo(sqlSession, pInfo);
+	}
+
+	@Override
+	public int insertMediaFile(ArrayList<Media> mList) {
+		
+		return productBoardDao.insertMediaFile(sqlSession, mList);
 	}
 
 
