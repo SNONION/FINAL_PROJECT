@@ -126,19 +126,19 @@
 				<div class="footer-section">
 					<div class="social-icons">
 						<a href="#" class="social-icon"> 
-							<img src="/finalProject/resources/facebook.png">
+							<img src="/final/resources/facebook.png">
 						</a> 
 						<a href="#" class="social-icon"> 
-							<img src="/finalProject/resources/twitter.png">
+							<img src="/final/resources/twitter.png">
 						</a> 
 						<a href="#" class="social-icon"> 
-							<img src="/finalProject/resources/instagram.png">
+							<img src="/final/resources/instagram.png">
 						</a> 
 						<a href="#" class="social-icon"> 
-							<img src="/finalProject/resources/youtube.png">
+							<img src="/final/resources/youtube.png">
 						</a> 
 						<a href="#" class="social-icon"> 
-							<img src="/finalProject/resources/kakao.png">
+							<img src="/final/resources/kakao.png">
 						</a>
 					</div>
 				</div>

@@ -508,7 +508,7 @@ public class UserController {
 			loginUser.setUserImg("/resources/userProfileImg/" + changeName);
 		}
 		else {
-			loginUser.setUserImg("/resources/userProfileImg/Default-Profile-Pic.png");
+			loginUser.setUserImg("/resources/Default-Profile-Pic.png");
 		}
 		
 		int result = userService.changeProfileImg(loginUser);
@@ -564,6 +564,51 @@ public class UserController {
 		mv.setViewName("user/mypage");
 		
 		return mv;
+		
+	}
+	
+	// 회원 탈퇴 페이지 이동 메소드
+	@RequestMapping("userDeleteForm")
+	public ModelAndView userDeleteForm(HttpServletRequest request, ModelAndView mv) {
+		
+		User loginUser = (User)request.getSession().getAttribute("loginUser");
+		mv.addObject("loginUser", loginUser);
+		mv.setViewName("/user/userDeleteForm");
+		
+		return mv;
+	}
+	
+	// 회원 탈퇴 메소드
+	@ResponseBody
+	@RequestMapping(value="checkPwd", produces="html/text;charset=UTF-8")
+	public String checkPwd(User user, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		boolean pwdMatch = bcryptPasswordEncoder.matches(user.getUserPwd(), loginUser.getUserPwd());
+		
+		String msg = "";
+		
+		if(pwdMatch) {
+			int result = userService.deleteUserInfo(loginUser);
+			
+			if(result > 0) {
+				session.setAttribute("alertMsg", "회원탈퇴가 정상적으로 처리되었습니다.");
+				session.removeAttribute("loginUser");
+				msg = "NNNNY";
+			}
+			else {
+				session.setAttribute("alertMsg", "처리 중 오류가 발생했습니다. 관리자에게 문의해주세요.");
+				msg = "NNNNN";
+			}
+		}
+		else {
+			session.setAttribute("alertMsg", "비밀번호가 일치하지 않습니다.");
+			msg = "NNNNN";
+		}
+		
+		return msg;
 		
 	}
 	

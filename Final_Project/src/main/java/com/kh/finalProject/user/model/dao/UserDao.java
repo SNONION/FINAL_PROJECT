@@ -84,4 +84,9 @@ public class UserDao {
 		return sqlSession.insert("userMapper.insertLocationFilter", locationInfo);
 	}
 
+	public int deleteUserInfo(SqlSessionTemplate sqlSession, User loginUser) {
+		
+		return sqlSession.update("userMapper.deleteUserInfo", loginUser);
+	}
+
 }

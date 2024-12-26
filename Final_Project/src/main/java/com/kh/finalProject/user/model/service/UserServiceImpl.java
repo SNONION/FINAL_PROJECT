@@ -106,4 +106,10 @@ public class UserServiceImpl implements UserService{
 		return userDao.insertLocationFilter(sqlSession, locationInfo);
 	}
 
+	@Override
+	public int deleteUserInfo(User loginUser) {
+		
+		return userDao.deleteUserInfo(sqlSession, loginUser);
+	}
+
 }

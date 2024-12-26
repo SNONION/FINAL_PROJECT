@@ -204,7 +204,7 @@
 					<li><a href="#" id="mypage-menu-btn">배송지관리</a><br></li>
 					<li><a href="#" id="mypage-menu-btn">거래후기</a><br></li>
 					<li><a href="${contextPath}/user/userInfoUpdateForm" id="mypage-menu-btn">내 정보 관리</a><br></li>
-					<li><a href="" id="mypage-menu-btn">회원탈퇴</a><br></li>
+					<li><a href="${contextPath}/user/userDeleteForm" id="mypage-menu-btn">회원탈퇴</a><br></li>
 				</ul>
 			</div>
 		</div>

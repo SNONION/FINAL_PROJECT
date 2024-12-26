@@ -8,7 +8,6 @@
 		<result column="BOARD_NO" property="boardNo"/>
 		<result column="BOARD_WRITER" property="boardWriter"/>
 		<result column="CATEGORY_NO" property="categoryNo"/>
-		<result column="LOCATION_NO" property="locationNo"/>
 		<result column="SELL_LOCATION" property="sellLocation"/>
 		<result column="KIND_NO" property="kindNo"/>
 		<result column="PRODUCT_STATUS" property="productStatus"/>
@@ -27,6 +26,14 @@
 		<result column="BUYER_ID" property="buyerId"/>
 		<result column="AFTER_BUY_REPLY" property="afterBuyReply"/>
 		<result column="TITLE_IMG" property="titleImg"/>
+		<result column="PREFER_PAYMENT" property="preferPayment"/>
+	</resultMap>
+	
+	<resultMap type="ProductInfo" id="productResultSet">
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="PRODUCT_NAME" property="productName"/>
+		<result column="CREATE_LOCATION" property="createLocation"/>
+		<result column="PURCHASE_DATE" property="PurchaseDate"/>
 	</resultMap>
 	
 	<resultMap type="Notice" id="NResultSet">
@@ -54,6 +61,33 @@
 		<result column="RESPONSE_WRITER" property="responseWriter"/>
 		<result column="RESPONSE_CONTENT" property="responseContent"/>
 		<result column="RESPONSE_DATE" property="responseDate"/>
+	</resultMap>
+	
+	<resultMap type="Location" id="LocResultSet">
+		<result column="LOCATION_NO" property="locationNo"/>
+		<result column="LOCATION_NAME" property="locationName"/>
+		<result column="LOCATION_DETAIL_1" property="locationDetail1"/>
+		<result column="LOCATION_DETAIL_2" property="locationDetail2"/>
+	</resultMap>
+	
+	<resultMap type="Category" id="CateResultSet">
+		<result column="CATEGORY_NO" property="categoryNo"/>
+		<result column="CATEGORY_NAME" property="categoryName"/>
+		<result column="CATEGORY_DETAIL_NAME" property="categoryDetailName"/>
+	</resultMap>
+	
+	<resultMap type="Kind" id="kindResultSet">
+		<result column="KIND_NO" property="kindNo"/>
+		<result column="KIND_NAME" property="kindName"/>
+	</resultMap>
+	
+	<resultMap type="Media" id="MediaResultSet">
+		<result column="MEDIA_NO" property="mediaNo"/>
+		<result column="REF_BNO" property="refBno"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="MEDIA_PATH" property="mediaPath"/>
+		<result column="UPLOAD_DATE" property="uploadDate"/>
 	</resultMap>
 	
 	<select id="listCount" parameterType="User" resultType="_int">
@@ -222,5 +256,65 @@
 		DELETE FROM	TB_RESPONSE
 		WHERE	REQUEST_NO = #{requestNo}
 	</delete>
+	
+	<select id="selectLocationList" parameterType="Category" resultMap="CateResultSet">
+		SELECT	*
+		FROM	TB_CATEGORY
+	</select>
+	
+	<select id="selectKindList" parameterType="Kind" resultMap="kindResultSet">
+		SELECT	*
+		FROM	TB_KIND
+	</select>
+	
+	<select id="selectDetailCateList" parameterType="Category" resultMap="CateResultSet">
+		SELECT	*
+		FROM	TB_CATEGORY
+		WHERE	CATEGORY_NAME = #{categoryName}
+	</select>
+	
+	<select id="makeBoardNo" resultType="_int">
+		SELECT	SEQ_PRONO.NEXTVAL
+		FROM	DUAL
+	</select>
+	
+	<insert id="insertProductBoard" parameterType="ProductBoard">
+		INSERT INTO TB_PRODUCTBOARD(BOARD_NO,
+									BOARD_WRITER,
+									CATEGORY_NO,
+									SELL_LOCATION,
+									KIND_NO,
+									PRODUCT_STATUS,
+									BOARD_TITLE,
+									BOARD_CONTENT,
+									PRICE,
+									SELL_WAY,
+									TAG_19_PRODUCT,
+									TITLE_IMG,
+									PREFER_PAYMENT)
+		VALUES(#{boardNo}, #{boardWriter}, #{categoryNo}, #{sellLocation}, #{kindNo}, #{productStatus}, #{boardTitle}, #{boardContent}, #{price}, #{sellWay}, #{tag19Product}, #{titleImg}, #{preferPayment})
+	</insert>
+	
+	<insert id="insertProductInfo" parameterType="ProductInfo">
 
+		INSERT INTO TB_PRODUCTINFO(BOARD_NO,
+								   PRODUCT_NAME,
+								   CREATE_LOCATION,
+								   PURCHASE_DATE)
+		VALUES(#{boardNo}, #{productName}, #{createLocation}, #{purchaseDate})
+	</insert>
+	
+	<insert id="insertMediaFile" parameterType="arraylist">
+		INSERT ALL
+		<foreach collection="list" item="media">
+			INTO TB_MEDIA(MEDIA_NO,
+						  REF_BNO,
+						  ORIGIN_NAME,
+						  CHANGE_NAME,
+						  MEDIA_PATH)
+			VALUES(PBID(${media.refBno}), #{media.refBno}, #{media.originName}, #{media.changeName}, #{media.mediaPath})
+		</foreach>
+		SELECT * FROM DUAL
+	</insert>
+	
 </mapper>
