@@ -181,9 +181,9 @@
 				<div class="sign-up-form-group">
 				    <label for="age">주민번호 (뒤 1자리까지)</label>
 				    <input type="text" name="age" id="age" class="sign-up-input" maxlength="6" style="width: 300px;" required>
-				    <span style="font-size: 30px; text-align: center; margin-bottom: 17px;" id="emailTag"> - </span>
+				    <span style="font-size: 30px; text-align: center; margin-bottom: 17px;" id="ageTag"> - </span>
 				    <input type="text" name="gender" id="gender" class="sign-up-input" maxlength="1" style="width: 50px;" required>
-				    <span style="font-size: 30px; text-align: center; margin-bottom: 17px;" id="emailTag">*******</span>
+				    <span style="font-size: 30px; text-align: center; margin-bottom: 17px;" id="ageTag">*******</span>
 				</div>
 				
 				<!-- 닉네임 -->
@@ -415,16 +415,16 @@
 			
 		}
 	
-		$("#lastEmail").click(function(){
+		$("#lastEmail").change(function(){
 			var lastEmail = $(this).val();
 			
 			if(lastEmail == '직접입력'){
 				$("#emailTag").css("display", "none");
-				$("#firstEmail").attr("maxlength", "30");
+				$("#firstEmail").attr("maxlength", 60);
 			}
 			else{
 				$("#emailTag").css("display", "block");
-				$("#firstEmail").attr("maxlength", "15");
+				$("#firstEmail").attr("maxlength", 15);
 			}
 		})
 	
