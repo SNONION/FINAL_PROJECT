@@ -274,9 +274,9 @@
 			    
 			    <!-- 상품 게시판 내용 -->
 			    <div id="notice-content">
-			    	<button class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortRight();"><i class="fas fa-align-right"></i></button>
-			    	<button class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortCenter();"><i class="fas fa-align-center"></i></button>
-			    	<button class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortLeft();"><i class="fas fa-align-left"></i></button>
+			    	<button type="button" class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortRight();"><i class="fas fa-align-right"></i></button>
+			    	<button type="button" class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortCenter();"><i class="fas fa-align-center"></i></button>
+			    	<button type="button" class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortLeft();"><i class="fas fa-align-left"></i></button>
 			        <p><textarea id="requestContent" name="BoardContent" style="resize: none;" placeholder="내용을 입력하세요."></textarea></p>
 			    </div>
 			    <div class="information-area" align="center">
@@ -376,6 +376,21 @@
 				}
 			});
 		};
+		
+		// 왼쪽 정렬
+		function sortLeft(){
+			$("#requestContent").css("text-align","left");
+		}
+		
+		// 중앙 정렬
+		function sortCenter(){
+			$("#requestContent").css("text-align","center");
+		}
+		
+		// 오른쪽 정렬
+		function sortRight(){
+			$("#requestContent").css("text-align","right");
+		}
 	</script>
 	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
