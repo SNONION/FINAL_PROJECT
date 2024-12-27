@@ -74,6 +74,7 @@
 		<result column="CATEGORY_NO" property="categoryNo"/>
 		<result column="CATEGORY_NAME" property="categoryName"/>
 		<result column="CATEGORY_DETAIL_NAME" property="categoryDetailName"/>
+		<result column="CATEGORY_IMG" property="categoryImg"/>
 	</resultMap>
 	
 	<resultMap type="Kind" id="kindResultSet">
@@ -316,5 +317,33 @@
 		</foreach>
 		SELECT * FROM DUAL
 	</insert>
+	
+	<select id="selectRecentBoard" resultMap="PBResultSet">
+		SELECT	*
+		FROM	TB_PRODUCTBOARD
+		WHERE   ROWNUM BETWEEN 1 AND 5 
+		ORDER BY CREATE_DATE
+	</select>
+	
+	<select id="listAllCount" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_PRODUCTBOARD
+	</select>
+	
+	<select id="topFiveProduct" resultMap="PBResultSet">
+		SELECT	*
+		FROM	TB_PRODUCTBOARD
+		ORDER BY COUNT	
+	</select>
+	
+	<select id="getCateCount" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_CATEGORY
+	</select>
+	
+	<select id="getCate" resultMap="CateResultSet">
+		SELECT	*
+		FROM	TB_CATEGORY
+	</select>
 	
 </mapper>

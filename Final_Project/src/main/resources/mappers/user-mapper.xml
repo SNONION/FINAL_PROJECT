@@ -55,6 +55,7 @@
 		<result column="CATEGORY_NO" property="categoryNo"/>
 		<result column="CATEGORY_NAME" property="categoryName"/>
 		<result column="CATEGORY_DETAIL_NAME" property="categoryDetailName"/>
+		<result column="CATEGORY_IMG" property="categoryImg"/>
 	</resultMap>
 	
 	<resultMap type="UserInfo" id="UserInfoResultSet">

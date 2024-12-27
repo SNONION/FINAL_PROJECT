@@ -516,7 +516,7 @@
 						<li class="nav-item"><a id="mypage-a-tag" class="nav-link" data-toggle="tab" href="#home">판매완료</a></li>
 					</ul>
 					<div class="tab-content scroll-container">
-						<div class="tab-pane container active" id="home" style="display: flex; justify-content: flex-start;"></div>
+						<div class="tab-pane container active" id="home" style="height:370px; display: flex; justify-content: flex-start;"></div>
 					</div>
 				</div>
 			</div>

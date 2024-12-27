@@ -65,33 +65,57 @@
 	
 	.banner-slide img {
 	    width: 100%;
-	    height: 250px; /* 배너 높이 설정 */
+	    height: 450px; /* 배너 높이 설정 */
 	    object-fit: cover; /* 이미지 비율에 맞게 자르기 */
 	    border-radius: 10px;
 	}
 	
-	/* 상품 카테고리, 추천 상품 등의 나머지 스타일 */
 	.category-section {
 	    display: flex;
-	    justify-content: space-around;
-	    margin-bottom: 30px;
+	    gap: 40px; /* 버튼 사이 간격 */
+	    justify-content: center; /* 중앙 정렬 */
+	    align-items: center; /* 수직 중앙 정렬 */
+	    flex-wrap: wrap; /* 화면 크기에 따라 버튼이 자동으로 줄 바꿈 */
+	}
+	
+	.category-input {
+	    display: flex;
+	    gap: 60px; /* 버튼 사이 간격 */
+	    justify-content: center; /* 중앙 정렬 */
+	    align-items: center; /* 수직 중앙 정렬 */
+	    flex-wrap: wrap; /* 화면 크기에 따라 버튼이 자동으로 줄 바꿈 */
 	}
 	
 	.category-button {
-	    background-color: #fff;
-	    padding: 12px 20px;
-	    border: 1px solid #ddd;
-	    border-radius: 8px;
-	    font-size: 16px;
-	    color: #333;
-	    width: 120px;
-	    cursor: pointer;
-	    transition: background-color 0.3s, transform 0.2s;
+	    width: 100px;                  /* 버튼 너비 */
+	    height: 100px;                 /* 버튼 높이 */
+	    border-radius: 50%;            /* 원형 버튼 */
+	    background-size: cover;       /* 이미지가 버튼을 덮도록 설정 */
+	    background-position: center;  /* 이미지가 버튼 중앙에 오도록 설정 */
+	    border: none;                 /* 버튼의 기본 테두리 제거 */
+	    cursor: pointer;              /* 마우스 커서 스타일 */
+	    font-size: 15px;               /* 글자 크기 */
+	    color: black;                 /* 글자 색 */
+	    display: flex;                 /* 버튼 내 텍스트 중앙 정렬 */
+	    justify-content: center;       /* 수평 중앙 정렬 */
+	    align-items: center;           /* 수직 중앙 정렬 */
+	    transition: transform 0.3s ease; /* 버튼 크기 변경 효과 */
+	    font-weight: bold;
 	}
+	
+	.category-button:hover {
+	    transform: scale(1.1);         /* 호버 시 버튼 크기 커지기 */
+	    color: rgb(108, 75, 42);
+	    outline: none;
+	    border: none;
+	}
+
 	
 	.category-button:hover {
 	    background-color: #fee500;
 	    transform: scale(1.05);
+	    outline: none;
+	    border: none;
 	}
 	
 	.category-button:active {
@@ -173,14 +197,144 @@
 	    color: #fee500;
 	    margin-top: 5px;
 	}
-
+	
+	.recent-board-list div:hover{
+		cursor: pointer;
+	}
+	
+	.recommended-products{
+		position: relative;
+	}
+	
+	#nextBoardBtn{
+	    width: 40px;               /* 버튼 너비 */
+	    height: 40px;              /* 버튼 높이 */
+	    border-radius: 50%;        /* 원형 버튼 */
+	    background-color: white;   /* 하얀색 배경 */
+	    color: black;            /* 글자 색 */
+	    border: none; /* 테두리 색 */
+	    font-size: 30px;           /* 글자 크기 */
+	    cursor: pointer;          /* 마우스 커서 스타일 */
+	    text-align: center;        /* 수평 중앙 정렬 */
+	    line-height: 40px;         /* 수직 중앙 정렬 (버튼 높이와 같게 설정) */
+	    transition: background-color 0.3s ease, transform 0.3s ease; /* 호버 효과 */
+	    outline: none;             /* 클릭 시 테두리 생기는 것 제거 */
+	    position: absolute;           /* 고정 위치 */
+	    top: 120px;              /* 화면 하단에서 20px 떨어짐 */
+	    right: 40px;               /* 화면 우측에서 20px 떨어짐 */
+	}
+	
+	#previousBoardBtn {
+		width: 40px;               /* 버튼 너비 */
+	    height: 40px;              /* 버튼 높이 */
+	    border-radius: 50%;        /* 원형 버튼 */
+	    background-color: white;   /* 하얀색 배경 */
+	    color: black;            /* 글자 색 */
+	    border: none; /* 테두리 색 */
+	    font-size: 30px;           /* 글자 크기 */
+	    cursor: pointer;          /* 마우스 커서 스타일 */
+	    text-align: center;        /* 수평 중앙 정렬 */
+	    line-height: 40px;         /* 수직 중앙 정렬 (버튼 높이와 같게 설정) */
+	    transition: background-color 0.3s ease, transform 0.3s ease; /* 호버 효과 */
+	    outline: none;             /* 클릭 시 테두리 생기는 것 제거 */
+	    position: absolute;           /* 고정 위치 */
+	    top: 120px;              /* 화면 하단에서 20px 떨어짐 */
+	    left: 40px;               /* 화면 우측에서 20px 떨어짐 */
+	}
+	
+	#nextBoardBtn:hover, #previousBoardBtn:hover {
+	    color: rgb(255, 221, 51);               /* 호버 시 글자색 변경 */
+	    font-size: 36px;           /* 글자 크기 */
+	}
+	
+	#nextCateBtn, #previousCateBtn {
+	    width: 40px;               /* 버튼 너비 */
+	    height: 40px;              /* 버튼 높이 */
+	    border-radius: 50%;        /* 원형 버튼 */
+	    background-color: white;   /* 하얀색 배경 */
+	    color: black;            /* 글자 색 */
+	    border: none; /* 테두리 색 */
+	    font-size: 30px;           /* 글자 크기 */
+	    cursor: pointer;          /* 마우스 커서 스타일 */
+	    text-align: center;        /* 수평 중앙 정렬 */
+	    line-height: 40px;         /* 수직 중앙 정렬 (버튼 높이와 같게 설정) */
+	    transition: background-color 0.3s ease, transform 0.3s ease; /* 호버 효과 */
+	    outline: none;             /* 클릭 시 테두리 생기는 것 제거 */
+	}
+	
+	#nextCateBtn:hover, #previousCateBtn:hover {
+	    color: rgb(255, 221, 51);               /* 호버 시 글자색 변경 */
+	    font-size: 36px;           /* 글자 크기 */
+	}
+	
+	.banner-container {
+	    width: 100%;
+	    overflow: hidden;
+	    position: relative;
+	}
+	
+	.banner-slider {
+	    display: flex;
+	    transition: transform 1s ease-in-out;
+	}
+	
+	.banner-slide {
+	    min-width: 100%;
+	    height: auto;
+	}
+	
+	img {
+	    width: 100%;
+	    height: auto;
+	}	
+	
+	/* 이미지 스타일 */
+	.category-img {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	    width: 50px; /* 이미지 크기 */
+	    height: 50px;
+	    opacity: 0; /* 기본적으로 이미지 숨김 */
+	    transition: opacity 0.3s ease; /* 부드러운 전환 효과 */
+	    z-index: 1;
+	}
+	
+	/* 텍스트 스타일 */
+	.category-button .text {
+	    position: relative;
+	    z-index: 10; /* 글자를 이미지보다 앞으로 */
+	    font-weight: bold;
+	    color: white;
+	    pointer-events: none; /* 텍스트 선택 불가 */
+	}
+	
+	/* hover 시 이미지 표시 */
+	.category-button:hover .category-img {
+	    opacity: 0.7; /* 이미지 표시 */
+	}
+	
+	/* hover 시 텍스트와 이미지 겹치기 */
+	.category-button {
+	    color: black;
+	    font-weight: bold;
+	}
+	
+	.recent-board-list .post-item {
+	    transition: transform 0.3s ease; /* 크기 변화의 애니메이션 시간 */
+	}
+	
+	.recent-board-list .post-item:hover {
+	    transform: scale(1.05); /* 5% 정도 크기를 키움 */
+	}
 
 </style>  
 
 </head>
 <body>
 	
-	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+	<%@include file="/WEB-INF/views/common/header.jsp" %>
 	
 	<div class="outer">
 	    <div class="mainpage-area">
@@ -188,57 +342,55 @@
 	        <!-- 상단 광고 배너 영역 -->
 	        <div class="banner-container">
 	            <div class="banner-slider">
-	                <div class="banner-slide">
-	                    <img src="#" alt="banner1">
+	                <div class="banner-slide bannerImg">
+	                    <img src="${contextPath}/resources/pageDecoImgFiles/AD1.png" alt="banner1">
 	                </div>
-	                <div class="banner-slide">
-	                    <img src="#" alt="banner2">
+	                <div class="banner-slide bannerImg">
+	                    <img src="${contextPath}/resources/pageDecoImgFiles/AD2.png" alt="banner2">
 	                </div>
-	                <div class="banner-slide">
-	                    <img src="#" alt="banner3">
+	                <div class="banner-slide bannerImg">
+	                    <img src="${contextPath}/resources/pageDecoImgFiles/AD3.png" alt="banner2">
+	                </div>
+	                <div class="banner-slide bannerImg">
+	                    <img src="${contextPath}/resources/pageDecoImgFiles/AD4.png" alt="banner2">
+	                </div>
+	                <div class="banner-slide bannerImg">
+	                    <img src="${contextPath}/resources/pageDecoImgFiles/AD5.png" alt="banner2">
 	                </div>
 	            </div>
 	        </div>
 	        
 	        <br><br>
 	        <!-- 나머지 콘텐츠 (추천 상품, 최근 게시물 등) -->
-	        <div class="category-section">
-	            <button class="category-button">전자기기</button>
-	            <button class="category-button">패션</button>
-	            <button class="category-button">가구</button>
-	            <button class="category-button">책</button>
-	            <button class="category-button">기타</button>
-	        </div>
+			<h3 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">카테고리</h3>
+			<div class="category-section">
+				<button type='button' id='previousCateBtn'><i class='fas fa-chevron-left'></i></button>
+				<div class="category-input" style="display: flex;">
+				    <div>카테고리를 불러오는 중입니다.</div>
+				</div>
+				<button type='button' id='nextCateBtn'><i class='fas fa-chevron-right'></i></button>
+			</div>
 			
-			<br><br>
+			<br><br><br><br>
 	        <div class="recommended-products">
-	            <h3>추천 상품</h3>
-	            <div class="product-card">
-	                <img src="img/product1.jpg" alt="product1">
-	                <div class="product-info">
-	                    <div class="product-title">전자기기</div>
-	                    <div class="product-price">₩300,000</div>
-	                </div>
+	            <h3>추천상품</h3>
+	            <button type='button' id='previousBoardBtn'><i class='fas fa-chevron-left'></i></button>
+	            <div class="top5-board-list" style="display: flex;">
+	            	<div class="product-card">
+		            	<div class="product-title">상품을 불러오는 중입니다.</div>
+		            </div>
 	            </div>
-	            <div class="product-card">
-	                <img src="img/product2.jpg" alt="product2">
-	                <div class="product-info">
-	                    <div class="product-title">가전제품</div>
-	                    <div class="product-price">₩150,000</div>
-	                </div>
-	            </div>
+	            <button type='button' id='nextBoardBtn'><i class='fas fa-chevron-right'></i></button>
 	        </div>
 			
 			<br><br>
 	        <div class="recent-posts">
-	            <h3>최근 게시물</h3>
-	            <div class="post-item">
-	                <div class="post-title">iPhone 13 중고 팝니다</div>
-	                <div class="post-price">₩700,000</div>
-	            </div>
-	            <div class="post-item">
-	                <div class="post-title">미니 냉장고 팝니다</div>
-	                <div class="post-price">₩100,000</div>
+	            <h3>최근상품</h3>
+	            <div class="recent-board-list">	            
+		            <div class="post-item">
+		                <div class="post-title" align="center">상품을 불러오는 중입니다.</div>
+		                <div class="post-price"></div>
+		            </div>
 	            </div>
 	        </div>
 	    </div>
@@ -246,17 +398,155 @@
 	
 	<script>
 		$(function(){
-			var currentSlide = 0;
-			var totalSlides = document.querySelectorAll('.banner-slide').length;
+			
+			// 최근에 등록된 상품 5개를 가지고 옴
+			$.ajax({
+				url : "${contextPath}/board/recentBoardfive",
+				success : function(result1){
+					
+					$(".recent-board-list div").remove();
+					
+					if(result1 != ""){
+						for(var five of result1){
+							var postDiv = $("<div class='post-item' style='display: flex;'>");
+							var titleDiv = $("<div class='post-title' style='margin-right: 20px;'>").text(five.boardTitle);
+							var priceDiv = $("<div style='color: red;'>").text(five.price + "원");
+							
+							postDiv.append(titleDiv).append(priceDiv);
+							
+							$(".recent-board-list").append(postDiv);
+						}
+					}
+					else{
+						$(".recent-board-list").append($("<div style='width: 300px; height: 200px; text-align: center;'>").text("작성된 게시글이 없습니다."));
+					}
+					
+				},
+				error : function(){
+					console.log("통신 오류");
+				}
+			});
+			
+			var ccount = 1;
+			var count = 1;
+			topBoard(count);
+			cateList(ccount);
+			
+			$(".recommended-products").on("click", "#nextBoardBtn", function(){
+				if(count != "${page.maxPage}"){
+					++count;					
+				}
+				topBoard(count);
+			})
+			
+			$(".recommended-products").on("click", "#previousBoardBtn", function(){
+				if(count != 1){
+					--count;					
+				}
+				topBoard(count);
+			});
+			
+			$(".category-section").on("click", "#nextCateBtn", function(){
+				if(ccount != "${catePage.maxPage}"){
+					++ccount;
+				}
+				cateList(ccount);
+			})
+			
+			$(".category-section").on("click", "#previousCateBtn", function(){
+				if(ccount != 1){
+					--ccount;					
+				}
+				cateList(ccount);
+			});
+		});
 		
-			function nextSlide() {
-			    currentSlide = (currentSlide + 1) % totalSlides; // 슬라이드가 끝까지 가면 처음으로 돌아가게
-			    var bannerSlider = document.querySelector('.banner-slider');
-			    bannerSlider.style.transform = `translateX(-${currentSlide * 100}%)`;
-			}
+		function topBoard(count){
+			
+			// 인기 있는 상품을 가지고 옴
+			$.ajax({
+				url : "${contextPath}/board/topFiveProduct",
+				data : {
+					currentPage : count
+				},
+				success : function(result2){
+					
+					$(".top5-board-list div").remove();
+					
+					if(result2 != ""){
+						for(var top of result2){
+							var productCard = $("<div class='product-card' style='margin-right: 30px;'>");
+							var img = $("<img>").attr("src", "${contextPath}" + top.titleImg);
+							var productInfo = $("<div class='product-info'>");
+							var title = $("<div class='product-title'>").text(top.boardTitle);
+							var price = $("<div style='color: red;'>").text(top.price + "원");
+							
+							productInfo.append(title).append(price);
+							productCard.append(img).append(productInfo);
+							
+							$(".top5-board-list").append(productCard);
+						}
+					}
+					else{
+						$(".top5-board-list").append($("<div>").text("작성된 게시글이 없습니다."));
+					}
+					
+				},
+				error : function(){
+					console.log("통신 오류");
+				}
+			});
+			
+		}
 		
-			// 3초마다 슬라이드 넘기기
-			setInterval(nextSlide, 3000);
+		function cateList(ccount){
+			
+			$.ajax({
+				url : "${contextPath}/board/getCate",
+				data : {
+					currentPage : ccount
+				},
+				success : function(result3){
+					
+					$(".category-input div").remove();
+					$(".category-input button").remove();
+					
+					for(var cate of result3){
+						var button = $("<button class='category-button'>").text(cate.categoryName);
+						var img = $("<img class='category-img'>").attr("src", "${contextPath}" + cate.categoryImg);
+						button.append(img);
+						
+						$(".category-input").append(button);
+					}
+					
+				},
+				error : function(){
+					console.log("통신 오류");
+				}
+			});
+		}
+		
+	</script>
+	
+	<script>
+		$(function() {
+			var count = 0;
+		    var slides = $('.banner-slide');
+		    var totalSlides = slides.length;
+	
+		    setInterval(function() {
+		        
+		    	// 마지막 인덱스 전까지는 제거
+		    	if(totalSlides - 1 != count){
+		    		$(slides.get(count)).css("display", "none");
+		    		count++;
+		    	}
+		    	else {
+		    		$(slides.get(count - 1)).css("display", "block");
+		    		count--;
+		    	}
+		    	
+		    }, 4000); 
 		});
 	</script>
 	

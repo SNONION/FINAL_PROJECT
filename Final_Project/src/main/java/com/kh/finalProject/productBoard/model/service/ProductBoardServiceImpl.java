@@ -221,6 +221,36 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 		return productBoardDao.insertMediaFile(sqlSession, mList);
 	}
 
+	@Override
+	public ArrayList<ProductBoard> selectRecentBoard() {
+		
+		return productBoardDao.selectRecentBoard(sqlSession);
+	}
+
+	@Override
+	public int listAllCount() {
+		
+		return productBoardDao.listAllCount(sqlSession);
+	}
+	
+	@Override
+	public ArrayList<ProductBoard> topFiveProduct(PageInfo pi) {
+		
+		return productBoardDao.topFiveProduct(sqlSession, pi);
+	}
+
+	@Override
+	public int getCateCount() {
+
+		return productBoardDao.getCateCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Category> getCate(PageInfo pi) {
+		
+		return productBoardDao.getCate(sqlSession, pi);
+	}
+
 
 
 }
