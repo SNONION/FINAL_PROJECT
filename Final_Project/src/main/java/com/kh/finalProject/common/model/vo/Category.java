@@ -14,5 +14,6 @@ public class Category {
 	private int categoryNo; //	CATEGORY_NO	NUMBER
 	private String categoryName;//	CATEGORY_NAME	VARCHAR2(1000 BYTE)
 	private String categoryDetailName;//	CATEGORY_DETAIL_NAME	VARCHAR2(1000 BYTE)
+	private String categoryImg; // 카테고리 이미지
 	
 }

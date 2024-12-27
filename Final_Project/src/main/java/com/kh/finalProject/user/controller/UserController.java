@@ -99,7 +99,7 @@ public class UserController {
 			int result = userService.insertLocationFilter(locationInfo);
 			
 			if(result > 0) {
-				log.debug("주소 삽입");
+				log.debug("새로운 주소 삽입");
 			}
 		}
 		

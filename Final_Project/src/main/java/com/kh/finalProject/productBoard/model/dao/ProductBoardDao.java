@@ -133,7 +133,7 @@ public class ProductBoardDao {
 		int limit = pi.getListLimit();
 		int offset = (pi.getCurrentPage() - 1) * limit;
 		
-		return (ArrayList)sqlSession.selectList("productBoardMapper.requestList", new RowBounds(offset, limit));
+		return (ArrayList)sqlSession.selectList("productBoardMapper.requestList", null, new RowBounds(offset, limit));
 	}
 
 	public Request selectRequest(SqlSessionTemplate sqlSession, int requestNo) {
@@ -204,6 +204,37 @@ public class ProductBoardDao {
 	public int insertMediaFile(SqlSessionTemplate sqlSession, ArrayList<Media> mList) {
 		
 		return sqlSession.insert("productBoardMapper.insertMediaFile", mList);
+	}
+
+	public ArrayList<ProductBoard> selectRecentBoard(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.selectRecentBoard");
+	}
+
+	public int listAllCount(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("productBoardMapper.listAllCount");
+	}
+	
+	public ArrayList<ProductBoard> topFiveProduct(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int limit = pi.getListLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.topFiveProduct", null, new RowBounds(offset, limit));
+	}
+
+	public int getCateCount(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("productBoardMapper.getCateCount");
+	}
+
+	public ArrayList<Category> getCate(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int limit = pi.getListLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.getCate", null, new RowBounds(offset, limit));
 	}
 
 

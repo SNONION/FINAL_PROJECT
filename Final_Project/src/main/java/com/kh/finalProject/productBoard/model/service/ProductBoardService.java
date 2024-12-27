@@ -112,5 +112,21 @@ public interface ProductBoardService {
 	// 상품게시판에 게시물 삽입 후 상품 이미지 (미디어파일)를 삽입하는 메소드
 	int insertMediaFile(ArrayList<Media> mList);
 
+	// 최근 작성된 게시물 5개를 조회해오는 메소드
+	ArrayList<ProductBoard> selectRecentBoard();
+
+	// 게시글 총 갯수 조회하는 메소드
+	int listAllCount();
+
+	// 가장 인기있는(가장 조회수가 높은) 상품 조회 메소드
+	ArrayList<ProductBoard> topFiveProduct(PageInfo pi);
+
+	// 카테고리 갯수 조회하는 메소드
+	int getCateCount();
+
+	// 카테고리를 5개씩 조회해오는 메소드
+	ArrayList<Category> getCate(PageInfo pi);
+
+
 
 }

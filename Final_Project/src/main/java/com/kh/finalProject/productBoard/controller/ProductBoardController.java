@@ -508,4 +508,53 @@ public class ProductBoardController {
 		
 	}
 	
+	// 최근 작성한 상품 게시글 5개를 조회하는 메소드
+	@ResponseBody
+	@RequestMapping(value="recentBoardfive", produces="application/json;charset=UTF-8")
+	public ArrayList<ProductBoard> recentBoardfive() {
+		
+		ArrayList<ProductBoard> pbList = productBoardService.selectRecentBoard();
+		
+		return pbList;
+		
+	}
+	
+	// 가장 인기있는 (조회수가 높은) 상품을 조회하는 메소드
+	@ResponseBody
+	@RequestMapping(value="topFiveProduct", produces="application/json;charset=UTF-8")
+	public ArrayList<ProductBoard> topFiveProduct(@RequestParam(value="currentPage", defaultValue="1")int currentPage,
+													HttpServletRequest request) {
+		
+		int listCount = productBoardService.listAllCount();
+		int pageLimit = 5;
+		int	boardLimit = 3;
+		
+		PageInfo pi = PageNation.pageNation(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<ProductBoard> tfList = productBoardService.topFiveProduct(pi);
+		request.getSession().setAttribute("page", pi);
+		
+		return tfList;
+	
+	}
+	
+	// 메인페이지에 카테고리 조회해오는 메소드
+	@ResponseBody
+	@RequestMapping(value="getCate", produces="application/json;charset=UTF-8")
+	public ArrayList<Category> getCate(@RequestParam(value="currentPage", defaultValue="1")int currentPage,
+													HttpServletRequest request) {
+		
+		int listCount = productBoardService.getCateCount();
+		int pageLimit = 5;
+		int cateLimit = 5;
+		
+		PageInfo pi = PageNation.pageNation(listCount, currentPage, pageLimit, cateLimit);
+		
+		ArrayList<Category> cList = productBoardService.getCate(pi);
+		request.getSession().setAttribute("catePage", pi);
+		
+		return cList;
+		
+	}
+	
 }
