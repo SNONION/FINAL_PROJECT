@@ -346,4 +346,91 @@
 		FROM	TB_CATEGORY
 	</select>
 	
+	<select id="categoryDetailFilter" parameterType="Category" resultMap="CateResultSet">
+		SELECT	*
+		FROM	TB_CATEGORY
+		WHERE	CATEGORY_NAME = #{categoryName}
+	</select>
+	
+	<select id="locationFilter" resultMap="LocResultSet">
+		SELECT	*
+		FROM	TB_LOCATION
+	</select>
+	
+	<select id="locationDeep1Filter" parameterType="Location" resultMap="LocResultSet">
+		SELECT	*
+		FROM	TB_LOCATION
+		WHERE	LOCATION_NAME = #{locationName}
+	</select>
+	
+	<select id="locationDeep2Filter" parameterType="Location" resultMap="LocResultSet">
+		SELECT	*
+		FROM	TB_LOCATION
+		WHERE	LOCATION_NAME = #{locationName}
+		AND		LOCATION_DETAIL_1 = #{locationDetail1}
+	</select>
+	
+	<select id="getCategoryNo" parameterType="Category" resultMap="CateResultSet">
+		SELECT	CATEGORY_NO
+		FROM	TB_CATEGORY
+		<where>
+			<choose>
+				<when test="categoryName != null">
+					CATEGORY_NAME = #{categoryName}
+				</when>
+				<when test="categoryDetailName != null">
+					CATEGORY_DETAIL_NAME = #{categoryDetailName}
+				</when>
+			</choose>
+		</where>
+	</select>
+	
+	<select id="getLocationNo" parameterType="Location" resultMap="LocResultSet">
+		SELECT	LOCATION_NO
+		FROM	TB_LOCATION
+		<where>
+			<choose>
+				<when test="locationName != null">
+					LOCATION_NAME = #{locationName}
+				</when>
+				<when test="locationDetail1 != null">
+					LOCATION_DETAIL_1 = #{locationDetail1}
+				</when>
+				<when test="locationDetail2 != null">
+					LOCATION_DETAIL_2 = #{locationDetail2}
+				</when>
+			</choose>
+		</where>
+	</select>
+	
+	<select id="searchFilterBoard" parameterType="ProductBoard" resultMap="PBResultSet">
+		SELECT	*
+		FROM	TB_PRODUCTBOARD
+		<where>
+			<choose>
+				<when test="categoryNo != 0">
+					CATEGORY_NO = #{categoryNo}
+				</when>
+				<when test="sellLocation != null">
+					SELL_LOCATION = #{sellLocation}
+				</when>
+				<when test="kindNo != 0">
+					KIND_NO = #{kindNo}
+				</when>
+				<when test="productStatus != null">
+					PRODUCT_STATUS = #{productStatus}
+				</when>
+				<when test="sellWay != null">
+					SELL_WAY = #{sellWay}
+				</when>
+			</choose>
+		</where>
+	</select>
+	
+	<select id="boardDetailForm" parameterType="ProductBoard" resultMap="PBResultSet">
+		SELECT	*
+		FROM	TB_PRODUCTBOARD
+		WHERE	BOARD_NO = #{boardNo}
+	</select>
+	
 </mapper>

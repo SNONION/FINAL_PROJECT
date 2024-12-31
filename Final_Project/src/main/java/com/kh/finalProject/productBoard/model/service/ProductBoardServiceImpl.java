@@ -251,6 +251,54 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 		return productBoardDao.getCate(sqlSession, pi);
 	}
 
+	@Override
+	public ArrayList<Location> locationFilter() {
+		
+		return productBoardDao.locationFilter(sqlSession);
+	}
+	
+	@Override
+	public ArrayList<Category> categoryDetailFilter(Category category) {
+		
+		return productBoardDao.categoryDetailFilter(sqlSession, category);
+	}
+
+	@Override
+	public ArrayList<Location> locationDeep1Filter(Location location) {
+		
+		return productBoardDao.locationDeep1Filter(sqlSession, location);
+	}
+	
+	@Override
+	public ArrayList<Location> locationDeep2Filter(Location location) {
+		
+		return productBoardDao.locationDeep2Filter(sqlSession, location);
+	}
+
+	@Override
+	public Category getCategoryNo(Category category) {
+		
+		return productBoardDao.getCategoryNo(sqlSession, category);
+	}
+
+	@Override
+	public ArrayList<Location> getLocationNo(Location location) {
+		
+		return productBoardDao.getLocationNo(sqlSession, location);
+	}
+
+	@Override
+	public ArrayList<ProductBoard> searchFilterBoard(ProductBoard board) {
+		
+		return productBoardDao.searchFilterBoard(sqlSession, board);
+	}
+
+	@Override
+	public ProductBoard boardDetailForm(ProductBoard board) {
+		
+		return productBoardDao.boardDetailForm(sqlSession, board);
+	}
+
 
 
 }

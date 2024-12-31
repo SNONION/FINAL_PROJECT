@@ -237,5 +237,45 @@ public class ProductBoardDao {
 		return (ArrayList)sqlSession.selectList("productBoardMapper.getCate", null, new RowBounds(offset, limit));
 	}
 
+	public ArrayList<Category> categoryDetailFilter(SqlSessionTemplate sqlSession, Category category) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.categoryDetailFilter", category);
+	}
+
+	public ArrayList<Location> locationFilter(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.locationFilter");
+	}
+
+	public ArrayList<Location> locationDeep1Filter(SqlSessionTemplate sqlSession, Location location) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.locationDeep1Filter", location);
+	}
+	
+	public ArrayList<Location> locationDeep2Filter(SqlSessionTemplate sqlSession, Location location) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.locationDeep2Filter", location);
+	}
+
+	public Category getCategoryNo(SqlSessionTemplate sqlSession, Category category) {
+		
+		return sqlSession.selectOne("productBoardMapper.getCategoryNo", category);
+	}
+
+	public ArrayList<Location> getLocationNo(SqlSessionTemplate sqlSession, Location location) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.getLocationNo", location);
+	}
+
+	public ArrayList<ProductBoard> searchFilterBoard(SqlSessionTemplate sqlSession, ProductBoard board) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.searchFilterBoard", board);
+	}
+
+	public ProductBoard boardDetailForm(SqlSessionTemplate sqlSession, ProductBoard board) {
+		
+		return sqlSession.selectOne("productBoardMapper.boardDetailForm", board);
+	}
+
 
 }

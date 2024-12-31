@@ -557,4 +557,145 @@ public class ProductBoardController {
 		
 	}
 	
+	// 제품 게시판 이동 메소드 -- 추후에 변경
+	@RequestMapping("productBoardForm")
+	public ModelAndView productBoardForm(Category category, ModelAndView mv) {
+		
+		mv.addObject("category", category);
+		Category categoryNo = productBoardService.getCategoryNo(category);
+		ProductBoard board = ProductBoard.builder().categoryNo(categoryNo.getCategoryNo()).build();
+		ArrayList<ProductBoard> searchBoard = productBoardService.searchFilterBoard(board);
+		
+		mv.addObject("searchBoard", searchBoard);
+		mv.setViewName("productBoard/productBoardList");
+		
+		return mv;
+				
+	}
+	
+	// 위치를 조회하는 필터
+	@ResponseBody
+	@RequestMapping(value="locationFilter", produces="application/json;charset=UTF-8")
+	public ArrayList<Location> locationFilter() {
+		
+		ArrayList<Location> locOptList = productBoardService.locationFilter();
+		
+		return locOptList;
+		
+	}
+	
+	// 카테고리를 조회해오는 필터
+	@ResponseBody
+	@RequestMapping(value="categoryFilter", produces="application/json;charset=UTF-8")
+	public ArrayList<Category> categoryFilter() {
+
+		int listCount = productBoardService.getCateCount();
+		int pageLimit = 15;
+		int cateLimit = 20;
+		
+		PageInfo pi = PageNation.pageNation(listCount, 1, pageLimit, cateLimit);
+		
+		ArrayList<Category> cateOptList = productBoardService.getCate(pi);
+
+		return cateOptList;
+		
+	}
+	
+	// 판매유형을 조회해오는 필터
+	@ResponseBody
+	@RequestMapping(value="sellTypeFilter", produces="application/json;charset=UTF-8")
+	public ArrayList<Kind> sellTypeFilter() {
+		
+		ArrayList<Kind> kindOptList = productBoardService.selectKindList();
+		
+		return kindOptList;
+		
+	}
+	
+	// 위치 상세 조회하는 필터
+	@ResponseBody
+	@RequestMapping(value="locationDeep1Filter", produces="application/json;charset=UTF-8")
+	public ArrayList<Location> locationDeep1Filter(Location location) {
+		
+		ArrayList<Location> locD1OptList = productBoardService.locationDeep1Filter(location);
+		
+		return locD1OptList;
+		
+	}
+	
+	// 카테고리 상세 조회해오는 필터
+	@ResponseBody
+	@RequestMapping(value="categoryDetailFilter", produces="application/json;charset=UTF-8")
+	public ArrayList<Category> categoryDetailFilter(Category category) {
+		
+		ArrayList<Category> cateDetailOptList = productBoardService.categoryDetailFilter(category);
+		
+		return cateDetailOptList;
+		
+	}
+	
+	// 위치 상세 조회하는 필터
+	@ResponseBody
+	@RequestMapping(value="locationDeep2Filter", produces="application/json;charset=UTF-8")
+	public ArrayList<Location> locationDeep2Filter(Location location) {
+		
+		ArrayList<Location> locD2OptList = productBoardService.locationDeep2Filter(location);
+		
+		return locD2OptList;
+		
+	}
+	
+	// 상품 게시판의 필터로 검색
+	@RequestMapping("searchBoardFilter")
+	public ModelAndView searchBoardFilter(Category category, Location location, 
+										ProductBoard board, String minPrice, String maxPrice,
+										ModelAndView mv) {
+		Category categoryNo = null;
+		if(category.getCategoryName() != null) {
+			mv.addObject("filterCategory", category);
+			categoryNo = productBoardService.getCategoryNo(category);
+			board.setCategoryNo(categoryNo.getCategoryNo());
+		}
+		
+		if(location.getLocationName() != null) {
+			mv.addObject("location", location);
+			board.setSellLocation(location.getLocationName() + " " + location.getLocationDetail1());
+		}
+		
+		ArrayList<ProductBoard> searchBoard = productBoardService.searchFilterBoard(board);
+
+		ArrayList<ProductBoard> priceSearchBoard = new ArrayList<>();
+		if(minPrice != null && maxPrice != null) {
+			for(ProductBoard pb : searchBoard) {
+				if(pb.getPrice() >= Integer.parseInt(minPrice) && pb.getPrice() <= Integer.parseInt(maxPrice)) {
+					priceSearchBoard.add(pb);
+				}
+			}
+			mv.addObject("priceSearchBoard", priceSearchBoard);
+			mv.addObject("minPrice", minPrice);
+			mv.addObject("maxPrice", maxPrice);
+		}
+		else {
+			mv.addObject("searchBoard", searchBoard);
+		}
+		
+		mv.addObject("board", board);
+		
+		mv.setViewName("productBoard/productBoardList");
+		
+		return mv;
+		
+	}
+	
+	// 상품 게시판 상세보기 페이지 이동 메소드
+	@RequestMapping("boardDetailForm")
+	public ModelAndView boardDetailForm(ProductBoard board, ModelAndView mv) {
+		
+		ProductBoard detailBoard = productBoardService.boardDetailForm(board);
+		mv.addObject("detailBoard", detailBoard);
+		mv.setViewName("productBoard/boardDetailForm");
+		return mv;
+		
+	}
+	
 }

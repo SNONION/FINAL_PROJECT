@@ -800,6 +800,17 @@
 	</c:if>
 	
 	<script>
+		// 부모 메뉴 클릭 시
+		$("#category-area").on("click", "li.dropdown-item", function(event) {
+		    event.stopPropagation(); // 부모 메뉴 클릭 시 이벤트 전파 차단
+	
+		    // 부모 메뉴 텍스트 추출 (예: "디지털기기")
+		    var categoryName = $(this).contents().first().text().trim();
+		    
+		    // 페이지 이동 또는 다른 동작을 처리할 수 있음
+		    location.href = "${contextPath}/board/productBoardForm?categoryName=" + categoryName;
+		});
+	
 	    // 스크롤이 내려지면 '맨 위로' 버튼을 보이게 설정
 	    $(window).scroll(function() {
 	        var scrollBtn = $("#scrollToTopBtn"); // 버튼을 jQuery로 선택
@@ -817,31 +828,19 @@
 	</script>
   
 	<script>
+		let otherUser;
+	
 		function goSell(){
 			location.href="${contextPath}/board/productBoardEnrollForm";
 		}
 		
 		// 채팅에서 해당 닉네임 또는 채팅문의 클릭시 session에 해당 닉네임 저장(채팅용)
 		$("#userChatList").on("click", "div", function(){
-			var otherUser = $(this).text();
+			otherUser = $(this).text();
 			
 			if(otherUser == '채팅문의'){
 				otherUser = '관리자';
 			}
-			
-			$.ajax({
-				url : "${contextPath}/chatting/saveChatUser",
-				data : {
-					otherUser : otherUser
-				},
-				success : function(result){
-					console.log(result);
-				},
-				error : function(e){
-					console.log(e);
-					console.log("등록 실패");
-				}
-			});
 			
 			$("#userChatList").css("display","none");
 			$("#chatArea").css("display","block");
@@ -855,16 +854,6 @@
 			
 			if(displayStatus == "none"){
 				
-				$.ajax({
-					url : "${contextPath}/chatting/deleteChatUser",
-					success : function(result){
-						console.log(result);
-					},
-					error : function(e){
-						console.log(e);
-						console.log("삭제 실패");
-					}
-				});
 				$("#userChatList").css("display","block");
 				$("#chatArea").css("display","none");
 				$(".chat-input-container").css("display","none");
@@ -925,6 +914,7 @@
 				var newDiv = $("<div>").html(data.nickname + " : " + data.messageContent 
 						+ "<br> <h6 style='font-size: 12px; color:gray;'>[" + data.createData + "]</h6>");
 				
+				// 관리자 채팅에 채팅 리스트를 보여주는 부분
 				// 기존 채팅 리스트에 있는 유저들을 요소로 뽑아온다.
 				var children = $("#userChatList").children();
 				
@@ -966,7 +956,7 @@
 
 				var obj = {
 					nickname : "${loginUser.nickname}",
-					otherUser : "${otherUser}",
+					otherUser : otherUser,
 					msg : msg
 				};
 
@@ -980,6 +970,7 @@
 			socket.close();
 		}
 	
+		// 헤더에 카테고리를 불러오는 메소드
 		$(function(){
 			$.ajax({
 				url : "${contextPath}/user/getCate",
@@ -989,13 +980,6 @@
 					
 					for(var i of result){
 						var li = $("<li class='dropdown-item'>").text(i.categoryName);
-						
-						if(i.categoryDetailName){
-							var ul = $("<ul class='sub-menu'>");
-							ul.append($("<li onclick='goThere();'>").text(i.categoryDetailName));
-							ul.appendTo(li);
-						}
-						
 						
 						$("#category-area").append(li);
 					}
