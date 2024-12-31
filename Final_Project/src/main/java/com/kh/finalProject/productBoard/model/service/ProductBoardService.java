@@ -127,6 +127,30 @@ public interface ProductBoardService {
 	// 카테고리를 5개씩 조회해오는 메소드
 	ArrayList<Category> getCate(PageInfo pi);
 
+	// 지역(도)을 조회해오는 필터
+	ArrayList<Location> locationFilter();
+
+	// 카테고리를 상세 조회해오는 필터
+	ArrayList<Category> categoryDetailFilter(Category category);
+
+	// 지역(시, 구) 상세 조회해오는 메소드
+	ArrayList<Location> locationDeep1Filter(Location location);
+
+	// 지역(동) 상세 조회해오는 메소드
+	ArrayList<Location> locationDeep2Filter(Location location);
+
+	// 필터 조건에 카테고리가 있는 경우 실행되는 메소드
+	Category getCategoryNo(Category category);
+
+	// 필터 조건에 지역이 있는 경우 실행되는 메소드
+	ArrayList<Location> getLocationNo(Location location);
+	
+	// 필터 조건에 맞는 게시물을 조회해오는 메소드
+	ArrayList<ProductBoard> searchFilterBoard(ProductBoard board);
+
+	// 상품게시판 리스트에서 상품 클릭시 상세보기 페이지로 이동하는 메소드
+	ProductBoard boardDetailForm(ProductBoard board);
+
 
 
 }

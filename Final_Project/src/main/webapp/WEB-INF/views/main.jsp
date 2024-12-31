@@ -398,6 +398,31 @@
 	
 	<script>
 		$(function(){
+			$(".recommended-products").on("click", ".product-card", function(){
+				var productInfo = $(this).children("div");
+				var boardNo = $(productInfo).children().first().val();
+				
+				location.href="${contextPath}/board/boardDetailForm?boardNo=" + boardNo;
+			});
+			
+			$(".recent-board-list").on("click", ".post-item", function(){
+				var boardNo = $(this).children().val();
+				
+				location.href="${contextPath}/board/boardDetailForm?boardNo=" + boardNo;
+			});
+		});
+	</script>
+	
+	<script>
+		// 부모 메뉴 클릭 시
+		$(".category-input").on("click", "button", function(event) {
+	
+		    var categoryName = $(this).text();
+		    
+		    location.href = "${contextPath}/board/productBoardForm?categoryName=" + categoryName;
+		});
+	
+		$(function(){
 			
 			// 최근에 등록된 상품 5개를 가지고 옴
 			$.ajax({
@@ -409,10 +434,11 @@
 					if(result1 != ""){
 						for(var five of result1){
 							var postDiv = $("<div class='post-item' style='display: flex;'>");
+							var input = $("<input type='hidden'>").attr("name", "boardNo").val(five.boardNo);
 							var titleDiv = $("<div class='post-title' style='margin-right: 20px;'>").text(five.boardTitle);
 							var priceDiv = $("<div style='color: red;'>").text(five.price + "원");
 							
-							postDiv.append(titleDiv).append(priceDiv);
+							postDiv.append(input).append(titleDiv).append(priceDiv);
 							
 							$(".recent-board-list").append(postDiv);
 						}
@@ -478,10 +504,11 @@
 							var productCard = $("<div class='product-card' style='margin-right: 30px;'>");
 							var img = $("<img>").attr("src", "${contextPath}" + top.titleImg);
 							var productInfo = $("<div class='product-info'>");
+							var input = $("<input type='hidden'>").attr("name", "boardNo").val(top.boardNo);
 							var title = $("<div class='product-title'>").text(top.boardTitle);
 							var price = $("<div style='color: red;'>").text(top.price + "원");
 							
-							productInfo.append(title).append(price);
+							productInfo.append(input).append(title).append(price);
 							productCard.append(img).append(productInfo);
 							
 							$(".top5-board-list").append(productCard);
