@@ -277,5 +277,40 @@ public class ProductBoardDao {
 		return sqlSession.selectOne("productBoardMapper.boardDetailForm", board);
 	}
 
+	public Category boardCategory(SqlSessionTemplate sqlSession, int categoryNo) {
+		
+		return sqlSession.selectOne("productBoardMapper.boardCategory", categoryNo);
+	}
+
+	public ProductInfo selectProductInfo(SqlSessionTemplate sqlSession, ProductBoard board) {
+		
+		return sqlSession.selectOne("productBoardMapper.selectProductInfo", board);
+	}
+
+	public ArrayList<Media> selectMediaFile(SqlSessionTemplate sqlSession, ProductBoard board) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.selectMediaFile", board);
+	}
+
+	public int updateBoardCount(SqlSessionTemplate sqlSession, ProductBoard board) {
+		
+		return sqlSession.update("productBoardMapper.updateBoardCount", board);
+	}
+
+	public int insertMyPick(SqlSessionTemplate sqlSession, ProductBoard board) {
+		
+		return sqlSession.insert("productBoardMapper.insertMyPick", board);
+	}
+
+	public int checkPick(SqlSessionTemplate sqlSession, ProductBoard board) {
+		
+		return sqlSession.selectOne("productBoardMapper.checkPick", board);
+	}
+
+	public int deleteMyPick(SqlSessionTemplate sqlSession, ProductBoard board) {
+		
+		return sqlSession.delete("productBoardMapper.deleteMyPick", board);
+	}
+
 
 }

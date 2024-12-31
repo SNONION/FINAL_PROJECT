@@ -91,6 +91,56 @@
 	    align-items: center;      /* 수직 중앙 정렬 */
 	}
 	
+	/* 추천 상품 */
+	.recommended-products h3 {
+	    font-size: 24px;
+	    font-weight: bold;
+	    margin-bottom: 20px;
+	}
+	
+	.recommended-products {
+	    display: flex;
+	    grid-template-columns: repeat(4, 1fr);
+	    gap: 20px;
+	    margin-bottom: 30px;
+	}
+	
+	.recommended-products .product-card {
+	    width: 200px;
+	    height: 300px;
+	    background-color: #fff;
+	    border-radius: 12px;
+	    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	    overflow: hidden;
+	    cursor: pointer;
+	    transition: transform 0.3s ease;
+	}
+	
+	.recommended-products .product-card:hover {
+	    transform: scale(1.05);
+	}
+	
+	.recommended-products .product-card img {
+	    width: 100%;
+	    height: 150px;
+	    object-fit: cover;
+	}
+	
+	.recommended-products .product-card .product-info {
+	    padding: 10px;
+	}
+	
+	.recommended-products .product-card .product-info .product-title {
+	    font-size: 18px;
+	    font-weight: bold;
+	    color: #333;
+	}
+	
+	.recommended-products .product-card .product-info .product-price {
+	    font-size: 16px;
+	    color: #fee500;
+	}
+	
 </style>
 
 </head>
@@ -127,9 +177,34 @@
 				<c:when test="${empty pbList}">
 					<div class="no-items" style="height: 500px;  display: flex; align-items: center;">찜한 상품이 없습니다.</div>
 				</c:when>
+				<c:otherwise>
+					<div class="recommended-products">		
+						<c:forEach var="list" items="${pbList}">
+							<div class='product-card' style='margin-right: 30px;'>
+								<img src="${contextPath}${list.titleImg}">
+								<div class='product-info'>
+									<input type="hidden" name="boardNo" value="${list.boardNo}">
+									<div class='product-title'>${list.boardTitle}</div>
+									<div style='color: red;'>${list.price}원</div>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+				</c:otherwise>
 			</c:choose>
 		</div>
 	</div>
+	
+	<script>
+		$(function(){
+			$(".recommended-products").on("click", ".product-card", function(){
+				var productInfo = $(this).children("div");
+				var boardNo = $(productInfo).children().first().val();
+				
+				location.href="${contextPath}/board/boardDetailForm?boardNo=" + boardNo;
+			});
+		});
+	</script>
 	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 

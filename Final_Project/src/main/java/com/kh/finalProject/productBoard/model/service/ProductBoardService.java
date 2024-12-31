@@ -151,6 +151,27 @@ public interface ProductBoardService {
 	// 상품게시판 리스트에서 상품 클릭시 상세보기 페이지로 이동하는 메소드
 	ProductBoard boardDetailForm(ProductBoard board);
 
+	// 상세보기 페이지에서 보여줄 해당 게시물의 카테고리
+	Category boardCategory(int categoryNo);
+
+	// 상세보기 페이지에서 보여줄 상품에 대한 정보를 조회해오는 메소드
+	ProductInfo selectProductInfo(ProductBoard board);
+
+	// 상세보기 페이지에서 보여줄 상품의 다른 이미지를ㄹ 조회해오는 메소드
+	ArrayList<Media> selectMediaFile(ProductBoard board);
+
+	// 상세보기 클릭시 조회수가 증가하는 메소드
+	int updateBoardCount(ProductBoard board);
+
+	// 찜하기 버튼 기능 구현 메소드
+	int insertMyPick(ProductBoard board);
+
+	// 찜하기 버튼 눌렀는지 확인하는 메소드
+	int checkPick(ProductBoard board);
+
+	// 찜하기 버튼을 다시 클릭하면 찜하기 목록 삭제하는 메소드
+	int deleteMyPick(ProductBoard board);
+
 
 
 }
