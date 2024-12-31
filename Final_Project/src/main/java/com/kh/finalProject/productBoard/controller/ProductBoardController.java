@@ -691,10 +691,86 @@ public class ProductBoardController {
 	@RequestMapping("boardDetailForm")
 	public ModelAndView boardDetailForm(ProductBoard board, ModelAndView mv) {
 		
-		ProductBoard detailBoard = productBoardService.boardDetailForm(board);
-		mv.addObject("detailBoard", detailBoard);
+		int result = productBoardService.updateBoardCount(board);
+		
+		if(result > 0) {
+			ProductBoard detailBoard = productBoardService.boardDetailForm(board);
+			ProductInfo productInfo = productBoardService.selectProductInfo(board);
+			ArrayList<Media> media = productBoardService.selectMediaFile(board);
+			Category category = productBoardService.boardCategory(detailBoard.getCategoryNo());
+			
+			User user = User.builder().userId(detailBoard.getBoardWriter()).build();
+			User writerInfo = userService.loginUser(user);
+			
+			board.setBoardWriter(writerInfo.getUserId());
+			int existPick = productBoardService.checkPick(board);
+					
+			mv.addObject("media", media);
+			mv.addObject("existPick", existPick);
+			mv.addObject("productInfo", productInfo);
+			mv.addObject("detailBoard", detailBoard);
+			mv.addObject("category", category);
+			mv.addObject("writerInfo", writerInfo);
+		}
+		
 		mv.setViewName("productBoard/boardDetailForm");
 		return mv;
+		
+	}
+	
+	// 찜하기 버튼 클릭 시 테이블에 데이터 등록
+	@ResponseBody
+	@RequestMapping(value="myPickBoard", produces="html/text;charset=UTF-8")
+	public String myPickBoard(ProductBoard board, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("loginUser");
+		board.setBoardWriter(user.getUserId());
+		
+		int existPick = productBoardService.checkPick(board);
+		
+		String msg = "";
+
+		if(existPick == 0) {
+			int result = productBoardService.insertMyPick(board);
+			
+			if(result > 0) {
+				msg = "NNNNY";
+			}
+		}
+		else {
+			msg = "NNNNN";
+		}
+		
+		return msg;
+		
+	}
+	
+	// 찜한 게시물 삭제하는 메소드
+	@ResponseBody
+	@RequestMapping(value="myPickBoardDelete", produces="html/text;charset=UTF-8")
+	public String myPickBoardDelete(ProductBoard board, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("loginUser");
+		board.setBoardWriter(user.getUserId());
+		
+		int existPick = productBoardService.checkPick(board);
+		
+		String msg = "";
+
+		if(existPick != 0) {
+			int result = productBoardService.deleteMyPick(board);
+			
+			if(result > 0) {
+				msg = "NNNNY";
+			}
+		}
+		else {
+			msg = "NNNNN";
+		}
+		
+		return msg;
 		
 	}
 	

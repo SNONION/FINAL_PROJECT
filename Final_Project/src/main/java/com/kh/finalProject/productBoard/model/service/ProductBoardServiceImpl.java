@@ -299,6 +299,48 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 		return productBoardDao.boardDetailForm(sqlSession, board);
 	}
 
+	@Override
+	public Category boardCategory(int categoryNo) {
+		
+		return productBoardDao.boardCategory(sqlSession, categoryNo);
+	}
+
+	@Override
+	public ProductInfo selectProductInfo(ProductBoard board) {
+		
+		return productBoardDao.selectProductInfo(sqlSession, board);
+	}
+
+	@Override
+	public ArrayList<Media> selectMediaFile(ProductBoard board) {
+		
+		return productBoardDao.selectMediaFile(sqlSession, board);
+	}
+
+	@Override
+	public int updateBoardCount(ProductBoard board) {
+		
+		return productBoardDao.updateBoardCount(sqlSession, board);
+	}
+
+	@Override
+	public int insertMyPick(ProductBoard board) {
+		
+		return productBoardDao.insertMyPick(sqlSession, board);
+	}
+
+	@Override
+	public int checkPick(ProductBoard board) {
+		
+		return productBoardDao.checkPick(sqlSession, board);
+	}
+
+	@Override
+	public int deleteMyPick(ProductBoard board) {
+		
+		return productBoardDao.deleteMyPick(sqlSession, board);
+	}
+
 
 
 }

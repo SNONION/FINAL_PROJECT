@@ -21,8 +21,8 @@
 		<result column="BOARD_RATIING" property="BoardRatting"/>
 		<result column="SELL_WAY" property="sellWay"/>
 		<result column="TAG_19_PRODUCT" property="tag19Product"/>
-		<result column="CREATE_DATE" property="createDAte"/>
-		<result column="MODIFY_DATE" property="modifyDAte"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
 		<result column="BUYER_ID" property="buyerId"/>
 		<result column="AFTER_BUY_REPLY" property="afterBuyReply"/>
 		<result column="TITLE_IMG" property="titleImg"/>
@@ -432,5 +432,46 @@
 		FROM	TB_PRODUCTBOARD
 		WHERE	BOARD_NO = #{boardNo}
 	</select>
+	
+	<select id="boardCategory" parameterType="Category" resultMap="CateResultSet">
+		SELECT	*
+		FROM	TB_CATEGORY
+		WHERE	CATEGORY_NO = #{categoryNo}
+	</select>
+	
+	<select id="selectProductInfo" parameterType="ProductInfo" resultMap="productResultSet">
+		SELECT	*
+		FROM	TB_PRODUCTINFO
+		WHERE	BOARD_NO = #{boardNo}
+	</select>
+	
+	<select id="selectMediaFile" parameterType="Media" resultMap="MediaResultSet">
+		SELECT	*
+		FROM	TB_MEDIA
+		WHERE	REF_BNO = #{boardNo}
+	</select>
+	
+	<update id="updateBoardCount" parameterType="ProductBoard">
+		UPDATE	TB_PRODUCTBOARD
+		SET		COUNT = COUNT + 1
+		WHERE	BOARD_NO = #{boardNo}
+	</update>
+	
+	<select id="insertMyPick" parameterType="ProductBoard">
+		INSERT INTO TB_MYPICK VALUES(#{boardWriter}, #{boardNo})
+	</select>
+	
+	<select id="checkPick" parameterType="ProductBoard" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_MYPICK
+		WHERE	USER_ID = #{boardWriter}
+		AND		BOARD_NO = #{boardNo}
+	</select>
+	
+	<delete id="deleteMyPick" parameterType="ProductBoard">
+		DELETE FROM	TB_MYPICK
+		WHERE	USER_ID = #{boardWriter}
+		AND		BOARD_NO = #{boardNo}
+	</delete>
 	
 </mapper>
