@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.common.model.vo.ChatInfo;
 import com.kh.finalProject.common.model.vo.Kind;
 import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.common.model.vo.PageInfo;
+import com.kh.finalProject.common.model.vo.ReportUser;
 import com.kh.finalProject.productBoard.model.dao.ProductBoardDao;
 import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
@@ -339,6 +341,30 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 	public int deleteMyPick(ProductBoard board) {
 		
 		return productBoardDao.deleteMyPick(sqlSession, board);
+	}
+
+	@Override
+	public int reportBoard(ProductBoard board) {
+		
+		return productBoardDao.reportBoard(sqlSession, board);
+	}
+
+	@Override
+	public int insertReport(ReportUser report) {
+		
+		return productBoardDao.insertReport(sqlSession, report);
+	}
+
+	@Override
+	public int checkChatDul(ChatInfo chatInfo) {
+		
+		return productBoardDao.checkChatDul(sqlSession, chatInfo);
+	}
+
+	@Override
+	public void insertChatInfo(ChatInfo chatInfo) {
+		
+		productBoardDao.insertChatInfo(sqlSession, chatInfo);
 	}
 
 

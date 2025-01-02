@@ -617,6 +617,7 @@
       cursor: pointer; /* 마우스 커서 변경 */
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
       transition: transform 1s ease, opacity 1s ease; /* 애니메이션 효과 */
+      z-index: 2000;
     }
 
     /* 버튼에 마우스를 올렸을 때 효과 */
@@ -681,6 +682,198 @@
     	cursor: pointer;
     }
     
+    /* 버튼 스타일 */
+	.kakao-chat-btn {
+	    display: inline-block;
+	    padding: 10px 20px;
+	    background-color: #fee500;
+	    color: #000;
+	    font-size: 16px;
+	    font-weight: bold;
+	    text-decoration: none;
+	    border-radius: 4px;
+	    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+	
+	.kakao-chat-btn:hover {
+	    background-color: #f0d500;
+	}
+	
+	/* 채팅창 스타일 */
+	.kakao-chat-box {
+	    position: fixed;
+	    bottom: 10;
+	    right: -300px; /* 시작 위치는 화면 밖 */
+	    width: 300px;
+	    height: 75%;
+	    background-color: #fff;
+	    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+	    transition: right 0.3s ease-in-out;
+	    display: flex;
+	    flex-direction: column;
+	    z-index: 3000;
+	}
+	
+	/* 채팅창 열린 상태 */
+	.kakao-chat-box.open {
+	    right: 0; /* 화면 안으로 슬라이드 */
+	}
+	
+	/* 채팅창 헤더 */
+	.kakao-chat-header {
+	    background-color: #fee500;
+	    padding: 15px;
+	    font-size: 18px;
+	    font-weight: bold;
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    border-bottom: 1px solid #ddd;
+	}
+	
+	.kakao-chat-header button {
+	    background: none;
+	    border: none;
+	    font-size: 20px;
+	    font-weight: bold;
+	    cursor: pointer;
+	}
+	
+	.kakao-chat-content {
+		border: 1px solid black;
+	    padding: 10px;
+	    background-color: #F6F6F6;
+	    font-family: Arial, sans-serif;
+	    position: relative; /* 채팅창 내에서 절대 위치 요소 사용을 위한 상대적 위치 설정 */
+	    height: 100%; /* 부모 요소에 맞춰 높이 설정 */
+	}
+	
+	.chat-history {
+	    display: flex;
+	    flex-direction: column;
+	    gap: 10px;
+	    overflow-y: auto; /* 스크롤 가능하도록 설정 */
+	    padding-bottom: 10px; /* 하단 버튼과 겹치지 않도록 여백 추가 */
+	}
+	
+	.chat-message {
+	    display: flex;
+	    align-items: center;
+	    margin-bottom: 10px;
+	}
+	
+	.user-message {
+	    align-self: flex-end; /* 사용자 메시지는 오른쪽에 배치 */
+	    background-color: #FFDD00; /* 카카오 옐로우 */
+	    padding: 10px;
+	    border-radius: 10px;
+	    max-width: 60%;
+	    word-wrap: break-word;
+	    display: inline-block;
+	}
+	
+	.admin-message {
+	    align-self: flex-start; /* 관리자의 메시지는 왼쪽에 배치 */
+	    background-color: #3C3C3C; /* 카카오 블랙 */
+	    color: white;
+	    padding: 10px;
+	    border-radius: 10px;
+	    max-width: 60%;
+	    word-wrap: break-word;
+	    display: inline-block;
+	}
+	
+	.message-time {
+	    font-size: 0.8em;
+	    color: #777;
+	    margin-left: 10px;
+	}
+	
+	.chat-input-area {
+	    position: absolute;
+	    bottom: 10px;
+	    left: 0;
+	    right: 0;
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    padding: 5px;
+	    background-color: #fff;
+	    border-top: 1px solid #ccc;
+	    padding-left: 10px;
+	    padding-right: 10px;
+	}
+	
+	.chat-input {
+	    width: 80%;
+	    padding: 8px;
+	    border-radius: 20px;
+	    border: 1px solid #ccc;
+	    font-size: 14px;
+	}
+	
+	.send-button {
+	    padding: 5px 10px;
+	    background-color: #FFDD00; /* 카카오 옐로우 */
+	    color: white;
+	    border: none;
+	    border-radius: 10px;
+	    cursor: pointer;
+	    font-size: 18px;
+	}
+	
+	.send-button:hover {
+	    background-color: #F5B800; /* 더 진한 노란색 */
+	}
+	
+	.send-button i {
+	    font-size: 18px; /* 아이콘 크기 설정 */
+	}
+	
+	/* 채팅 목록 컨테이너 */
+	.chat-list {
+	    display: flex;
+	    flex-direction: column;
+	    gap: 10px;
+	    padding: 20px;
+	    max-height: 500px;
+	    overflow-y: auto;
+	}
+	
+	/* 각 채팅 항목 */
+	.chat-item {
+	    display: flex;
+	    align-items: center;
+	    padding: 10px;
+	    background-color: #FFF;
+	    border-radius: 10px;
+	    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	    cursor: pointer;
+	    transition: background-color 0.3s;
+	}
+	
+	/* 호버 시 색상 변경 */
+	.chat-item:hover {
+	    background-color: #f5f5f5;
+	}
+	
+	/* 판매자 이미지 */
+	.seller-img {
+	    width: 50px;
+	    height: 50px;
+	    border-radius: 50%;
+	    margin-right: 10px;
+	}
+	
+	/* 판매자 이름 */
+	.seller-id {
+	    font-size: 16px;
+	    font-weight: bold;
+	    color: #333;
+	}
+		
+
+    
 </style>
 
 </head>
@@ -694,6 +887,114 @@
 		</script>
 	</c:if>
 	<c:remove var="alertMsg"/>
+	
+	<div id="chatBox" class="kakao-chat-box">
+	    <div class="kakao-chat-header">
+	        <button id="returnChat"><i class="fas fa-arrow-left"></i></button>
+	        <span>채팅창</span>
+	        <button id="closeChat">&times;</button>
+	    </div>
+	    
+	    <div class="first-page-content">
+	    
+	    </div>
+	    
+	    <div class="kakao-chat-content" style="display: none;">
+		    <!-- 채팅 내역을 담을 스크롤 가능한 영역 -->
+		    <div class="chat-history" style="max-height: 450px; overflow-y: auto;">
+		    </div>
+		
+		    <!-- 채팅 입력 영역 -->
+		    <div class="chat-input-area">
+		        <input type="text" id="chatInput" class="chat-input" placeholder="메시지를 입력하세요..." />
+		        <button id="sendMessage" class="send-button"><i class="fas fa-paper-plane"></i></button>
+		    </div>
+		</div>
+	</div>
+	
+	<script>
+		// 메시지를 보내는 메소드
+		$("#sendMessage").click(function(){
+			var sendMsg = $("#chatInput").val();
+			var otherUser = sessionStorage.getItem("sellerInfo");
+			
+			if(sendMsg != ""){
+				var sendObj = {
+						nickname : "${loginUser.nickname}",
+						otherUser : otherUser,
+						msg : sendMsg
+				};
+				
+				socket.send(JSON.stringify(sendObj));
+			}
+			
+			$("#chatInput").val("");
+		});
+	
+		$(document).ready(function() {
+	        // 채팅창 열기/닫기 함수
+	        function openChat() {
+	            var checkOpenClass = $("#chatBox").hasClass("open");
+	
+	            if (!checkOpenClass) {
+	                $("#chatBox").addClass("open");  // 채팅창 열기
+	                loadChatUser();
+	                
+	            } else {
+	                $("#chatBox").removeClass("open");  // 채팅창 닫기
+	            }
+	        }
+	
+	        // 닫기 버튼 클릭 시 채팅창 닫기
+	        $("#closeChat").click(function() {
+	            $("#chatBox").removeClass("open");  // 채팅창 닫기
+	        });
+	
+	        // 채팅창 열기/닫기
+	        window.openChat = openChat;  // 전역에서 호출할 수 있도록 함수 저장
+	    });
+		
+		// 클릭한 유저와의 채팅방을 만드는 메소드
+		function loadChatUser(){
+			var countDiv = $(".first-page-content").children("div");
+			var sellerNickname = sessionStorage.getItem("sellerInfo");
+			
+			var check = true;
+			
+			for(var i = 0; i < countDiv.length; i++){
+				if(sellerNickname == $(countDiv[i]).text()){
+					check = false;
+				}
+			}
+			
+			if(check){
+				var sellerImg = sessionStorage.getItem("sellerImg");
+				
+				var div = $("<div>").text(sellerNickname).addClass("seller-id");
+			    var img = $("<img>").attr("src", "${contextPath}" + sellerImg).addClass("seller-img");
+				
+			    var inputDiv = $("<div>").addClass("chat-item").attr("id", "clickChat");
+				inputDiv.append(img).append(div);
+				
+				$(".first-page-content").append(inputDiv);	
+			}
+		}
+		
+		$(".first-page-content").on("click", "div", function(){
+			var chatUser = $(this).children().text();
+			
+			sessionStorage.setItem("sellerInfo", chatUser);
+			$(".kakao-chat-content").css("display", "block");
+			$(".first-page-content").css("display", "none");
+		});
+		
+		$("#returnChat").click(function(){
+			sessionStorage.removeItem("sellerInfo");
+			$(".kakao-chat-content").css("display", "none");
+			$(".first-page-content").css("display", "block");
+		});
+		
+	</script>
 	
 	<div class="header-area">
 		<div class="left"></div>
@@ -714,7 +1015,7 @@
 					<div id="btnSet">
 						<c:choose>
 							<c:when test="${not empty loginUser}">
-								<a href="#" class="btn-kakao"><i class="fas fa-comment"></i>&nbsp;채팅</a> 
+								<a href="#" class="btn-kakao" onclick="openChat();"><i class="fas fa-comment"></i>&nbsp;채팅</a> 
 								<a onclick="goSell();" class="btn-kakao"><i class="fas fa-store"></i>&nbsp;판매</a> 
 								<a href="${contextPath}/user/mypage" class="btn-kakao"><i class="fas fa-user"></i>&nbsp;MyPage</a>
 								<a href="${contextPath}/user/logout" class="btn-kakao" style="height: 39px;"><i class="fas fa-sign-in-alt"></i></a> 
@@ -790,7 +1091,7 @@
 		</div>
 	</div>
 	
-	<button type="button" onclick="scrollToTop();" id="scrollToTopBtn" class="btn-kakao" style="position: fixed; bottom: 100px; right: 20px; display: none; background-color: #ffcc00;">
+	<button type="button" onclick="scrollToTop();" id="scrollToTopBtn" class="btn-kakao" style="position: fixed; bottom: 100px; right: 20px; display: none; background-color: #ffcc00; z-index: 500;">
         ↑ 맨 위로
     </button>
 	
@@ -884,7 +1185,7 @@
 		
 		// 관리자 채팅 접속
 		function connection(){
-			var url ="ws://localhost:8888/final/chatting"
+			var url ="ws://localhost:8888/finalProject/chatting"
 			
 			// 소켓이 없을 경우 생성
 			if(!socket){
@@ -940,6 +1241,30 @@
 				
 				originDiv.append(newDiv);
 				originDiv.scrollTop(originDiv[0].scrollHeight);
+			}
+			
+			// 채팅창 수신
+			socket.onmessage = function(message){
+				var data = JSON.parse(message.data);
+				sessionStorage.setItem("sellerInfo", data.nickname);
+				var chatDiv = $(".chat-history");
+				
+				var chatMsgAdmin = $("<div class='chat-message admin-message'>");
+				var chatMsgUser = $("<div class='chat-message user-message'>");
+				var msgContent = $("<span class='message-content'>").text(data.messageContent);
+				var msgtime = $("<span class='message-time'>").text(data.date);
+				
+				if(data.nickname == "${loginUser.nickname}"){
+					chatMsgAdmin.append(msgContent).append(msgtime);
+					chatDiv.append(chatMsgAdmin);
+				}
+				else{
+					chatMsgUser.append(msgContent).append(msgtime);
+					chatDiv.append(chatMsgUser);
+				}
+				
+				// 메시지가 올때마다 스크롤바 내리기
+				$("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
 			}
 		}
 		
