@@ -3,9 +3,11 @@ package com.kh.finalProject.productBoard.model.service;
 import java.util.ArrayList;
 
 import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.common.model.vo.ChatInfo;
 import com.kh.finalProject.common.model.vo.Kind;
 import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.common.model.vo.PageInfo;
+import com.kh.finalProject.common.model.vo.ReportUser;
 import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
@@ -171,6 +173,18 @@ public interface ProductBoardService {
 
 	// 찜하기 버튼을 다시 클릭하면 찜하기 목록 삭제하는 메소드
 	int deleteMyPick(ProductBoard board);
+
+	// 게시물 신고 기능 메소드
+	int reportBoard(ProductBoard board);
+
+	// 해당 게시물의 유저를 신고하는 메소드
+	int insertReport(ReportUser report);
+
+	// 채팅 기록 중복 방지 메소드
+	int checkChatDul(ChatInfo chatInfo);
+
+	// 채팅 기록 삽입 메소드
+	void insertChatInfo(ChatInfo chatInfo);
 
 
 

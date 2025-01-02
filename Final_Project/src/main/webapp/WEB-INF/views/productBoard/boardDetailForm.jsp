@@ -244,9 +244,48 @@
 	.right-arrow {
 	    right: 10px;
 	}
-
-		
 	
+	#trust-point{
+		font-size: 24px;
+		font-weight: bold;
+	}
+	
+	/* 프로세스 바 기본 스타일 */
+	.progress {
+	    width: auto;               /* 프로세스 바의 너비 */
+	    height: 20px;               /* 프로세스 바의 높이 */
+	    background-color: #f3f3f3;  /* 프로세스 바의 배경색 */
+	    border-radius: 10px;        /* 둥근 모서리 */
+	    margin: 10px 0;             /* 위아래 여백 */
+	}
+	
+	/* 프로세스 바 진행 부분 */
+	.progress-bar {
+	    height: 100%;               /* 프로세스 바의 높이는 100% */
+	    width: 0%;                  /* 초기 상태, 프로세스 바는 비어 있음 */
+	    background-color: #ffdd00;  /* 카카오 느낌의 노란색 */
+	    border-radius: 10px;        /* 둥근 모서리 */
+	    transition: width 0.5s ease; /* 프로세스 바의 변화 애니메이션 */
+	}
+	
+	#writerProduct:hover{
+		cursor: pointer;
+		text-decoration: underline;
+	}
+	
+	#sellArea{
+		font-size: 13px;
+		padding: 5px 10px;
+		background-color: #dcdcdc;
+		border-radius: 10px;
+		font-weight: bold;
+		color: gray;
+	}
+	
+	#sellArea:hover{
+		cursor: pointer;
+	}
+		
 </style>
 
 </head>
@@ -288,7 +327,7 @@
 		            		판매
 		            	</c:if>
 		            </p>
-		            <p class="product-location">거래 지역: ${detailBoard.sellLocation}</p>
+		            <p class="product-location">거래 지역: <span id="sellArea"><i class="fas fa-map-marker-alt" style="color:black;"></i>&nbsp;${detailBoard.sellLocation}</span></p>
 		            <p class="product-prefer-payment">선호 결제: ${detailBoard.preferPayment}</p>
 		            
 		             <div class="additional-info">
@@ -299,27 +338,70 @@
 			        </div>
 		        </div>
 		    </div>
-		    <div class="product-slider">
-			    <button class="slider-arrow left-arrow">&#10094;</button>
-			    <div class="slider-image-container">
-			    	<c:forEach var="imgFile" items="${media}">
-				        <img id="sliderImage" src="${contextPath}${imgFile.mediaPath}${imgFile.changeName}" alt="상품 이미지" />			        	
-			        </c:forEach>
-			    </div>
-			    <button class="slider-arrow right-arrow">&#10095;</button>
-			</div>
+		    <c:if test="${not empty media}">
+			    <div class="product-slider">
+				    <button class="slider-arrow left-arrow">&#10094;</button>
+				    <div class="slider-image-container">
+				    	<c:forEach var="imgFile" items="${media}">
+					        <img id="sliderImage" src="${contextPath}${imgFile.mediaPath}${imgFile.changeName}" alt="상품 이미지" />			        	
+				        </c:forEach>
+				    </div>
+				    <button class="slider-arrow right-arrow">&#10095;</button>
+				</div>		    
+		    </c:if>
 		    <div class="product-description">
 		        <h2>상품 설명</h2>
 		        <p>${detailBoard.boardContent}</p>
 		    </div>
 		    <div class="seller-info">
 		        <h2>판매자 정보</h2>
-		        <p>판매자: ${detailBoard.boardWriter}</p>
-		        <p>판매자 평가: ${writerInfo.trustPoint}</p>
+		        <div style="display: flex; justify-content: space-between; align-items: center;">
+				    <div style="display: flex; align-items: center; gap: 10px;">
+				        <span id="trust-img">
+				            <img src="${contextPath}${userInfo.trustImg}" width="70px" height="70px">
+				        </span>
+				        <span id="trust-point" style="font-size: 18px; font-weight: bold; color: black;">${writerInfo.trustPoint}</span>
+				    </div>
+				    <div id="writerProduct" style="display: flex; align-items: center; gap: 10px;">
+				        <img src="${contextPath}${writerInfo.userImg}" width="70px" height="70px">
+				        <p style="color: black; font-size: 24px; font-weight: bold; margin: 0;">${detailBoard.boardWriter}</p>
+				    </div>
+				</div>
+
+				<div class="progress-container">
+					<c:choose>
+						<c:when test="${writerInfo.trustPoint > 7}">
+							<div class="progress">
+								<div class="progress-bar bg-success"></div>
+							</div>
+						</c:when>
+						<c:when test="${writerInfo.trustPoint > 4 && writerInfo.trustPoint <= 7}">
+							<div class="progress">
+								<div class="progress-bar"></div>
+							</div>
+						</c:when>
+						<c:when test="${writerInfo.trustPoint > 3 && writerInfo.trustPoint <= 4}">
+							<div class="progress">
+								<div class="progress-bar bg-info"></div>
+							</div>
+						</c:when>
+						<c:when test="${writerInfo.trustPoint > 2 && writerInfo.trustPoint <= 3}">
+							<div class="progress">
+								<div class="progress-bar bg-warning"></div>
+							</div>
+						</c:when>
+						<c:when test="${writerInfo.trustPoint >= 0 && writerInfo.trustPoint <= 2}">
+							<div class="progress">
+								<div class="progress-bar bg-danger"></div>
+							</div>
+						</c:when>
+					</c:choose>
+				</div>
 		    </div>
 		    <div class="product-footer">
 		    	<c:if test="${not empty loginUser}">
-			        <button class="button-contact">판매자와 채팅하기</button>
+		    		<button class="button-contact">구매요청</button>
+			        <button class="button-contact" id="chatWithSeller">판매자와 채팅하기</button>
 			        <button class="button-contact" id="pickBtn" onclick="pick();">찜하기
 			        	<c:if test="${existPick > 0}">
 			        		<i class='fas fa-heart filled-heart'></i>
@@ -332,9 +414,44 @@
 	</div>
 	
 	<script>
+		// 판매자와 채팅 시스템 메소드
+		$("#chatWithSeller").click(function(){
+			sessionStorage.setItem("sellerInfo", "${writerInfo.nickname}");
+			sessionStorage.setItem("sellerImg", "${writerInfo.userImg}");
+			
+			$(".kakao-chat-content").css("display", "block");
+			$(".first-page-content").css("display", "none");
+			openChat();
+		});
+	
+		// 거래 선호 위치 상세보기 메소드
+		$("#sellArea").click(function(){
+			
+		});
+	
 		// 신고하기 버튼 기능 메소드
 		function reportBoard(){
+			var boardNo = "${detailBoard.boardNo}";
 			
+			alertify.confirm('이 게시물을 신고하시겠습니까?', function(){
+				$.ajax({
+					url : "${contextPath}/board/reportBoard",
+					data : {
+						boardNo : boardNo
+					},
+					success : function(msg){
+						
+						if(msg = 'NNNNY'){
+							 alertify.alert("알림!!", "게시물이 신고되었습니다.");
+							 $(".button-report").append($("<i class='fas fa-times'>"));
+						}
+						
+					},
+					error : function(){
+						console.log("통신 오류");
+					}
+				});
+			});
 		};
 		
 		// 찜하기 버튼 기능 메소드
@@ -348,8 +465,9 @@
 					success : function(msg){
 						
 						if(msg == 'NNNNY'){
-							$("#pickBtn").append($("<i class='fas fa-heart filled-heart'>"))
+							$("#pickBtn").append($("<i class='fas fa-heart filled-heart'>"));
 						}
+						location.reload();
 						
 					},
 					error : function(){
@@ -368,7 +486,7 @@
 						if(msg == 'NNNNY'){
 							$("#pickBtn i").remove();
 						}
-						
+						location.reload();
 					},
 					error : function(){
 						console.log("통신 오류");
@@ -394,6 +512,11 @@
 					count++;
 				}
 			});
+			
+			// 신뢰도 점수바 보여주는 메소드
+			var trustPoint = "${writerInfo.trustPoint}";
+			
+			$(".progress-bar").css("width", (trustPoint * 10) + "%");
 		});
 	</script>
 	

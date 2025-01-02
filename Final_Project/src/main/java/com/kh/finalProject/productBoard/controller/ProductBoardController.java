@@ -28,6 +28,7 @@ import com.kh.finalProject.productBoard.model.vo.Request;
 import com.kh.finalProject.productBoard.model.vo.Response;
 import com.kh.finalProject.user.model.service.UserService;
 import com.kh.finalProject.user.model.vo.User;
+import com.kh.finalProject.user.model.vo.UserInfo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -701,15 +702,17 @@ public class ProductBoardController {
 			
 			User user = User.builder().userId(detailBoard.getBoardWriter()).build();
 			User writerInfo = userService.loginUser(user);
+			UserInfo userInfo = userService.selectInfo(writerInfo.getUserId());
 			
 			board.setBoardWriter(writerInfo.getUserId());
 			int existPick = productBoardService.checkPick(board);
-					
+			
 			mv.addObject("media", media);
 			mv.addObject("existPick", existPick);
 			mv.addObject("productInfo", productInfo);
 			mv.addObject("detailBoard", detailBoard);
 			mv.addObject("category", category);
+			mv.addObject("userInfo", userInfo);
 			mv.addObject("writerInfo", writerInfo);
 		}
 		
@@ -765,6 +768,26 @@ public class ProductBoardController {
 			if(result > 0) {
 				msg = "NNNNY";
 			}
+		}
+		else {
+			msg = "NNNNN";
+		}
+		
+		return msg;
+		
+	}
+	
+	// 게시물 신고 기능 메소드
+	@ResponseBody
+	@RequestMapping(value="reportUser", produces="html/text;charset=UTF-8")
+	public String reportBoard(ProductBoard board) {
+		
+		int result = productBoardService.reportBoard(board);
+		
+		String msg = "";
+		
+		if(result > 0) {
+			msg = "NNNNY";
 		}
 		else {
 			msg = "NNNNN";

@@ -91,6 +91,20 @@
 		<result column="UPLOAD_DATE" property="uploadDate"/>
 	</resultMap>
 	
+	<resultMap type="ReportUser" id="ReportResultSet">
+		<result column="USER_ID" property="userId"/>
+		<result column="WARNNING_DATE" property="reportDate"/>
+		<result column="ORIGIN_NAME" property="declarationId"/>
+	</resultMap>
+	
+	<resultMap type="ChatInfo" id="ChatResultSet">
+		<result column="CHAT_NO" property="chatNo"/>
+		<result column="SELLER_ID" property="sellerId"/>
+		<result column="BUYER_ID" property="buyerId"/>
+		<result column="FILE_FULLNAME" property="fileFullName"/>
+		<result column="CREATE_DATE" property="createDate"/>
+	</resultMap>
+	
 	<select id="listCount" parameterType="User" resultType="_int">
 		SELECT	COUNT(*)
 		FROM	TB_PRODUCTBOARD
@@ -473,5 +487,31 @@
 		WHERE	USER_ID = #{boardWriter}
 		AND		BOARD_NO = #{boardNo}
 	</delete>
+	
+	<update id="reportBoard" parameterType="ProductBoard">
+		UPDATE	TB_PRODUCTBOARD
+		SET		BOARD_DECLARATION = 'Y'
+		WHERE	BOARD_NO = #{boardNo}
+	</update>
+	
+	<insert id="insertReport" parameterType="ReportUser">
+		INSERT INTO TB_WRANNING(USER_ID
+							    DECLARATION_ID) 
+		VALUES(#{userId}, #{declarationId})
+	</insert>
+	
+	<select id="checkChatDul" parameterType="ChatInfo" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_CHAT
+		WHERE	FILE_FULLNAME = #{fileFullName}
+	</select>
+	
+	<insert id="insertChatInfo" parameterType="ChatInfo">
+		INSERT INTO TB_CHAT(CHAT_NO,
+							SELLER_ID,
+							BUYER_ID,
+							FILE_FULLNAME)
+		VALUES(SEQ_CHATNO.NEXTVAL, #{sellerId}, #{buyerId}, #{fileFullName})
+	</insert>
 	
 </mapper>

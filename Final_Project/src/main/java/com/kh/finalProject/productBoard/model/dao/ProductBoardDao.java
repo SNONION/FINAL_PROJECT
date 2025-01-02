@@ -7,9 +7,11 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.common.model.vo.ChatInfo;
 import com.kh.finalProject.common.model.vo.Kind;
 import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.common.model.vo.PageInfo;
+import com.kh.finalProject.common.model.vo.ReportUser;
 import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
@@ -310,6 +312,27 @@ public class ProductBoardDao {
 	public int deleteMyPick(SqlSessionTemplate sqlSession, ProductBoard board) {
 		
 		return sqlSession.delete("productBoardMapper.deleteMyPick", board);
+	}
+
+	public int reportBoard(SqlSessionTemplate sqlSession, ProductBoard board) {
+		
+		return sqlSession.update("productBoardMapper.reportBoard", board);
+	}
+
+	public int insertReport(SqlSessionTemplate sqlSession, ReportUser report) {
+		
+		return sqlSession.insert("productBoardMapper.insertReport", report);
+	}
+
+	public int checkChatDul(SqlSessionTemplate sqlSession, ChatInfo chatInfo) {
+		
+		return sqlSession.selectOne("productBoardMapper.checkChatDul", chatInfo);
+	}
+
+	public void insertChatInfo(SqlSessionTemplate sqlSession, ChatInfo chatInfo) {
+		
+		sqlSession.insert("productBoardMapper.insertChatInfo", chatInfo);
+		
 	}
 
 
