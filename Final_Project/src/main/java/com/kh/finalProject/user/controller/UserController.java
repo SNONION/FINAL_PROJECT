@@ -1,8 +1,11 @@
 package com.kh.finalProject.user.controller;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -30,8 +33,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.kh.finalProject.common.model.vo.AddressInfo;
 import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.common.model.vo.ChatInfo;
 import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.common.template.ChangeFileName;
+import com.kh.finalProject.common.websocket.vo.MessageInfo;
 import com.kh.finalProject.user.model.service.UserService;
 import com.kh.finalProject.user.model.vo.Agree;
 import com.kh.finalProject.user.model.vo.User;
@@ -117,7 +122,7 @@ public class UserController {
 	// 로그인 기능
 	@RequestMapping("loginUser")
 	public ModelAndView loginUser(User user, String saveId, HttpServletResponse response,
-											HttpSession session, ModelAndView mv) {
+											HttpSession session, ModelAndView mv) throws Exception {
 		
 		// 쿠키 설정 과정 (아이디 저장)
 		Cookie cookie = null;
@@ -137,8 +142,57 @@ public class UserController {
 		
 		if(loginUser != null) {
 			if(bcryptPasswordEncoder.matches(user.getUserPwd(), loginUser.getUserPwd())) {
+				
+				// 파일 읽기 전 파일 경로가 존재하는지 여부를 확인한다.
+				File dir = new File("D:\\chatRecords");
+				
+				// 파일경로가 존재할 경우
+				if(dir.exists()) {
+					
+					// 채팅 기록에 로그인한 유저의 이름으로 저장된 이름이 있다면 해당 파일 명을 가져온다.
+					ArrayList<ChatInfo> cList = userService.getChatRecord(loginUser.getNickname());
+					
+					for(ChatInfo record : cList) {
+						
+						// 가져온 파일명이 해당 파일경로에 존재하는 지 확인한다.
+						File file = new File(record.getFileFullName());
+						
+						// 파일명이 파일경로 내에 존재할 경우
+						if(file.exists() && file.isFile()) {
+
+							// 객체 단위로 파일을 출력하기 위해 ObjectInputStream를 사용
+							try(ObjectInputStream msgLoadFile = new ObjectInputStream(new FileInputStream(file))){
+								
+								// 가져온 객체들을 담아두기 위한 ArrayList 준비
+								ArrayList<MessageInfo> mList = new ArrayList<>();
+								
+								// 가져온 객체를 담을 준비
+								MessageInfo msgInfo;
+								
+								// null을 반환하지 않기 떄문에 exception처리로 반복을 벗어난다.
+								while(true) {
+									try {
+										// readObject를 통해 객체를 Object 형태로 가져와 MessageInfo로 다운캐스팅하여 준비해둔 line에 넣는다.
+										msgInfo = (MessageInfo)msgLoadFile.readObject();
+										
+										// 읽어온 파일의 정보가 있을 때 객체를 list에 담는다.
+										mList.add(msgInfo);	
+										
+									}catch(EOFException e) {
+										
+										// 예외가 발생할 경우 벗어난다.
+										break;
+									}
+								}
+								
+								// 받아온 채팅 기록을 보내준다.
+								session.setAttribute("mList", mList);
+							}
+						}
+					}
+				}
+				
 				session.setAttribute("loginUser", loginUser);
-				// session.setAttribute("alertMsg", "환영합니다. " + loginUser.getNickname() + "님");
 				mv.setViewName("redirect:/");
 			}
 			else {
