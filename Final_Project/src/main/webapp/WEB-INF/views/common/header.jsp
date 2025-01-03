@@ -895,13 +895,50 @@
 	        <button id="closeChat">&times;</button>
 	    </div>
 	    
-	    <div class="first-page-content">
-	    
-	    </div>
+	   <div class="first-page-content">
+		    <!-- 빈 리스트를 생성하여 중복 체크용으로 사용 -->
+		    <c:set var="printedNicknames" value="${empty printedNicknames ? [] : printedNicknames}" />
+		    
+		    <c:choose>
+		        <c:when test="${not empty mList}">
+		            <c:forEach var="record" items="${mList}">
+		                <!-- 중복된 nickname이 출력되지 않도록 체크 -->
+		                <c:if test="${record.nickname != loginUser.nickname and not printedNicknames.contains(record.nickname)}">
+		                    <!-- 닉네임을 printedNicknames 리스트에 추가 -->
+		                    <c:set var="printedNicknames" value="${record.nickname}" />
+		                    
+		                    <div class="chat-item" id="clickChat">
+		                        <img class="seller-img" src="${contextPath}${sellerImg}">
+		                        <div class="seller-id">${record.nickname}</div>
+		                    </div>
+		                </c:if>
+		            </c:forEach>
+		        </c:when>
+		    </c:choose>
+		</div>
+
 	    
 	    <div class="kakao-chat-content" style="display: none;">
 		    <!-- 채팅 내역을 담을 스크롤 가능한 영역 -->
 		    <div class="chat-history" style="max-height: 450px; overflow-y: auto;">
+		    	<c:if test="${not empty mList}">
+		    		<c:forEach var="records" items="${mList}">
+		    			<c:choose>
+				    		<c:when test="${records.nickname == loginUser.nickname}">
+				    			<div class="chat-message admin-message">
+									<span class="message-content">${records.messageContent}</span>
+									<span class="message-time">${records.createData}</span>
+								</div>
+				    		</c:when>
+				    		<c:otherwise>
+				    			<div class="chat-message user-message">
+									<span class="message-content">${records.messageContent}</span>
+									<span class="message-time">${records.createData}</span>
+								</div>
+				    		</c:otherwise>
+				    	</c:choose>
+		    		</c:forEach>
+		    	</c:if>
 		    </div>
 		
 		    <!-- 채팅 입력 영역 -->
@@ -913,6 +950,8 @@
 	</div>
 	
 	<script>
+		var sellerInfo;
+	
 		// 메시지를 보내는 메소드
 		$("#sendMessage").click(function(){
 			var sendMsg = $("#chatInput").val();
@@ -924,7 +963,7 @@
 						otherUser : otherUser,
 						msg : sendMsg
 				};
-				
+				console.log(otherUser);
 				socket.send(JSON.stringify(sendObj));
 			}
 			
@@ -938,7 +977,6 @@
 	
 	            if (!checkOpenClass) {
 	                $("#chatBox").addClass("open");  // 채팅창 열기
-	                loadChatUser();
 	                
 	            } else {
 	                $("#chatBox").removeClass("open");  // 채팅창 닫기
@@ -953,32 +991,6 @@
 	        // 채팅창 열기/닫기
 	        window.openChat = openChat;  // 전역에서 호출할 수 있도록 함수 저장
 	    });
-		
-		// 클릭한 유저와의 채팅방을 만드는 메소드
-		function loadChatUser(){
-			var countDiv = $(".first-page-content").children("div");
-			var sellerNickname = sessionStorage.getItem("sellerInfo");
-			
-			var check = true;
-			
-			for(var i = 0; i < countDiv.length; i++){
-				if(sellerNickname == $(countDiv[i]).text()){
-					check = false;
-				}
-			}
-			
-			if(check){
-				var sellerImg = sessionStorage.getItem("sellerImg");
-				
-				var div = $("<div>").text(sellerNickname).addClass("seller-id");
-			    var img = $("<img>").attr("src", "${contextPath}" + sellerImg).addClass("seller-img");
-				
-			    var inputDiv = $("<div>").addClass("chat-item").attr("id", "clickChat");
-				inputDiv.append(img).append(div);
-				
-				$(".first-page-content").append(inputDiv);	
-			}
-		}
 		
 		$(".first-page-content").on("click", "div", function(){
 			var chatUser = $(this).children().text();
@@ -1246,13 +1258,12 @@
 			// 채팅창 수신
 			socket.onmessage = function(message){
 				var data = JSON.parse(message.data);
-				sessionStorage.setItem("sellerInfo", data.nickname);
 				var chatDiv = $(".chat-history");
 				
 				var chatMsgAdmin = $("<div class='chat-message admin-message'>");
 				var chatMsgUser = $("<div class='chat-message user-message'>");
 				var msgContent = $("<span class='message-content'>").text(data.messageContent);
-				var msgtime = $("<span class='message-time'>").text(data.date);
+				var msgtime = $("<span class='message-time'>").text(data.createData);
 				
 				if(data.nickname == "${loginUser.nickname}"){
 					chatMsgAdmin.append(msgContent).append(msgtime);
