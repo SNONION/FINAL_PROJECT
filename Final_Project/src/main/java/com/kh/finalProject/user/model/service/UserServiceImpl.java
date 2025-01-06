@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.common.model.vo.ChatInfo;
 import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.user.model.dao.UserDao;
 import com.kh.finalProject.user.model.vo.Agree;
@@ -110,6 +111,12 @@ public class UserServiceImpl implements UserService{
 	public int deleteUserInfo(User loginUser) {
 		
 		return userDao.deleteUserInfo(sqlSession, loginUser);
+	}
+
+	@Override
+	public ArrayList<ChatInfo> getChatRecord(String nickname) {
+		
+		return userDao.getChatRecord(sqlSession, nickname);
 	}
 
 }

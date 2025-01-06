@@ -21,8 +21,8 @@
 		<result column="BOARD_RATIING" property="BoardRatting"/>
 		<result column="SELL_WAY" property="sellWay"/>
 		<result column="TAG_19_PRODUCT" property="tag19Product"/>
-		<result column="CREATE_DATE" property="createDAte"/>
-		<result column="MODIFY_DATE" property="modifyDAte"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
 		<result column="BUYER_ID" property="buyerId"/>
 		<result column="AFTER_BUY_REPLY" property="afterBuyReply"/>
 		<result column="TITLE_IMG" property="titleImg"/>
@@ -89,6 +89,20 @@
 		<result column="CHANGE_NAME" property="changeName"/>
 		<result column="MEDIA_PATH" property="mediaPath"/>
 		<result column="UPLOAD_DATE" property="uploadDate"/>
+	</resultMap>
+	
+	<resultMap type="ReportUser" id="ReportResultSet">
+		<result column="USER_ID" property="userId"/>
+		<result column="WARNNING_DATE" property="reportDate"/>
+		<result column="ORIGIN_NAME" property="declarationId"/>
+	</resultMap>
+	
+	<resultMap type="ChatInfo" id="ChatResultSet">
+		<result column="CHAT_NO" property="chatNo"/>
+		<result column="SELLER_ID" property="sellerId"/>
+		<result column="BUYER_ID" property="buyerId"/>
+		<result column="FILE_FULLNAME" property="fileFullName"/>
+		<result column="CREATE_DATE" property="createDate"/>
 	</resultMap>
 	
 	<select id="listCount" parameterType="User" resultType="_int">
@@ -432,5 +446,72 @@
 		FROM	TB_PRODUCTBOARD
 		WHERE	BOARD_NO = #{boardNo}
 	</select>
+	
+	<select id="boardCategory" parameterType="Category" resultMap="CateResultSet">
+		SELECT	*
+		FROM	TB_CATEGORY
+		WHERE	CATEGORY_NO = #{categoryNo}
+	</select>
+	
+	<select id="selectProductInfo" parameterType="ProductInfo" resultMap="productResultSet">
+		SELECT	*
+		FROM	TB_PRODUCTINFO
+		WHERE	BOARD_NO = #{boardNo}
+	</select>
+	
+	<select id="selectMediaFile" parameterType="Media" resultMap="MediaResultSet">
+		SELECT	*
+		FROM	TB_MEDIA
+		WHERE	REF_BNO = #{boardNo}
+	</select>
+	
+	<update id="updateBoardCount" parameterType="ProductBoard">
+		UPDATE	TB_PRODUCTBOARD
+		SET		COUNT = COUNT + 1
+		WHERE	BOARD_NO = #{boardNo}
+	</update>
+	
+	<select id="insertMyPick" parameterType="ProductBoard">
+		INSERT INTO TB_MYPICK VALUES(#{boardWriter}, #{boardNo})
+	</select>
+	
+	<select id="checkPick" parameterType="ProductBoard" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_MYPICK
+		WHERE	USER_ID = #{boardWriter}
+		AND		BOARD_NO = #{boardNo}
+	</select>
+	
+	<delete id="deleteMyPick" parameterType="ProductBoard">
+		DELETE FROM	TB_MYPICK
+		WHERE	USER_ID = #{boardWriter}
+		AND		BOARD_NO = #{boardNo}
+	</delete>
+	
+	<update id="reportBoard" parameterType="ProductBoard">
+		UPDATE	TB_PRODUCTBOARD
+		SET		BOARD_DECLARATION = 'Y'
+		WHERE	BOARD_NO = #{boardNo}
+	</update>
+	
+	<insert id="insertReport" parameterType="ReportUser">
+		INSERT INTO TB_WRANNING(USER_ID
+							    DECLARATION_ID) 
+		VALUES(#{userId}, #{declarationId})
+	</insert>
+	
+	<select id="checkChatDul" parameterType="ChatInfo" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_CHAT
+		WHERE	FILE_FULLNAME = #{fileFullName}
+	</select>
+	
+	<insert id="insertChatInfo" parameterType="ChatInfo">
+		INSERT INTO TB_CHAT(CHAT_NO,
+							SELLER_ID,
+							BUYER_ID,
+							FILE_FULLNAME)
+		VALUES(SEQ_CHATNO.NEXTVAL, #{sellerId}, #{buyerId}, #{fileFullName})
+	</insert>
 	
 </mapper>

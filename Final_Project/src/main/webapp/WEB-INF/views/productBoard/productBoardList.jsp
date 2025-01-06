@@ -265,6 +265,7 @@
 	
 	.recommended-products {
 	    display: flex;
+	    grid-template-columns: repeat(4, 1fr);
 	    gap: 20px;
 	    margin-bottom: 30px;
 	}

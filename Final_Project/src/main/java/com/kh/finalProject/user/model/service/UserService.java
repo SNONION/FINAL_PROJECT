@@ -3,6 +3,7 @@ package com.kh.finalProject.user.model.service;
 import java.util.ArrayList;
 
 import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.common.model.vo.ChatInfo;
 import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.user.model.vo.Agree;
 import com.kh.finalProject.user.model.vo.User;
@@ -54,5 +55,8 @@ public interface UserService {
 
 	// 회원 탈퇴 메소드
 	int deleteUserInfo(User loginUser);
+
+	// 로그인한 유저의 채팅 기록을 가져오는 메소드
+	ArrayList<ChatInfo> getChatRecord(String nickname);
 
 }

@@ -73,6 +73,14 @@
 		<result column="LOCATION_DETAIL_2" property="locationDetail2"/>
 	</resultMap>
 	
+	<resultMap type="ChatInfo" id="ChatResultSet">
+		<result column="CHAT_NO" property="chatNo"/>
+		<result column="SELLER_ID" property="sellerId"/>
+		<result column="BUYER_ID" property="buyerId"/>
+		<result column="FILE_FULLNAME" property="fileFullName"/>
+		<result column="CREATE_DATE" property="createDate"/>
+	</resultMap>
+	
 	<select id="loginUser" parameterType="User" resultMap="userResultSet">
 		SELECT	*
 		FROM	TB_USER
@@ -207,5 +215,12 @@
 		WHERE	USER_ID = #{userId}
 		AND		STATUS = 'N'
 	</update>
+	
+	<select id="getChatRecord" parameterType="ChatInfo" resultMap="ChatResultSet">
+		SELECT	*
+		FROM	TB_CHAT
+		WHERE	BUYER_ID = #{nickname}
+		OR		SELLER_ID = #{nickname}
+	</select>
 
 </mapper>

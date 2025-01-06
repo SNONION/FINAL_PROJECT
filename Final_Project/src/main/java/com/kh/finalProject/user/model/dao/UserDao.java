@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.common.model.vo.Category;
+import com.kh.finalProject.common.model.vo.ChatInfo;
 import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.user.model.vo.Agree;
 import com.kh.finalProject.user.model.vo.User;
@@ -89,5 +90,10 @@ public class UserDao {
 		
 		return sqlSession.update("userMapper.deleteUserInfo", loginUser);
 	}
-	
+  
+	public ArrayList<ChatInfo> getChatRecord(SqlSessionTemplate sqlSession, String nickname) {
+		
+		return (ArrayList)sqlSession.selectList("userMapper.getChatRecord", nickname);
+	}
+
 }

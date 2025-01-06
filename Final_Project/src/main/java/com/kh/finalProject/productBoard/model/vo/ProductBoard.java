@@ -29,8 +29,8 @@ public class ProductBoard {
 	private int BoardRatting; //	BOARD_RATIING	NUMBER O
 	private String sellWay; //	SELL_WAY	NUMBER O
 	private String tag19Product; //	TAG_19_PRODUCT	VARCHAR2(1 BYTE) O
-	private Date createDAte; //	CREATE_DATE	DATE O
-	private Date modifyDAte; //	CREATE_DATE	DATE O
+	private Date createDate; //	CREATE_DATE	DATE O
+	private Date modifyDate; //	CREATE_DATE	DATE O
 	private String buyerId; //	BUYER_ID	VARCHAR2(15 BYTE) O
 	private String afterBuyReply; //	AFTER_BUY_REPLY	VARCHAR2(1000 BYTE) O
 	private String titleImg; // 대표 이미지 O
