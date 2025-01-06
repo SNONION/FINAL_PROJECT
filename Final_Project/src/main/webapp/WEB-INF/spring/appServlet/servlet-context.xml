@@ -31,6 +31,7 @@
 			<mapping path="/board/insertNotice"/>
 			<mapping path="/board/updateNotice"/>
 			<mapping path="/board/deleteNotice"/>
+			<mapping path="/board/boardDetailForm"/>
 			<mapping path="/user/toPurchaseKH"/>
 			<mapping path="/user/userDeleteForm"/>
 			<mapping path="/user/mypage"/>

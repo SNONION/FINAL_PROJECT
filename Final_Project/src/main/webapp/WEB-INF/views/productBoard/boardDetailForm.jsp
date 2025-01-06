@@ -399,18 +399,16 @@
 				</div>
 		    </div>
 		    <div class="product-footer">
-		    	<c:if test="${not empty loginUser}">
-		    		<c:if test="${loginUser.userId != detailBoard.boardWriter}">
-			    		<button class="button-contact">구매요청</button>
-			        	<button class="button-contact" id="chatWithSeller">판매자와 채팅하기</button>
-				        <button class="button-contact" id="pickBtn" onclick="pick();">찜하기
-				        	<c:if test="${existPick > 0}">
-				        		<i class='fas fa-heart filled-heart'></i>
-				        	</c:if>
-				        </button>
-				        <button class="button-report" onclick="reportBoard();">신고하기</button>
-		    		</c:if>
-		    	</c:if>
+	    		<c:if test="${loginUser.userId != detailBoard.boardWriter}">
+		    		<button class="button-contact">구매요청</button>
+		        	<button class="button-contact" id="chatWithSeller">판매자와 채팅하기</button>
+			        <button class="button-contact" id="pickBtn" onclick="pick();">찜하기
+			        	<c:if test="${existPick > 0}">
+			        		<i class='fas fa-heart filled-heart'></i>
+			        	</c:if>
+			        </button>
+			        <button class="button-report" onclick="reportBoard();">신고하기</button>
+	    		</c:if>
 		    </div>
 		</div>	
 	</div>
