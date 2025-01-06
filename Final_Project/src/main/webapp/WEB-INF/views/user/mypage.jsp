@@ -636,7 +636,9 @@
 			$("#home").on("click", "div", function(){
 				var boardNo = $(this).children().val();
 				
-				location.href="${contextPath}/board/boardDetailForm?boardNo=" + boardNo;
+				if(boardNo != null){
+					location.href="${contextPath}/board/boardDetailForm?boardNo=" + boardNo;					
+				}
 			});
 		});
 	

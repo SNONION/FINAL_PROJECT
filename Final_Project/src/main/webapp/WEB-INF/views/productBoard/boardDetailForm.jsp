@@ -400,14 +400,16 @@
 		    </div>
 		    <div class="product-footer">
 		    	<c:if test="${not empty loginUser}">
-		    		<button class="button-contact">구매요청</button>
-			        <button class="button-contact" id="chatWithSeller">판매자와 채팅하기</button>
-			        <button class="button-contact" id="pickBtn" onclick="pick();">찜하기
-			        	<c:if test="${existPick > 0}">
-			        		<i class='fas fa-heart filled-heart'></i>
-			        	</c:if>
-			        </button>
-			        <button class="button-report" onclick="reportBoard();">신고하기</button>
+		    		<c:if test="${loginUser.userId != detailBoard.boardWriter}">
+			    		<button class="button-contact">구매요청</button>
+			        	<button class="button-contact" id="chatWithSeller">판매자와 채팅하기</button>
+				        <button class="button-contact" id="pickBtn" onclick="pick();">찜하기
+				        	<c:if test="${existPick > 0}">
+				        		<i class='fas fa-heart filled-heart'></i>
+				        	</c:if>
+				        </button>
+				        <button class="button-report" onclick="reportBoard();">신고하기</button>
+		    		</c:if>
 		    	</c:if>
 		    </div>
 		</div>	
@@ -465,6 +467,7 @@
 					success : function(msg){
 						
 						if(msg == 'NNNNY'){
+							console.log("픽");
 							$("#pickBtn").append($("<i class='fas fa-heart filled-heart'>"));
 						}
 						location.reload();
@@ -484,6 +487,7 @@
 					success : function(msg){
 						
 						if(msg == 'NNNNY'){
+							console.log("픽 제거");
 							$("#pickBtn i").remove();
 						}
 						location.reload();
