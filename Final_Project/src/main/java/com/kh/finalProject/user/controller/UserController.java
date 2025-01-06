@@ -142,56 +142,6 @@ public class UserController {
 		
 		if(loginUser != null) {
 			if(bcryptPasswordEncoder.matches(user.getUserPwd(), loginUser.getUserPwd())) {
-				
-				// 파일 읽기 전 파일 경로가 존재하는지 여부를 확인한다.
-				File dir = new File("D:\\chatRecords");
-				
-				// 파일경로가 존재할 경우
-				if(dir.exists()) {
-					
-					// 채팅 기록에 로그인한 유저의 이름으로 저장된 이름이 있다면 해당 파일 명을 가져온다.
-					ArrayList<ChatInfo> cList = userService.getChatRecord(loginUser.getNickname());
-					
-					for(ChatInfo record : cList) {
-						
-						// 가져온 파일명이 해당 파일경로에 존재하는 지 확인한다.
-						File file = new File(record.getFileFullName());
-						
-						// 파일명이 파일경로 내에 존재할 경우
-						if(file.exists() && file.isFile()) {
-
-							// 객체 단위로 파일을 출력하기 위해 ObjectInputStream를 사용
-							try(ObjectInputStream msgLoadFile = new ObjectInputStream(new FileInputStream(file))){
-								
-								// 가져온 객체들을 담아두기 위한 ArrayList 준비
-								ArrayList<MessageInfo> mList = new ArrayList<>();
-								
-								// 가져온 객체를 담을 준비
-								MessageInfo msgInfo;
-								
-								// null을 반환하지 않기 떄문에 exception처리로 반복을 벗어난다.
-								while(true) {
-									try {
-										// readObject를 통해 객체를 Object 형태로 가져와 MessageInfo로 다운캐스팅하여 준비해둔 line에 넣는다.
-										msgInfo = (MessageInfo)msgLoadFile.readObject();
-										
-										// 읽어온 파일의 정보가 있을 때 객체를 list에 담는다.
-										mList.add(msgInfo);	
-										
-									}catch(EOFException e) {
-										
-										// 예외가 발생할 경우 벗어난다.
-										break;
-									}
-								}
-								
-								// 받아온 채팅 기록을 보내준다.
-								session.setAttribute("mList", mList);
-							}
-						}
-					}
-				}
-				
 				session.setAttribute("loginUser", loginUser);
 				mv.setViewName("redirect:/");
 			}
@@ -663,6 +613,80 @@ public class UserController {
 		}
 		
 		return msg;
+		
+	}
+	
+	// 채팅창에서 선택한 유저와의 대화를 조회해오는 메소드
+	@ResponseBody
+	@RequestMapping(value="getChatRecord", produces="application/json;charset=UTF-8")
+	public ArrayList<MessageInfo> getChatRecord(String chatUser, HttpServletRequest request) throws Exception{
+		
+		User loginUser = (User)request.getSession().getAttribute("loginUser");		
+		
+		// 채팅 기록에 로그인한 유저의 이름으로 저장된 이름이 있다면 해당 파일 명을 가져온다.
+		ArrayList<ChatInfo> cList = userService.getChatRecord(loginUser.getNickname());
+		
+		// 가져온 객체들을 담아두기 위한 ArrayList 준비
+		ArrayList<MessageInfo> mList = new ArrayList<>();
+		
+		// 파일 읽기 전 파일 경로가 존재하는지 여부를 확인한다.
+		File dir = new File("D:\\chatRecords");
+		
+		// 파일경로가 존재할 경우
+		if(dir.exists()) {
+			for(ChatInfo record : cList) {
+				
+				// 내 닉네임이 포함된 데이터 중 내가 누른 상대의 이름도 포함이된 채팅만
+				if(record.getBuyerId().equals(chatUser) || record.getSellerId().equals(chatUser)) {
+					
+					// 가져온 파일명이 해당 파일경로에 존재하는 지 확인한다.
+					File file = new File(record.getFileFullName());
+					
+					// 파일명이 파일경로 내에 존재할 경우
+					if(file.exists() && file.isFile()) {
+	
+						// 객체 단위로 파일을 출력하기 위해 ObjectInputStream를 사용
+						try(ObjectInputStream msgLoadFile = new ObjectInputStream(new FileInputStream(file))){
+							
+							// 가져온 객체를 담을 준비
+							MessageInfo msgInfo;
+							
+							// null을 반환하지 않기 떄문에 exception처리로 반복을 벗어난다.
+							while(true) {
+								try {
+									// readObject를 통해 객체를 Object 형태로 가져와 MessageInfo로 다운캐스팅하여 준비해둔 line에 넣는다.
+									msgInfo = (MessageInfo)msgLoadFile.readObject();
+									
+									// 읽어온 파일의 정보가 있을 때 객체를 list에 담는다.
+									mList.add(msgInfo);	
+									
+								}catch(EOFException e) {
+									
+									// 예외가 발생할 경우 벗어난다.
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return mList;
+		
+	}
+	
+	// 채팅방을 열때 채팅 했던 상대방을 조회해오는 메소드
+	@ResponseBody
+	@RequestMapping(value="getChatList", produces="application/json;charset=UTF-8")
+	public ArrayList<ChatInfo> getChatList(HttpServletRequest request) {
+		
+		User loginUser = (User)request.getSession().getAttribute("loginUser");
+		
+		// 채팅 기록에 로그인한 유저의 이름으로 저장된 이름이 있다면 해당 파일 명을 가져온다.
+		ArrayList<ChatInfo> cList = userService.getChatRecord(loginUser.getNickname());
+		
+		return cList;
 		
 	}
 	
