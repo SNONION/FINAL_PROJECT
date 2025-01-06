@@ -24,6 +24,7 @@ import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
 import com.kh.finalProject.productBoard.model.vo.ProductInfo;
+import com.kh.finalProject.productBoard.model.vo.ProductSearch;
 import com.kh.finalProject.productBoard.model.vo.Request;
 import com.kh.finalProject.productBoard.model.vo.Response;
 import com.kh.finalProject.user.model.service.UserService;
@@ -697,5 +698,20 @@ public class ProductBoardController {
 		return mv;
 		
 	}
+	
+	// 상품 전체조회
+	@RequestMapping("productSearch")
+	public void productAllSearch(@RequestParam(value="searchValue") String searchValue) {
+		
+		ArrayList<ProductSearch> productSearch = productBoardService.searchProduct(searchValue);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
