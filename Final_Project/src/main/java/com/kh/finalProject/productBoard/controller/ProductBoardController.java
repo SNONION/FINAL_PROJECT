@@ -24,6 +24,7 @@ import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
 import com.kh.finalProject.productBoard.model.vo.ProductInfo;
+import com.kh.finalProject.productBoard.model.vo.Reply;
 import com.kh.finalProject.productBoard.model.vo.Request;
 import com.kh.finalProject.productBoard.model.vo.Response;
 import com.kh.finalProject.user.model.service.UserService;
@@ -812,6 +813,52 @@ public class ProductBoardController {
 		
 		String msg = "";
 		
+		if(result > 0) {
+			msg = "NNNNY";
+		}
+		else {
+			msg = "NNNNN";
+		}
+		
+		return msg;
+		
+	}
+	
+	// 상품 게시판 상세페이지에서 판매자의 다른 제품들을 조회해오는 메소드
+	@ResponseBody
+	@RequestMapping(value="getAnotherList", produces="application/json;charset=UTF-8")
+	public ArrayList<ProductBoard> getAnotherList(ProductBoard board) {
+		
+		ArrayList<ProductBoard> bList = productBoardService.getAnotherList(board);
+		
+		return bList;
+		
+	}
+	
+	// 상품 게시판의 댓글을 조회해오는 메소드
+	@ResponseBody
+	@RequestMapping(value="getReply", produces="application/json;charset=UTF-8")
+	public ArrayList<Reply> getReply(int boardNo) {
+		
+		ArrayList<Reply> rList = productBoardService.getReply(boardNo);
+		
+		return rList;
+		
+	}
+	
+	// 댓글 작성 메소드
+	@ResponseBody
+	@RequestMapping(value="insertReply", produces="html/text;charset=UTF-8")
+	public String insertReply(Reply reply, HttpServletRequest request) {
+		
+		User loginUser = (User)request.getSession().getAttribute("loginUser");
+		
+		reply.setReplyWriter(loginUser.getUserId());
+	
+		int result = productBoardService.insertReply(reply);
+		
+		String msg = "";
+			
 		if(result > 0) {
 			msg = "NNNNY";
 		}

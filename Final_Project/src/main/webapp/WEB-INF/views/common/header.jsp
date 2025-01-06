@@ -740,7 +740,6 @@
 	}
 	
 	.kakao-chat-content {
-		border: 1px solid black;
 	    padding: 10px;
 	    background-color: #F6F6F6;
 	    font-family: Arial, sans-serif;
@@ -929,8 +928,11 @@
 				console.log(otherUser);
 				socket.send(JSON.stringify(sendObj));
 			}
+			var content = $(".chat-history");
+			content.scrollTop(content[0].scrollHeight);
 			
 			$("#chatInput").val("");
+			
 		});
 	
 		$(document).ready(function() {
@@ -1012,6 +1014,9 @@
 						
 						outDiv.append(contentSpan).append(timeSpan);
 						$(".chat-history").append(outDiv);
+						
+						var content = $(".chat-history");
+						content.scrollTop(content[0].scrollHeight);
 					}
 					
 				},
@@ -1298,9 +1303,8 @@
 					chatMsgUser.append(msgContent).append(msgtime);
 					chatDiv.append(chatMsgUser);
 				}
-				
-				// 메시지가 올때마다 스크롤바 내리기
-				$("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
+				var content = $(".chat-history");
+				content.animate({scrollTop : content[0].scrollHeight}, "smooth");
 			}
 		}
 		
@@ -1480,8 +1484,6 @@
 				            
 				            $("#outputLocation").val(result[0].address.address_name);
 				            
-				            
-				       
 				        }   
 				    });
 				});

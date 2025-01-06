@@ -285,7 +285,152 @@
 	#sellArea:hover{
 		cursor: pointer;
 	}
+	
+	/* 추천 상품 */
+	.recommended-products h3 {
+	    font-size: 24px;
+	    font-weight: bold;
+	    margin-bottom: 20px;
+	}
+	
+	.recommended-products {
+	    display: flex;
+	    margin-bottom: 30px;
+	}
+	
+	.recommended-products .product-card {
+	    width: 170px;
+	    height: 250px;
+	    background-color: #fff;
+	    border-radius: 12px;
+	    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	    overflow: hidden;
+	    cursor: pointer;
+	    transition: transform 0.3s ease;
+	}
+	
+	.recommended-products .product-card:hover {
+	    transform: scale(1.05);
+	}
+	
+	.recommended-products .product-card img {
+	    width: 100%;
+	    height: 150px;
+	    object-fit: cover;
+	}
+	
+	.recommended-products .product-card .product-info {
+	    padding: 10px;
+	}
+	
+	.recommended-products .product-card .product-info .product-title {
+	    font-size: 18px;
+	    font-weight: bold;
+	    color: #333;
+	}
+	
+	.recommended-products .product-card .product-info .product-price {
+	    font-size: 16px;
+	    color: #fee500;
+	}
+	
+	.reply-area {
+	  display: flex;
+	  align-items: center;
+	  padding: 10px;
+	  border-top: 1px solid #e5e5e5;
+	  background-color: #f9f9f9; /* 카카오의 밝은 배경색 느낌 */
+	}
+	
+	.reply-area textarea {
+	  flex: 1; /* 버튼 제외하고 나머지 공간 차지 */
+	  resize: none; /* 크기 조절 비활성화 */
+	  height: 100px;
+	  border: 1px solid #ddd;
+	  border-radius: 20px;
+	  padding: 10px 15px;
+	  font-size: 14px;
+	  outline: none;
+	  background-color: #fff;
+	  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* 살짝 입체감 */
+	  margin-right: 10px; /* 버튼과 간격 */
+	}
+	
+	.reply-area textarea::placeholder {
+	  color: #aaa; /* 플레이스홀더 색상 */
+	}
+	
+	.reply-area button {
+	  padding: 0 15px;
+	  height: 40px;
+	  border: none;
+	  border-radius: 20px;
+	  background-color: #f7e600; /* 카카오톡의 노란색 */
+	  color: #333; /* 텍스트 색상 */
+	  font-weight: bold;
+	  font-size: 14px;
+	  cursor: pointer;
+	  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15); /* 버튼 그림자 */
+	  transition: background-color 0.3s ease;
+	}
+	
+	.reply-area button:hover {
+	  background-color: #fce000; /* 호버 시 약간 더 진한 노란색 */
+	}
+	
+	.reply-area button:active {
+	  background-color: #e5c800; /* 클릭 시 어두운 노란색 */
+	}
 		
+	.reply-output-area {
+	  padding: 10px;
+	  background-color: #f9f9f9;
+	  border: 1px solid #e5e5e5;
+	  border-radius: 10px;
+	  max-height: 400px; /* 스크롤 필요시 */
+	  overflow-y: auto;
+	  font-family: 'Arial', sans-serif;
+	}
+	
+	.reply-message {
+	  margin-bottom: 15px;
+	  padding: 10px;
+	  border-radius: 10px;
+	  background-color: #fff;
+	  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+	}
+	
+	.reply-header {
+	  display: flex;
+	  justify-content: space-between;
+	  margin-bottom: 5px;
+	  font-size: 12px;
+	  color: #555;
+	}
+	
+	.reply-author {
+	  font-weight: bold;
+	  color: #333;
+	}
+	
+	.reply-date {
+	  font-size: 11px;
+	  color: #888;
+	}
+	
+	.reply-content {
+	  font-size: 14px;
+	  color: #333;
+	  word-wrap: break-word;
+	}
+	
+	.reply-profile {
+	  width: 30px;
+	  height: 30px;
+	  border-radius: 50%;
+	  margin-right: 5px;
+	}
+	
 </style>
 
 </head>
@@ -327,7 +472,7 @@
 		            		판매
 		            	</c:if>
 		            </p>
-		            <p class="product-location">거래 지역: <span id="sellArea"><i class="fas fa-map-marker-alt" style="color:black;"></i>&nbsp;${detailBoard.sellLocation}</span></p>
+		            <p class="product-location" data-toggle="modal" data-target="#sellLocationModal">거래 지역: <span id="sellArea"><i class="fas fa-map-marker-alt" style="color:black;"></i>&nbsp;${detailBoard.sellLocation}</span></p>
 		            <p class="product-prefer-payment">선호 결제: ${detailBoard.preferPayment}</p>
 		            
 		             <div class="additional-info">
@@ -397,6 +542,14 @@
 						</c:when>
 					</c:choose>
 				</div>
+				<br>
+				<div class="recommended-products">
+		            <div class="top5-board-list" style="display: flex;">
+		            	<div class="product-card">
+			            	<div class="product-title">상품을 불러오는 중입니다.</div>
+			            </div>
+		            </div>
+				</div>	
 		    </div>
 		    <div class="product-footer">
 	    		<c:if test="${loginUser.userId != detailBoard.boardWriter}">
@@ -410,14 +563,237 @@
 			        <button class="button-report" onclick="reportBoard();">신고하기</button>
 	    		</c:if>
 		    </div>
-		</div>	
+			<div class="reply-area">
+				<textarea id="replyContent" placeholder="메시지를 입력하세요"></textarea>
+				<button onclick="replyInsert();">작성</button>
+			</div>
+			<div class="reply-output-area">
+				
+			</div>
+		</div>
 	</div>
 	
 	<script>
+		function replyInsert(){
+			var boardNo = "${detailBoard.boardNo}";
+			var replyContent = $("#replyContent").val();
+			
+			$.ajax({
+				url : "${contextPath}/board/insertReply",
+				data : {
+					refBno : boardNo,
+					replyContent : replyContent
+				},
+				success : function(result){
+					
+					if(msg = "NNNNY"){
+						getReply();
+						$("#replyContent").val("");
+					}
+					
+				},
+				error : function(){
+					console.log("통신 오류");
+				}
+			});
+		};
+		
+		function getReply(){
+			var boardNo = "${detailBoard.boardNo}";
+			
+			$.ajax({
+				url : "${contextPath}/board/getReply",
+				data : {
+					boardNo : boardNo
+				},
+				success : function(result){
+					
+					$(".reply-output-area div").remove();
+					
+					for(var reply of result){
+						// 외부 div 생성 (댓글 전체를 감싸는 컨테이너)
+				        var replyDiv = $("<div>").addClass("reply-message");
+
+				        // 헤더 생성 (작성자와 작성 날짜)
+				        var headerDiv = $("<div>").addClass("reply-header");
+				        var authorSpan = $("<span>").addClass("reply-author").text(reply.replyWriter);
+				        var dateSpan = $("<span>").addClass("reply-date").text(reply.replyDate);
+				        headerDiv.append(authorSpan).append(dateSpan);
+				        
+
+				        // 내용 생성 (댓글 내용)
+				        var contentDiv = $("<div>").addClass("reply-content").text(reply.replyContent);
+
+				        // replyDiv에 헤더와 내용을 추가
+				        replyDiv.append(headerDiv).append(contentDiv);
+
+				        // reply-output-area에 replyDiv 추가
+				        $(".reply-output-area").append(replyDiv);
+					}
+					
+				},
+				error : function(){
+					console.log("통신 오류");
+				}
+			});
+		}
+	
+		$(".recommended-products").on("click", ".product-card", function(){
+			var productInfo = $(this).children("div");
+			var boardNo = $(productInfo).children().first().val();
+			
+			location.href="${contextPath}/board/boardDetailForm?boardNo=" + boardNo;
+		});
+	
+		$(function(){
+			getReply()
+			getAnotherList();
+		});
+		
+		function getAnotherList(){
+			var boardNo = "${detailBoard.boardNo}";
+			var boardWriter = "${detailBoard.boardWriter}";
+			
+			$.ajax({
+				url : "${contextPath}/board/getAnotherList",
+				data : {
+					boardNo : boardNo,
+					boardWriter : boardWriter
+				},
+				success : function(result){
+					
+					$(".recommended-products div").remove();
+					
+					if(result != ""){
+						for(var top of result){
+							var productCard = $("<div class='product-card' style='margin-right: 30px;'>");
+							var img = $("<img>").attr("src", "${contextPath}" + top.titleImg);
+							var productInfo = $("<div class='product-info'>");
+							var input = $("<input type='hidden'>").attr("name", "boardNo").val(top.boardNo);
+							var title = $("<div class='product-title'>").text(top.boardTitle);
+							var price = $("<div style='color: red;'>").text(top.price + "원");
+							
+							productInfo.append(input).append(title).append(price);
+							productCard.append(img).append(productInfo);
+							
+							$(".recommended-products").append(productCard);
+						}
+					}
+					else{
+						$(".recommended-products").append($("<div style='color:gray; fon-size: 12px;'>").text("검색된 다른 상품이 없습니다."));
+					}
+					
+				},
+				error : function(){
+					console.log("통신 오류");
+				}
+			});
+		}
+	</script>
+	
+	<!-- 카카오톡 스타일 현재 위치 모달창 -->
+	<div class="modal" id="sellLocationModal">
+	    <div class="modal-dialog">
+	        <div class="modal-content" style="border: none; border-radius: 10px;">
+	
+	            <!-- Modal Header -->
+	            <div class="modal-header" style="background-color: #f7c600; color: black; border-radius: 10px; border: none;">
+	                <h4 class="modal-title">판매 선호 위치 확인</h4>
+	            </div>
+	
+	            <!-- Modal Body -->
+	            <div class="modal-body" style="padding: 20px; font-size: 16px; color: #333; border: none;">
+	                <div id="sellMap" style="width: 100%;height:350px;"></div>   
+					<br>
+					<div class="form-group">
+					    <label for="outputLocation">선호 위치 : </label>
+						<input type="text" name="changeLocation" id="outputLocation" value="${detailBoard.sellLocation}" style="width: 80%; cursor:pointer; border: none;" readonly>
+					</div>
+	            </div>
+	
+	            <!-- Modal Footer -->
+	            <div class="modal-footer" style="border-top: none; padding: 0;">
+	                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width: 100%; border-radius: 25px; background-color: #e6e6e6; color: #333;">닫기</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<script>
+		window.onload = function(){
+			var mapContainer = document.getElementById('sellMap'), // 지도를 표시할 div 
+			    mapOption = {
+			        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+			        level: 3 // 지도의 확대 레벨
+			    };  
+	
+			// 지도를 생성합니다    
+			var map = new kakao.maps.Map(mapContainer, mapOption); 
+	
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+	
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch("${detailBoard.sellLocation}", function(result, status) {
+	
+			    // 정상적으로 검색이 완료됐으면 
+			     if (status === kakao.maps.services.Status.OK) {
+	
+			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	
+			        // 결과값으로 받은 위치를 마커로 표시합니다
+			        var marker = new kakao.maps.Marker({
+			            map: map,
+			            position: coords
+			        });
+	
+			        // 인포윈도우로 장소에 대한 설명을 표시합니다
+			        var infowindow = new kakao.maps.InfoWindow({
+			            content: '<div style="width:200px;">${detailBoard.sellLocation}</div>'
+			        });
+			        infowindow.open(map, marker);
+	
+			        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+			        map.setCenter(coords);
+			    } 
+			});  
+		};
+	
 		// 판매자와 채팅 시스템 메소드
 		$("#chatWithSeller").click(function(){
-			sessionStorage.setItem("sellerInfo", "${writerInfo.nickname}");
-			sessionStorage.setItem("sellerImg", "${writerInfo.userImg}");
+			
+			$.ajax({
+				url : "${contextPath}/user/getChatRecord",
+				data : {
+					chatUser : "${writerInfo.nickname}"
+				},
+				success : function(result){
+					
+					$(".chat-history div").remove();
+					
+					for(var i of result){
+						
+						var contentSpan = $("<span class='message-content'>").text(i.messageContent);	
+						var timeSpan = $("<span class='message-time'>").text(i.createData);
+						if("${loginUser.nickname}" == i.nickname){
+							var outDiv = $("<div class='chat-message admin-message'>");
+						}
+						else{
+							var outDiv = $("<div class='chat-message user-message'>");
+						}
+						
+						outDiv.append(contentSpan).append(timeSpan);
+						$(".chat-history").append(outDiv);
+						
+						var content = $(".chat-history");
+						content.scrollTop(content[0].scrollHeight);
+					}
+					
+				},
+				error : function(){
+					console.log("통신 오류");
+				}
+			});
 			
 			$(".kakao-chat-content").css("display", "block");
 			$(".first-page-content").css("display", "none");
@@ -497,6 +873,7 @@
 			}
 		};
 	
+		// 다른 이미지들 보여주는 슬라이드바 넘김 버튼
 		$(function(){
 			var count = 0;
 			var imgCount = $(".slider-image-container img").length;

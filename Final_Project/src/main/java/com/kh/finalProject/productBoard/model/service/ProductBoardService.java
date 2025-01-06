@@ -12,6 +12,7 @@ import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
 import com.kh.finalProject.productBoard.model.vo.ProductInfo;
+import com.kh.finalProject.productBoard.model.vo.Reply;
 import com.kh.finalProject.productBoard.model.vo.Request;
 import com.kh.finalProject.productBoard.model.vo.Response;
 import com.kh.finalProject.user.model.vo.User;
@@ -188,6 +189,15 @@ public interface ProductBoardService {
 
 	// 채팅 기록 삽입 메소드
 	void insertChatInfo(ChatInfo chatInfo);
+
+	// 상품 게시판 상세페이지에서 판매자의 다른 제품들을 조회해오는 메소드
+	ArrayList<ProductBoard> getAnotherList(ProductBoard board);
+
+	// 상품 게시판의 댓글을 조회해오는 메소드
+	ArrayList<Reply> getReply(int boardNo);
+
+	// 댓글 작성 메소드
+	int insertReply(Reply reply);
 
 
 
