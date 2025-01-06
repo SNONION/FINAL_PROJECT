@@ -16,6 +16,7 @@ import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
 import com.kh.finalProject.productBoard.model.vo.ProductInfo;
+import com.kh.finalProject.productBoard.model.vo.Reply;
 import com.kh.finalProject.productBoard.model.vo.Request;
 import com.kh.finalProject.productBoard.model.vo.Response;
 import com.kh.finalProject.user.model.vo.User;
@@ -337,7 +338,21 @@ public class ProductBoardDao {
 	public void insertChatInfo(SqlSessionTemplate sqlSession, ChatInfo chatInfo) {
 		
 		sqlSession.insert("productBoardMapper.insertChatInfo", chatInfo);
+	}
+
+	public ArrayList<ProductBoard> getAnotherList(SqlSessionTemplate sqlSession, ProductBoard board) {
 		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.getAnotherList", board);
+	}
+
+	public ArrayList<Reply> getReply(SqlSessionTemplate sqlSession, int boardNo) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.getReply", boardNo);
+	}
+
+	public int insertReply(SqlSessionTemplate sqlSession, Reply reply) {
+		
+		return sqlSession.insert("productBoardMapper.insertReply", reply);
 	}
 
 

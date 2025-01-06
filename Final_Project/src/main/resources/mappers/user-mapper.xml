@@ -122,31 +122,28 @@
 	
 	<select id="selectInfo" parameterType="User" resultType="UserInfo">
 		SELECT 
-		    (SELECT COUNT(DISTINCT 
-		    				CASE 
+		    (SELECT COUNT(CASE 
 		    					WHEN BOARD_WRITER = #{userId} 
 		    					THEN BOARD_WRITER 
-		    				END) 
+		    			  END) 
 		     FROM 	TB_PRODUCTBOARD 
 		     WHERE 	BOARD_WRITER = #{userId}
 		     OR 	BUYER_ID = #{userId}
 		     OR 	AFTER_BUY_REPLY IS NOT NULL) SELLCOUNT,
 		     
-		    (SELECT COUNT(DISTINCT 
-		    				CASE 
+		    (SELECT COUNT(CASE 
 		    					WHEN BUYER_ID = #{userId} 
 		    					THEN BUYER_ID 
-		    				END) 
+		    			  END) 
 		     FROM 	TB_PRODUCTBOARD 
 		     WHERE 	BOARD_WRITER = #{userId} 
 		     OR 	BUYER_ID = #{userId}
 		     OR 	AFTER_BUY_REPLY IS NOT NULL) BUYCOUNT,
 		     
-		    (SELECT COUNT(DISTINCT 
-		    				CASE 
-		    					WHEN AFTER_BUY_REPLY IS NOT NULL 
-		    					THEN AFTER_BUY_REPLY 
-		    				END) 
+		    (SELECT COUNT(CASE 
+	    						WHEN AFTER_BUY_REPLY IS NOT NULL 
+	    						THEN AFTER_BUY_REPLY 
+	    				  END) 
 		     FROM 	TB_PRODUCTBOARD 
 		     WHERE 	BOARD_WRITER = #{userId}
 		     OR 	BUYER_ID = #{userId}

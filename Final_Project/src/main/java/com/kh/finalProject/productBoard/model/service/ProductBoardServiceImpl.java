@@ -17,6 +17,7 @@ import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
 import com.kh.finalProject.productBoard.model.vo.ProductInfo;
+import com.kh.finalProject.productBoard.model.vo.Reply;
 import com.kh.finalProject.productBoard.model.vo.Request;
 import com.kh.finalProject.productBoard.model.vo.Response;
 import com.kh.finalProject.user.model.vo.User;
@@ -370,6 +371,24 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 	public void insertChatInfo(ChatInfo chatInfo) {
 		
 		productBoardDao.insertChatInfo(sqlSession, chatInfo);
+	}
+
+	@Override
+	public ArrayList<ProductBoard> getAnotherList(ProductBoard board) {
+		
+		return productBoardDao.getAnotherList(sqlSession, board);
+	}
+
+	@Override
+	public ArrayList<Reply> getReply(int boardNo) {
+		
+		return productBoardDao.getReply(sqlSession, boardNo);
+	}
+
+	@Override
+	public int insertReply(Reply reply) {
+		
+		return productBoardDao.insertReply(sqlSession, reply);
 	}
 
 }

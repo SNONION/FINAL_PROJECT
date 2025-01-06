@@ -24,6 +24,7 @@
 		<typeAlias type="com.kh.finalProject.productBoard.model.vo.Request" alias="Request"/>
 		<typeAlias type="com.kh.finalProject.productBoard.model.vo.Response" alias="Response"/>
 		<typeAlias type="com.kh.finalProject.productBoard.model.vo.ProductInfo" alias="ProductInfo"/>
+		<typeAlias type="com.kh.finalProject.productBoard.model.vo.Reply" alias="Reply"/>
 	</typeAliases>
 
 </configuration>

@@ -105,6 +105,15 @@
 		<result column="CREATE_DATE" property="createDate"/>
 	</resultMap>
 	
+	<resultMap type="Reply" id="ReplyResultSet">
+		<result column="REPLY_NO" property="replyNo"/>
+		<result column="REPLY_WRITER" property="replyWriter"/>
+		<result column="REF_BNO" property="refBno"/>
+		<result column="REPLT_CONTENT" property="replyContent"/>
+		<result column="REPLY_DATE" property="replyDate"/>
+		<result column="REPLY_DECLARATION" property="replyDeclaration"/>
+	</resultMap>
+	
 	<select id="listCount" parameterType="User" resultType="_int">
 		SELECT	COUNT(*)
 		FROM	TB_PRODUCTBOARD
@@ -519,5 +528,29 @@
 		FROM	TB_PRODUCTBOARD
 		WHERE	BOARD_TITLE LIKE '%'||#{searchValue}||'%'
 	</select>
+	
+	<select id="getAnotherList" parameterType="ProductBoard" resultMap="PBResultSet">
+		SELECT	*
+		FROM    (SELECT	*
+		         FROM	TB_PRODUCTBOARD
+		         WHERE	BOARD_WRITER = #{boardWriter}
+		         AND	BOARD_NO != #{boardNo})
+		WHERE   ROWNUM BETWEEN 1 AND 4
+	</select>
+	
+	<select id="getReply" parameterType="Reply" resultMap="ReplyResultSet">
+		SELECT	*
+		FROM	TB_REPLY
+		WHERE	REF_BNO = #{boardNo}
+		ORDER BY REPLY_DATE DESC
+	</select>
+	
+	<insert id="insertReply" parameterType="Reply">
+		INSERT INTO TB_REPLY(REPLY_NO,
+							 REPLY_WRITER,
+							 REF_BNO,
+							 REPLT_CONTENT)
+		VALUES(SEQ_RNO.NEXTVAL, #{replyWriter}, #{refBno}, #{replyContent})
+	</insert>
 	
 </mapper>
