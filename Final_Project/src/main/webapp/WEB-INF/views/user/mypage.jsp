@@ -381,6 +381,41 @@
 	    margin: 0;
 	    font-size: 14px;
 	}
+	
+	/* 최근 게시물 */
+	.recent-posts h3 {
+	    font-size: 24px;
+	    font-weight: bold;
+	    margin-bottom: 20px;
+	}
+	
+	.recent-posts .post-item {
+	    padding: 15px;
+	    background-color: #fff;
+	    border-radius: 8px;
+	    margin-bottom: 10px;
+	    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	}
+	
+	.recent-posts .post-item .post-title {
+	    font-size: 18px;
+	    font-weight: bold;
+	    color: #333;
+	}
+	
+	.recent-posts .post-item .post-price {
+	    font-size: 16px;
+	    color: #fee500;
+	    margin-top: 5px;
+	}
+	
+	.recent-board-list div:hover{
+		cursor: pointer;
+	}
+	
+	.recommended-products{
+		position: relative;
+	}
 
 		
 	
@@ -597,6 +632,14 @@
 	</div>
 	
 	<script>
+		$(function(){
+			$("#home").on("click", "div", function(){
+				var boardNo = $(this).children().val();
+				
+				location.href="${contextPath}/board/boardDetailForm?boardNo=" + boardNo;
+			});
+		});
+	
 		function checkchangeNick(){
 			
 			var changeNick = $("input[name=nickname]").val();
@@ -732,9 +775,11 @@
 							var title = $("<h6 class='card-title'>").text(board.boardTitle);
 							var priceTag = $("<p class='card-text'>").text(board.price + "원");
 							
+							var input = $("<input type='hidden'>").attr("name", "boardNo").val(board.boardNo);
+							
 							bodyDiv.append(title).append(priceTag);
 							
-							div.append(img).append(bodyDiv);
+							div.append(input).append(img).append(bodyDiv);
 							$("#home").append(div);
 						}
 					}
