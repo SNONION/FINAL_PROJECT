@@ -39,4 +39,5 @@ public class ProductBoard {
 	private int sellCount;
 	private	int buyCount;
 	private int replyCount;
+	
 }

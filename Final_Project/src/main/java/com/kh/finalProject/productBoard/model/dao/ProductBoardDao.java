@@ -278,6 +278,11 @@ public class ProductBoardDao {
 		
 		return sqlSession.selectOne("productBoardMapper.boardDetailForm", board);
 	}
+	
+	public ArrayList<ProductBoard> getproductSearch(SqlSessionTemplate sqlSession, String searchValue) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.productSearch", searchValue);
+	}
 
 	public Category boardCategory(SqlSessionTemplate sqlSession, int categoryNo) {
 		

@@ -302,6 +302,11 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 	}
 
 	@Override
+	public ArrayList<ProductBoard> searchProduct(String searchValue) {
+		
+		return productBoardDao.getproductSearch(sqlSession, searchValue);
+	}
+	
 	public Category boardCategory(int categoryNo) {
 		
 		return productBoardDao.boardCategory(sqlSession, categoryNo);
@@ -366,7 +371,5 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 		
 		productBoardDao.insertChatInfo(sqlSession, chatInfo);
 	}
-
-
 
 }

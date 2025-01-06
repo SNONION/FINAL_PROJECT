@@ -514,4 +514,10 @@
 		VALUES(SEQ_CHATNO.NEXTVAL, #{sellerId}, #{buyerId}, #{fileFullName})
 	</insert>
 	
+	<select id="productSearch" parameterType="String" resultMap="PBResultSet">
+		SELECT	*
+		FROM	TB_PRODUCTBOARD
+		WHERE	BOARD_TITLE LIKE '%'||#{searchValue}||'%'
+	</select>
+	
 </mapper>

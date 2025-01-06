@@ -89,7 +89,7 @@ public class UserDao {
 		
 		return sqlSession.update("userMapper.deleteUserInfo", loginUser);
 	}
-
+  
 	public ArrayList<ChatInfo> getChatRecord(SqlSessionTemplate sqlSession, String nickname) {
 		
 		return (ArrayList)sqlSession.selectList("userMapper.getChatRecord", nickname);

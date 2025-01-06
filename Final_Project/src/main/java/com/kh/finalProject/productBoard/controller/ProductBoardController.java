@@ -721,6 +721,19 @@ public class ProductBoardController {
 		
 	}
 	
+	// 상품 전체조회
+	@RequestMapping("productSearch")
+	public ModelAndView productAllSearch(@RequestParam(value="searchValue") String searchValue,
+								ModelAndView mv) {
+		
+		ArrayList<ProductBoard> productSearch = productBoardService.searchProduct(searchValue);
+		
+		mv.addObject("productSearch", productSearch);
+		mv.setViewName("productBoard/productBoardList");
+		
+		return mv;
+	}
+	
 	// 찜하기 버튼 클릭 시 테이블에 데이터 등록
 	@ResponseBody
 	@RequestMapping(value="myPickBoard", produces="html/text;charset=UTF-8")

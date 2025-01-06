@@ -153,6 +153,9 @@ public interface ProductBoardService {
 	// 상품게시판 리스트에서 상품 클릭시 상세보기 페이지로 이동하는 메소드
 	ProductBoard boardDetailForm(ProductBoard board);
 
+	//상품 검색 메소드 
+	ArrayList<ProductBoard> searchProduct(String searchValue);
+  
 	// 상세보기 페이지에서 보여줄 해당 게시물의 카테고리
 	Category boardCategory(int categoryNo);
 
