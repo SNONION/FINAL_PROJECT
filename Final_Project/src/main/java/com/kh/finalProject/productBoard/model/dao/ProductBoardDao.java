@@ -14,7 +14,6 @@ import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
 import com.kh.finalProject.productBoard.model.vo.ProductInfo;
-import com.kh.finalProject.productBoard.model.vo.ProductSearch;
 import com.kh.finalProject.productBoard.model.vo.Request;
 import com.kh.finalProject.productBoard.model.vo.Response;
 import com.kh.finalProject.user.model.vo.User;
@@ -278,9 +277,9 @@ public class ProductBoardDao {
 		return sqlSession.selectOne("productBoardMapper.boardDetailForm", board);
 	}
 	
-	public ArrayList<ProductSearch> getproductSearch(SqlSessionTemplate sqlSession, String searchValue) {
+	public ArrayList<ProductBoard> getproductSearch(SqlSessionTemplate sqlSession, String searchValue) {
 		
-		return (ArrayList)sqlSession.selectList("productBoard-mapper.productSearch", searchValue);
+		return (ArrayList)sqlSession.selectList("productBoardMapper.productSearch", searchValue);
 	}
 
 

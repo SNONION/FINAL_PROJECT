@@ -705,8 +705,8 @@
 					</div>
 				</div>
 				<div class="searchBar-area">
-					<form action="#" method="get" style="width: 100%; position: relative;">
-				        <input type="text" class="search-input" placeholder="검색어를 입력하세요" name="keyword">
+					<form action="${contextPath}/board/productSearch" method="get" style="width: 100%; position: relative;">
+				        <input type="text" class="search-input" placeholder="검색어를 입력하세요" name="searchValue">
 				        <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
 				    </form>
 				</div>

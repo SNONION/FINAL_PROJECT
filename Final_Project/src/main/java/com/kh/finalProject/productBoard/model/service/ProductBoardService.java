@@ -10,7 +10,6 @@ import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
 import com.kh.finalProject.productBoard.model.vo.ProductInfo;
-import com.kh.finalProject.productBoard.model.vo.ProductSearch;
 import com.kh.finalProject.productBoard.model.vo.Request;
 import com.kh.finalProject.productBoard.model.vo.Response;
 import com.kh.finalProject.user.model.vo.User;
@@ -152,8 +151,8 @@ public interface ProductBoardService {
 	// 상품게시판 리스트에서 상품 클릭시 상세보기 페이지로 이동하는 메소드
 	ProductBoard boardDetailForm(ProductBoard board);
 
-	//상품 검색 메소
-	ArrayList<ProductSearch> searchProduct(String searchValue);
+	//상품 검색 메소드 
+	ArrayList<ProductBoard> searchProduct(String searchValue);
 
 
 

@@ -627,8 +627,20 @@
 	<div class="list-area">
 		<div class="recommended-products">		
 			<c:choose>
-				<c:when test="${empty priceSearchBoard}">
+				<c:when test="${empty priceSearchBoard && empty productSearch}">
 					<c:forEach var="list" items="${searchBoard}">
+						<div class='product-card' style='margin-right: 30px;'>
+							<img src="${contextPath}${list.titleImg}">
+							<div class='product-info'>
+								<input type="hidden" name="boardNo" value="${list.boardNo}">
+								<div class='product-title'>${list.boardTitle}</div>
+								<div style='color: red;'>${list.price}원</div>
+							</div>
+						</div>
+					</c:forEach>
+				</c:when>
+				<c:when test="${not empty productSearch}">
+					<c:forEach var="list" items="${productSearch}">
 						<div class='product-card' style='margin-right: 30px;'>
 							<img src="${contextPath}${list.titleImg}">
 							<div class='product-info'>
