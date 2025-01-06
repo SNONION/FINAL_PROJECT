@@ -690,21 +690,34 @@ public class ProductBoardController {
 	
 	// 상품 게시판 상세보기 페이지 이동 메소드
 	@RequestMapping("boardDetailForm")
-	public ModelAndView boardDetailForm(ProductBoard board, ModelAndView mv) {
+	public ModelAndView boardDetailForm(ProductBoard board, ModelAndView mv, HttpServletRequest request) {
 		
+		// 조회수
 		int result = productBoardService.updateBoardCount(board);
 		
 		if(result > 0) {
+			// 게시물 정보들
 			ProductBoard detailBoard = productBoardService.boardDetailForm(board);
+			
+			// 상품 정보들
 			ProductInfo productInfo = productBoardService.selectProductInfo(board);
+			
+			// 상품 이미지
 			ArrayList<Media> media = productBoardService.selectMediaFile(board);
+			
+			// 상품 카테고리
 			Category category = productBoardService.boardCategory(detailBoard.getCategoryNo());
 			
+			// 작성자 정보 User -> 유저 이미지 / UserInfo -> 회원 신뢰도 및 신뢰도 이미지
 			User user = User.builder().userId(detailBoard.getBoardWriter()).build();
 			User writerInfo = userService.loginUser(user);
 			UserInfo userInfo = userService.selectInfo(writerInfo.getUserId());
 			
-			board.setBoardWriter(writerInfo.getUserId());
+			// 로그인 한 유저의 찜하기 게시물에 이 게시물이 있는지 확인
+			User loginUser = (User)request.getSession().getAttribute("loginUser");
+			board.setBoardWriter(loginUser.getUserId());
+			
+			// 있다면 0보다 큰 수를 반환
 			int existPick = productBoardService.checkPick(board);
 			
 			mv.addObject("media", media);
