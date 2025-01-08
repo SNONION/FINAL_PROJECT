@@ -199,6 +199,27 @@ public interface ProductBoardService {
 	// 댓글 작성 메소드
 	int insertReply(Reply reply);
 
+	// 상품 게시판을 수정하는 메소드
+	int updateProductBoard(ProductBoard pBoard);
+
+	// 상품 정보를 수정하는 메소드
+	int updateProductInfo(ProductInfo pInfo);
+
+	// 미디어 파일 삭제하는 메소드
+	int deleteMedia(ProductBoard pBoard);
+
+	// 상품 게시판 삭제 메소드
+	int pBoardDelete(ProductBoard board);
+
+	// 댓글 신고 메소드
+	int replyReport(Reply reply);
+
+	// 댓글 삭제 메소드
+	int deleteReply(Reply reply);
+
+	// 댓글 수정 메소드
+	int replyUpdate(Reply reply);
+
 
 
 }
