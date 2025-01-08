@@ -127,35 +127,36 @@
 	    border-color: #ffb900;
 	}
 </style>
-
 </head>
 <body>
 
 	<%@include file="/WEB-INF/views/common/header.jsp"%> 
 	
 	<div class="outer">
-		<form action="${contextPath}/board/insertProductBoard" method="post" enctype="multipart/form-data">
-			<button type="button" class="btn-kakao" style="float: left;" onclick="location.href='${contextPath}'">이전</button>
-			<button type="submit" class="btn-kakao" style="float: right; margin-right: 20px;">작성완료</button>
+		<form action="${contextPath}/board/updateProductBoard" method="post" enctype="multipart/form-data">
+			<button type="button" class="btn-kakao" style="float: left;" onclick="#">이전</button>
+			<button type="submit" class="btn-kakao" style="float: right; margin-right: 20px;">수정완료</button>
 			<br><br><br>
 		    <div class="inner">
 		    	<br><br><br>
+		    	<input type="hidden" name="titleImg" value="${detailBoard.titleImg}">
+		    	<input type="hidden" name="boardNo" value="${detailBoard.boardNo}">
 			    <input type="file" id="mainFile" name="mainFile" style="display:none;">
 				<table class="table table-bordered">
 					<thead>
 						<tr>
 							<th onclick="mainFileOutput();" rowspan="3" colspan="2" style="width: 114px; height: 151px; overflow: hidden; text-align: center;">
 							    <div id="mainFileOutput-div" style="width: 100%; height: 100%; object-fit: contain;">
-							    	<img style='width: 114px; height: 151px;'>
+							    	<img style='width: 114px; height: 151px;' src="${contextPath}${detailBoard.titleImg}">
 							    </div>
 							</th>
 							<th>
-								<input type="text" name="productName" placeholder="제품명 입력 (필수)" style="border: none;" required>
+								<input type="text" name="productName" placeholder="제품명 입력 (필수)" style="border: none;" value="${productInfo.productName}" required>
 							</th>
 						</tr>
 						<tr>
 							<th>
-								<input type="text" name="createLocation" placeholder="제조사 입력 (선택)" style="border: none;">
+								<input type="text" name="createLocation" placeholder="제조사 입력 (선택)" value="${productInfo.createLocation}" style="border: none;">
 							</th>
 						</tr>
 						<tr>
@@ -187,7 +188,7 @@
 						<tr>
 							<th>판매 가격</th>
 							<th colspan="3">
-								<input type="number" name="price" style="border: none; width: 150px; font-size: 16px; font-weight: bold" maxlength="10" placeholder="가격을 입력하세요." required>원
+								<input type="number" name="price" style="border: none; width: 150px; font-size: 16px; font-weight: bold" maxlength="10" value="${detailBoard.price}" required>원
 							</th>
 						</tr>
 						<tr>
@@ -217,11 +218,18 @@
 								<select id="cateList" required>
 										<option selected>필수사항</option>
 									<c:forEach var="c" items="${cList}">
-										<option>${c.categoryName}</option>
+										<c:choose>
+											<c:when test="${c.categoryName eq category.categoryName}">
+												<option selected>${c.categoryName}</option>
+											</c:when>
+											<c:otherwise>											
+												<option>${c.categoryName}</option>
+											</c:otherwise>
+										</c:choose>
 									</c:forEach>
 								</select>
 							</th>
-							<th id="detailCateSet" style="display: none;">
+							<th id="detailCateSet">
 								<select id="cateDetailList" name="categoryNo" required>
 								</select>
 							</th>
@@ -232,7 +240,14 @@
 								<select id="kindList" name="kindNo" required>
 									<!-- 거래 방식 선택 -->
 					        		<c:forEach var="k" items="${kList}">
-				        				<option value="${k.kindNo}">${k.kindName}</option>
+					        			<c:choose>
+					        				<c:when test="${detailBoard.kindNo eq k.kindNo}">
+					        					<option selected value="${k.kindNo}">${k.kindName}</option>
+					        				</c:when>
+					        				<c:otherwise>
+					        					<option value="${k.kindNo}">${k.kindName}</option>
+					        				</c:otherwise>
+					        			</c:choose>
 						        	</c:forEach>
 				        		</select>	
 							</th>
@@ -249,7 +264,7 @@
 						<tr>
 							<th width="200px">거래 방식</th>
 							<th colspan="3">
-								<select id="productState" name="sellWay" required>
+								<select id="sellWay" name="sellWay" required>
 				        			<option selected>직거래</option>
 				        			<option>택배</option>
 				        		</select>	
@@ -268,7 +283,7 @@
 		    	<!-- 상품 게시판 제목 -->
 			    <div id="notice-header">
 			        <h1 id="notice-title">
-			        	<input type="text" name="boardTitle" placeholder="제목을 입력하세요.">
+			        	<input type="text" name="boardTitle" value="${detailBoard.boardTitle}">
 			        </h1>
 			    </div>
 			    
@@ -277,7 +292,7 @@
 			    	<button type="button" class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortRight();"><i class="fas fa-align-right"></i></button>
 			    	<button type="button" class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortCenter();"><i class="fas fa-align-center"></i></button>
 			    	<button type="button" class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortLeft();"><i class="fas fa-align-left"></i></button>
-			        <p><textarea id="requestContent" name="BoardContent" style="resize: none;" placeholder="내용을 입력하세요."></textarea></p>
+			        <p><textarea id="requestContent" name="BoardContent" style="resize: none;" placeholder="내용을 입력하세요.">${detailBoard.boardContent}</textarea></p>
 			    </div>
 			    <div class="information-area" align="center">
 			    	<p align="center" style="font-size: 12px; color: gray;">
@@ -295,6 +310,7 @@
 	</div>
 
 	<script>
+		
 		function mainFileOutput(){
 			$("#mainFile").click();
 		};
@@ -317,8 +333,16 @@
 			});
 		});
 	
-		$("#cateList").change(function(){
-			var cate = $("#cateList").val();
+		$(function(){
+			selectPayment();
+			categoryDetailName();
+			productStatus();
+			sellWay();
+			tag19();
+		});
+		
+		function categoryDetailName(){
+			var cate = "${category.categoryName}";
 			
 			if(cate != "필수사항"){
 				$.ajax({
@@ -331,12 +355,19 @@
 						$("#cateDetailList option").remove();
 						
 						for(var i of result){
-							var option = $("<option>").text(i.categoryDetailName);
+							
+							var option;
+							
+							if("${category.categoryDetailName}" == i.categoryDetailName){
+								option = $("<option selected>").text(i.categoryDetailName);
+							}
+							else{
+								option = $("<option>").text(i.categoryDetailName);
+							}
+							
 							option.val(i.categoryNo);
 							$("#cateDetailList").append(option);
 						}
-						
-						$("#detailCateSet").css("display", "block");
 						
 					},
 					error : function(){
@@ -344,11 +375,7 @@
 					}
 				});
 			}
-			else{
-				$("#detailCateSet").css("display", "none");
-			}
-			
-		});
+		};
 	</script>
 	
 	<script>	
@@ -391,9 +418,61 @@
 		function sortRight(){
 			$("#requestContent").css("text-align","right");
 		}
+		
+		// 선호 결제 방식
+		function selectPayment(){
+			var payment = "${detailBoard.preferPayment}";
+			var count = $("#buyWay option").length;
+
+			for(var i = 0; i < count; i++){
+				var selectPayment = $($("#buyWay option").get(i)).val()
+				
+				if(selectPayment == payment){
+					$($("#buyWay option").get(i)).attr("selected", true);
+				}	
+			}
+		}
+		
+		// 제품 상태
+		function productStatus(){
+			var status = "${detailBoard.productStatus}";
+			var count = $("#productState option").length;
+			
+			for(var i = 0; i < count; i++){
+				var selectStatus = $($("#productState option").get(i)).val();
+				
+				if(selectStatus == status){
+					$($("#productState option").get(i)).attr("selected", true);
+				}
+			}
+		}
+		
+		// 판매 방식
+		function sellWay(){
+			var way = "${detailBoard.sellWay}";
+			var count = $("#sellWay option").length;
+			
+			for(var i = 0; i < count; i++){
+				var selectSell = $($("#sellWay option").get(i)).val();
+				
+				if(selectSell == way){
+					$($("#sellWay option").get(i)).attr("selected", true);
+				}
+				
+			}
+		}
+		
+		// 19 태그
+		function tag19(){
+			var tag = "${detailBoard.tag19Product}";
+			
+			if(tag == 'Y'){
+				$("#19tag").attr("checked", true);
+			}
+		}
 	</script>
 	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-	
+
 </body>
 </html>

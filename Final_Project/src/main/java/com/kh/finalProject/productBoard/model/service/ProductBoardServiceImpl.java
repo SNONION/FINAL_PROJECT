@@ -391,4 +391,46 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 		return productBoardDao.insertReply(sqlSession, reply);
 	}
 
+	@Override
+	public int updateProductBoard(ProductBoard pBoard) {
+		
+		return productBoardDao.updateProductBoard(sqlSession, pBoard);
+	}
+
+	@Override
+	public int updateProductInfo(ProductInfo pInfo) {
+		
+		return productBoardDao.updateProductInfo(sqlSession, pInfo);
+	}
+
+	@Override
+	public int deleteMedia(ProductBoard pBoard) {
+		
+		return productBoardDao.deleteMedia(sqlSession, pBoard);
+	}
+
+	@Override
+	public int pBoardDelete(ProductBoard board) {
+		
+		return productBoardDao.pBoardDelete(sqlSession, board);
+	}
+
+	@Override
+	public int replyReport(Reply reply) {
+		
+		return productBoardDao.replyReport(sqlSession, reply);
+	}
+
+	@Override
+	public int deleteReply(Reply reply) {
+		
+		return productBoardDao.deleteReply(sqlSession, reply);
+	}
+
+	@Override
+	public int replyUpdate(Reply reply) {
+		
+		return productBoardDao.replyUpdate(sqlSession, reply);
+	}
+
 }

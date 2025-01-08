@@ -435,7 +435,7 @@
 					CATEGORY_NO = #{categoryNo}
 				</when>
 				<when test="sellLocation != null">
-					SELL_LOCATION = #{sellLocation}
+					SELL_LOCATION LIKE '%'||#{sellLocation}||'%'
 				</when>
 				<when test="kindNo != 0">
 					KIND_NO = #{kindNo}
@@ -552,5 +552,58 @@
 							 REPLT_CONTENT)
 		VALUES(SEQ_RNO.NEXTVAL, #{replyWriter}, #{refBno}, #{replyContent})
 	</insert>
+	
+	<update id="updateProductBoard" parameterType="ProductBoard">
+		UPDATE	TB_PRODUCTBOARD
+		SET		BOARD_WRITER = #{boardWriter},
+				CATEGORY_NO = #{categoryNo},
+				SELL_LOCATION = #{sellLocation},
+				KIND_NO = #{kindNo},
+				PRODUCT_STATUS = #{productStatus},
+				BOARD_TITLE = #{boardTitle},
+				BOARD_CONTENT = #{boardContent},
+				PRICE = #{price},
+				SELL_WAY = #{sellWay},
+				TAG_19_PRODUCT = #{tag19Product},
+				TITLE_IMG = #{titleImg},
+				PREFER_PAYMENT = #{preferPayment},
+				MODIFY_DATE = SYSDATE
+		WHERE	BOARD_NO = #{boardNo}
+	</update>
+	
+	<update id="updateProductInfo" parameterType="ProductInfo">
+		UPDATE	TB_PRODUCTINFO
+		SET		PRODUCT_NAME = #{productName},
+			  	CREATE_LOCATION = #{createLocation},
+			   	PURCHASE_DATE = #{purchaseDate}
+		WHERE	BOARD_NO = #{boardNo}
+	</update>
+	
+	<delete id="deleteMedia" parameterType="ProductBoard">
+		DELETE FROM	TB_MEDIA
+		WHERE	REF_BNO = #{boardNo}
+	</delete>
+	
+	<delete id="pBoardDelete" parameterType="ProductBoard">
+		DELETE FROM	TB_PRODUCTBOARD
+		WHERE	BOARD_NO = #{boardNo}
+	</delete>
+	
+	<update id="replyReport" parameterType="Reply">
+		UPDATE	TB_REPLY
+		SET		REPLY_DECLARATION = 'Y'
+		WHERE	REPLY_NO = #{replyNo}
+	</update>
+	
+	<delete id="deleteReply" parameterType="Reply">
+		DELETE FROM TB_REPLY
+		WHERE	REPLY_NO = #{replyNo}
+	</delete>
+	
+	<update id="replyUpdate" parameterType="Reply">
+		UPDATE	TB_REPLY
+		SET		REPLT_CONTENT = #{replyContent}
+		WHERE	REPLY_NO = #{replyNo}
+	</update>
 	
 </mapper>

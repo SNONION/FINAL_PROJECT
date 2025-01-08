@@ -431,6 +431,117 @@
 	  margin-right: 5px;
 	}
 	
+	.report-button {
+	    position: absolute; /* 절대 위치 설정 */
+	    bottom: 5px; /* 하단에서 간격 */
+	    right: 10px; /* 오른쪽에서 간격 */
+	    padding: 3px 8px; /* 버튼 크기 조정 */
+	    font-size: 10px; /* 작은 글씨 */
+	    border: none; /* 테두리 없음 */
+	    background-color: transparent; /* 배경 투명 */
+	    color: #888; /* 텍스트 색상 (회색) */
+	    cursor: pointer;
+	    transition: color 0.2s ease, transform 0.2s ease;
+	}
+	
+	.update-button {
+	    position: absolute; /* 절대 위치 설정 */
+	    bottom: 5px; /* 하단에서 간격 */
+	    right: 60px; /* 오른쪽에서 간격 */
+	    padding: 3px 8px; /* 버튼 크기 조정 */
+	    font-size: 10px; /* 작은 글씨 */
+	    border: none; /* 테두리 없음 */
+	    background-color: transparent; /* 배경 투명 */
+	    color: #888; /* 텍스트 색상 (회색) */
+	    cursor: pointer;
+	    transition: color 0.2s ease, transform 0.2s ease;
+	}
+	
+	.report-button:hover {
+	    color: #333; /* 호버 시 진한 색상 */
+	    transform: scale(1.1); /* 살짝 확대 */
+	}
+	
+	.report-button:active {
+	    transform: scale(1); /* 클릭 시 원래 크기로 */
+	}
+	
+	.update-button:hover {
+	    color: #333; /* 호버 시 진한 색상 */
+	    transform: scale(1.1); /* 살짝 확대 */
+	}
+	
+	.update-button:active {
+	    transform: scale(1); /* 클릭 시 원래 크기로 */
+	}
+	
+	.reply-message {
+	    position: relative; /* 버튼을 오른쪽 하단에 위치시키기 위해 부모 요소를 기준으로 설정 */
+	    margin-bottom: 15px;
+	    padding: 10px;
+	    border-radius: 10px;
+	    background-color: #fff;
+	    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+	}
+		
+	.product-header {
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    padding: 10px 20px;
+	    border-bottom: 2px solid #f5f5f5;
+	}
+	
+	.product-title {
+	    font-size: 22px;
+	    font-weight: bold;
+	    color: #333;
+	    margin: 0;
+	}
+	
+	.product-date {
+	    font-size: 14px;
+	    color: #888;
+	    margin-top: 5px;
+	}
+	
+	.button-group {
+	    display: flex;
+	    gap: 10px; /* 버튼 간 간격 */
+	}
+	
+	.button-group button {
+	    padding: 5px 15px;
+	    font-size: 14px;
+	    font-weight: bold;
+	    border: none;
+	    border-radius: 20px;
+	    cursor: pointer;
+	    transition: background-color 0.3s ease, color 0.3s ease;
+	}
+	
+	/* 수정하기 버튼 (노란색) */
+	.edit-button {
+	    background-color: #ffe812;
+	    color: #333;
+	}
+	
+	.edit-button:hover {
+	    background-color: #ffd700; /* 호버 시 더 진한 노란색 */
+	    color: #000;
+	}
+	
+	/* 삭제하기 버튼 (회색) */
+	.delete-button {
+	    background-color: #ddd;
+	    color: #333;
+	}
+	
+	.delete-button:hover {
+	    background-color: #bbb; /* 호버 시 더 진한 회색 */
+	    color: #000;
+	}
+		
 </style>
 
 </head>
@@ -438,11 +549,35 @@
 
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 	
+	<script>
+		function updateBoard(){
+			var boardNo = "${detailBoard.boardNo}";
+			
+			alertify.confirm('해당 게시판 수정시 기존에 올려놓은 사진은 모두 삭제처리되며, 위치는 현재 위치로 변경됩니다. 그래도 수정하시겠습니까?', function(){
+				location.href="${contextPath}/board/pBoardUpdateForm?boardNo=" + boardNo;
+			});
+		}
+		
+		function deleteBoard(){
+			var boardNo = "${detailBoard.boardNo}";
+			
+			alertify.confirm('정말로 게시판을 삭제하시겠습니까?', function(){
+				location.href="${contextPath}/board/pBoardDelete?boardNo=" + boardNo;
+			});
+		}
+	</script>
+	
 	<div class="outer">
 		<div class="product-detail-page">
 		    <div class="product-header">
 		        <h1 class="product-title">${detailBoard.boardTitle}</h1>
 		        <p class="product-date">${detailBoard.createDate} | 조회수 ${detailBoard.count}</p>
+		        <c:if test="${loginUser.userId eq detailBoard.boardWriter || loginUser.userId eq 'admin'}">
+		        	<div class="button-group">
+			            <button class="edit-button" onclick="updateBoard();">수정하기</button>
+			            <button class="delete-button" onclick="deleteBoard();">삭제하기</button>
+			        </div>
+		        </c:if>
 		    </div>
 		    <div class="product-content">
 		        <div class="product-image">
@@ -463,6 +598,17 @@
 							</c:otherwise>
 						</c:choose>
 					</p>
+					<p class="product-status">상품 상태 : 
+						<c:choose>
+							<c:when test="${detailBoard.productStatus eq 'RE'}">
+								중고
+							</c:when>
+							<c:otherwise>
+								새상품
+							</c:otherwise>
+						</c:choose>
+					</p>
+					<p class="product-status">선호 거래 방식 : ${detailBoard.sellWay}</p>
 		            <p class="product-category">카테고리: ${category.categoryName}>${category.categoryDetailName}</p>
 		            <p class="product-kind">판매유형: 
 		            	<c:if test="${detailBoard.kindNo == '1'}">
@@ -574,6 +720,12 @@
 	</div>
 	
 	<script>
+		$("#writerProduct").click(function(){
+			var userId = "${detailBoard.boardWriter}";
+			
+			location.href="${contextPath}/board/sellerInfoPage?userId=" + userId;
+		});
+	
 		function replyInsert(){
 			var boardNo = "${detailBoard.boardNo}";
 			var replyContent = $("#replyContent").val();
@@ -599,6 +751,7 @@
 		};
 		
 		function getReply(){
+			var loginId = "${loginUser.userId}";
 			var boardNo = "${detailBoard.boardNo}";
 			
 			$.ajax({
@@ -611,21 +764,124 @@
 					$(".reply-output-area div").remove();
 					
 					for(var reply of result){
+						
 						// 외부 div 생성 (댓글 전체를 감싸는 컨테이너)
 				        var replyDiv = $("<div>").addClass("reply-message");
 
-				        // 헤더 생성 (작성자와 작성 날짜)
-				        var headerDiv = $("<div>").addClass("reply-header");
-				        var authorSpan = $("<span>").addClass("reply-author").text(reply.replyWriter);
+				        // 헤더 생성 (작성자와 작성 날짜 및 댓글 번호(숨김))
+				        var headerDiv = $("<div id='imHeader'>").addClass("reply-header");
+				        var authorSpan = $("<span id='idSpan'>").addClass("reply-author").text(reply.replyWriter);
 				        var dateSpan = $("<span>").addClass("reply-date").text(reply.replyDate);
+				        var input1 = $("<input type='hidden'>").val(reply.replyNo);
+				        var input2 = $("<input type='hidden'>").val(reply.replyNo);
+				        var input3 = $("<input type='hidden'>").val(reply.replyNo);
+				        
+				        if(reply.replyDeclaration == "Y"){
+				        	authorSpan.append("&nbsp;<i style='color:red; font-size: 10px;' class='fas fa-exclamation-triangle'></i>");
+				        }
+				        
 				        headerDiv.append(authorSpan).append(dateSpan);
 				        
-
 				        // 내용 생성 (댓글 내용)
-				        var contentDiv = $("<div>").addClass("reply-content").text(reply.replyContent);
-
-				        // replyDiv에 헤더와 내용을 추가
-				        replyDiv.append(headerDiv).append(contentDiv);
+				        var contentDiv = $("<div class='content-area'>").addClass("reply-content").text(reply.replyContent).on("dblclick", function(){
+				        	var writerCheck = $(this).siblings("#imHeader").children("#idSpan").text();
+				        	
+				        	if(loginId === writerCheck){
+				        		var beforeReply = $(this).text();
+					        	$(this).text("");
+					        	$("#updateReBtn").css("display", "block");
+					        	$(this).append($("<input style='width: 500px; border-radius: 10px;'>").val(beforeReply));
+				        	}
+				        });
+						
+				        // 댓글 신고하기 버튼 생성
+				        var reportButton = $("<button>").addClass("report-button").text("신고하기").on("click", function(){
+				        	var replyNo = $(this).children().val();
+				        	
+				        	alertify.confirm('해당 댓글을 신고하시겠습니까?', function(){
+								
+				        		$.ajax({
+				        			url : "${contextPath}/board/replyReport",
+				        			data : {
+				        				replyNo : replyNo
+				        			},
+				        			success : function(msg){
+				        				
+				        				if(msg = "NNNNY"){
+				        					getReply();
+				        					alertify.alert('알림', '신고가 접수 되었습니다.');
+				        				}
+				        			},
+				        			error : function(){
+				        				console.log("통신 오류");
+				        			}
+				        		});
+							});
+				        });
+				        
+				        reportButton.append(input1);
+				        
+				     	// 댓글 삭제하기 버튼 생성
+				        var deleteButton = $("<button>").addClass("report-button").text("삭제하기").on("click", function(){
+				        	var replyNo = $(this).children().val();
+				        	
+				        	alertify.confirm('해당 댓글을 삭제하시겠습니까?', function(){
+								
+				        		$.ajax({
+				        			url : "${contextPath}/board/deleteReply",
+				        			data : {
+				        				replyNo : replyNo
+				        			},
+				        			success : function(msg){
+				        				
+				        				if(msg = "NNNNY"){
+				        					getReply();
+				        				}
+				        			},
+				        			error : function(){
+				        				console.log("통신 오류");
+				        			}
+				        		});
+							});
+				        });
+				     	
+				        deleteButton.append(input2);
+				     	
+				        var updateButton = $("<button id='updateReBtn' style='display:none;'>").addClass("update-button").append("<i class='fas fa-edit'></i>").on("click", function(){
+				        	var replyNo = $(this).children("input").val();
+							var replyContent = $(this).siblings(".content-area").children("input").val();
+							
+			        		$.ajax({
+			        			url : "${contextPath}/board/replyUpdate",
+			        			data : {
+			        				replyNo : replyNo,
+			        				replyContent : replyContent
+			        			},
+			        			success : function(msg){
+			        				
+			        				if(msg = "NNNNY"){
+			        					getReply();
+			        				}
+			        				
+			        			},
+			        			error : function(){
+			        				console.log("통신 오류");
+			        			}
+			        		});
+				        });
+				        
+				        updateButton.append(input3);
+				        
+				        // 자신이 작성한 댓글에는 수정, 삭제하기 추가
+				        if(loginId == reply.replyWriter){
+				        	// replyDiv에 헤더와 내용을 추가
+					        replyDiv.append(headerDiv).append(contentDiv).append(deleteButton).append(updateButton);
+				        }
+				        // 아닐 경우 신고하기 추가
+				        else{
+					        // replyDiv에 헤더와 내용을 추가
+					        replyDiv.append(headerDiv).append(contentDiv).append(reportButton);
+				        }  
 
 				        // reply-output-area에 replyDiv 추가
 				        $(".reply-output-area").append(replyDiv);
@@ -798,11 +1054,6 @@
 			$(".kakao-chat-content").css("display", "block");
 			$(".first-page-content").css("display", "none");
 			openChat();
-		});
-	
-		// 거래 선호 위치 상세보기 메소드
-		$("#sellArea").click(function(){
-			
 		});
 	
 		// 신고하기 버튼 기능 메소드

@@ -436,6 +436,11 @@
 							var postDiv = $("<div class='post-item' style='display: flex;'>");
 							var input = $("<input type='hidden'>").attr("name", "boardNo").val(five.boardNo);
 							var titleDiv = $("<div class='post-title' style='margin-right: 20px;'>").text(five.boardTitle);
+							
+							if(five.boardDeclaration == "Y"){
+								titleDiv.append("&nbsp;<i style='color:red;' class='fas fa-exclamation-circle'></i>")
+							}
+							
 							var priceDiv = $("<div style='color: red;'>").text(five.price + "원");
 							
 							postDiv.append(input).append(titleDiv).append(priceDiv);
@@ -506,6 +511,11 @@
 							var productInfo = $("<div class='product-info'>");
 							var input = $("<input type='hidden'>").attr("name", "boardNo").val(top.boardNo);
 							var title = $("<div class='product-title'>").text(top.boardTitle);
+							
+							if(top.boardDeclaration == "Y"){
+								title.append("&nbsp;<i style='color:red;' class='fas fa-exclamation-circle'></i>")
+							}
+							
 							var price = $("<div style='color: red;'>").text(top.price + "원");
 							
 							productInfo.append(input).append(title).append(price);
