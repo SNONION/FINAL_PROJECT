@@ -355,5 +355,40 @@ public class ProductBoardDao {
 		return sqlSession.insert("productBoardMapper.insertReply", reply);
 	}
 
+	public int updateProductBoard(SqlSessionTemplate sqlSession, ProductBoard pBoard) {
+		
+		return sqlSession.update("productBoardMapper.updateProductBoard", pBoard);
+	}
+
+	public int updateProductInfo(SqlSessionTemplate sqlSession, ProductInfo pInfo) {
+		
+		return sqlSession.update("productBoardMapper.updateProductInfo", pInfo);
+	}
+
+	public int deleteMedia(SqlSessionTemplate sqlSession, ProductBoard pBoard) {
+		
+		return sqlSession.delete("productBoardMapper.deleteMedia", pBoard);
+	}
+
+	public int pBoardDelete(SqlSessionTemplate sqlSession, ProductBoard board) {
+		
+		return sqlSession.delete("productBoardMapper.pBoardDelete", board);
+	}
+
+	public int replyReport(SqlSessionTemplate sqlSession, Reply reply) {
+		
+		return sqlSession.update("productBoardMapper.replyReport", reply);
+	}
+
+	public int deleteReply(SqlSessionTemplate sqlSession, Reply reply) {
+		
+		return sqlSession.delete("productBoardMapper.deleteReply", reply);
+	}
+
+	public int replyUpdate(SqlSessionTemplate sqlSession, Reply reply) {
+		
+		return sqlSession.update("productBoardMapper.replyUpdate", reply);
+	}
+
 
 }

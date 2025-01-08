@@ -360,7 +360,7 @@
 		</div>
 		<form action="${contextPath}/board/searchBoardFilter">			
 			<div class="union-filter">
-				<c:if test="${not empty category}">
+				<c:if test="${category.categoryName != null}">
 					<div>${category.categoryName}
 						<input type="hidden" name="categoryName" value="${category.categoryName}">
 						<button id='filterDeleteBtn'><i class='fas fa-times'></i></button>
@@ -602,11 +602,17 @@
 			function upFilter(name, filterOption){
 				var filterDiv = $("<div>").text(filterOption);
 				var deleteBtn = $("<button id='filterDeleteBtn'>").html("<i class='fas fa-times'></i>");
-				if(filterOption == "제품요청"){
+				if(filterOption == "제품 요청"){
 					filterOption = 1;
 				}
 				else if(filterOption == "판매"){
 					filterOption = 2;	
+				}
+				else if(filterOption == "중고"){
+					filterOption = "RE";
+				}
+				else if(filterOption == "새상품"){
+					filterOption = "NEW";
 				}
 				var input = $("<input type='hidden'>").attr("name", name).val(filterOption);
 				filterDiv.append(input).append(deleteBtn);
@@ -634,7 +640,11 @@
 							<img src="${contextPath}${list.titleImg}">
 							<div class='product-info'>
 								<input type="hidden" name="boardNo" value="${list.boardNo}">
-								<div class='product-title'>${list.boardTitle}</div>
+								<div class='product-title'>${list.boardTitle}
+									<c:if test="${list.boardDeclaration == 'Y'}">
+										&nbsp;<i style='color:red;' class="fas fa-exclamation-circle"></i>
+									</c:if>
+								</div>
 								<div style='color: red;'>${list.price}원</div>
 							</div>
 						</div>
@@ -646,7 +656,11 @@
 							<img src="${contextPath}${list.titleImg}">
 							<div class='product-info'>
 								<input type="hidden" name="boardNo" value="${list.boardNo}">
-								<div class='product-title'>${list.boardTitle}</div>
+								<div class='product-title'>${list.boardTitle}
+									<c:if test="${list.boardDeclaration == 'Y'}">
+										&nbsp;<i style='color:red;' class="fas fa-exclamation-circle"></i>
+									</c:if>
+								</div>
 								<div style='color: red;'>${list.price}원</div>
 							</div>
 						</div>
@@ -658,7 +672,11 @@
 							<img src="${contextPath}${pList.titleImg}">
 							<div class='product-info'>
 								<input type="hidden" name="boardNo" value="${pList.boardNo}">
-								<div class='product-title'>${pList.boardTitle}</div>
+								<div class='product-title'>${pList.boardTitle}
+									<c:if test="${pList.boardDeclaration == 'Y'}">
+										&nbsp;<i style='color:red;' class="fas fa-exclamation-circle"></i>
+									</c:if>
+								</div>
 								<div style='color: red;'>${pList.price}원</div>
 							</div>
 						</div>

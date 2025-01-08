@@ -1,5 +1,6 @@
 package com.kh.finalProject.productBoard.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -661,7 +662,13 @@ public class ProductBoardController {
 		
 		if(location.getLocationName() != null) {
 			mv.addObject("location", location);
-			board.setSellLocation(location.getLocationName() + " " + location.getLocationDetail1());
+			
+			if(location.getLocationDetail1() != null) {
+				board.setSellLocation(location.getLocationName() + " " + location.getLocationDetail1());				
+			}
+			else {
+				board.setSellLocation(location.getLocationName());
+			}
 		}
 		
 		ArrayList<ProductBoard> searchBoard = productBoardService.searchFilterBoard(board);
@@ -806,7 +813,7 @@ public class ProductBoardController {
 	
 	// 게시물 신고 기능 메소드
 	@ResponseBody
-	@RequestMapping(value="reportUser", produces="html/text;charset=UTF-8")
+	@RequestMapping(value="reportBoard", produces="html/text;charset=UTF-8")
 	public String reportBoard(ProductBoard board) {
 		
 		int result = productBoardService.reportBoard(board);
@@ -870,4 +877,243 @@ public class ProductBoardController {
 		
 	}
 	
+	// 상품 게시판 수정하는 페이지로 이동하는 메소드
+	@RequestMapping("pBoardUpdateForm")
+	public ModelAndView pBoardUpdateForm(ProductBoard board, ModelAndView mv) {
+		
+		// 게시물 정보들
+		ProductBoard detailBoard = productBoardService.boardDetailForm(board);
+		
+		// 상품 정보들
+		ProductInfo productInfo = productBoardService.selectProductInfo(board);
+		
+		// 상품 이미지
+		ArrayList<Media> media = productBoardService.selectMediaFile(board);
+		
+		// 상품 카테고리
+		Category category = productBoardService.boardCategory(detailBoard.getCategoryNo());
+		
+		ArrayList<Category> cList = userService.getCategory();
+		ArrayList<Kind> kList = productBoardService.selectKindList();
+		
+		mv.addObject("cList", cList);
+		mv.addObject("kList", kList);
+		mv.addObject("detailBoard", detailBoard);
+		mv.addObject("productInfo", productInfo);
+		mv.addObject("media", media);
+		mv.addObject("category", category);
+		mv.setViewName("productBoard/pBoardUpdateForm");
+		
+		return mv;
+	}
+	
+	// 상품 게시판 수정하는 메소드
+	@RequestMapping("updateProductBoard")
+	public ModelAndView updateProductBoard(ProductBoard pBoard, ProductInfo pInfo, HttpServletRequest request,
+													ModelAndView mv,
+													@RequestParam("upFile") MultipartFile[] upFile, 
+										            @RequestParam("mainFile") MultipartFile mainFile) throws Exception {
+		
+		HttpSession session = request.getSession();
+		
+		// 게시판 번호로 해당 상품 게시판의 이미지를 삭제처리를 위해 파일 조회
+		ArrayList<Media> deleteMediaList = productBoardService.selectMediaFile(pBoard);
+
+		// 다른 이미지들이 있는 경우 기존 이미지들 제거 진행
+		if(!upFile[0].getOriginalFilename().equals("")) {
+			
+			// 반복문을 돌려 있는 수 만큼 삭제 작업 수행
+			for(Media m : deleteMediaList) {
+				String realPath = session.getServletContext().getRealPath("/resources/productImgFiles/");
+				File file = new File(realPath + m.getChangeName());
+				file.delete();
+			}
+			
+			// 이 후 DB에 있는 미디어 파일들 삭제
+			productBoardService.deleteMedia(pBoard);
+		}
+		
+		// 이미지 파일을 올린 경우에만 실행 (없는 경우도 있음)
+		if(!mainFile.getOriginalFilename().equals("")) {
+			String changeMainName = new ChangeFileName().changeProductFileName(mainFile, session);
+			pBoard.setTitleImg("/resources/productImgFiles/" + changeMainName);
+		}
+		
+		// 다른 이미지 파일을 받아줄 리스트 및 객체 생성
+		Media media = new Media();
+		ArrayList<Media> mList = new ArrayList<>();
+		
+		// 상품 게시판에 올라갈 다른 이미지 파일들이 있는 경우에만 실행
+		if(!upFile[0].getOriginalFilename().equals("")) {
+			for(MultipartFile mediaFile : upFile) {
+				String changeOtherName = new ChangeFileName().changeProductFileName(mediaFile, session);
+				media = Media.builder().changeName(changeOtherName).mediaPath("/resources/productImgFiles/")
+							   .originName(mediaFile.getOriginalFilename()).refBno(pBoard.getBoardNo()).build();
+				
+				mList.add(media);
+			}
+		}
+		
+		// 19태그가 ON / NULL에 따라 N / Y로 변경
+		if(pBoard.getTag19Product() == null) {
+			pBoard.setTag19Product("N");
+		}
+		else {
+			pBoard.setTag19Product("Y");
+		}
+		
+		/* ----------------- 윗 부분은 삽입을 위한 재료손질 부분 ------------------ */
+		
+		// 제품 게시판을 먼저 수정한 후 제품정보를 작성해준다 (상품게시판을 상품정보가 참조)
+		int result1 = productBoardService.updateProductBoard(pBoard);
+		
+		int result2 = 0;
+		int result3 = 1;
+		
+		// 상품 게시판에 수정이 성공했을 경우에 상품정보와 미디어 파일 수정
+		if(result1 > 0) {
+			result2 = productBoardService.updateProductInfo(pInfo);
+			
+			// 다른 이미지 파일들이 있을 경우에만 진행
+			if(!upFile[0].getOriginalFilename().equals("")) {
+				result3 = productBoardService.insertMediaFile(mList);
+			}
+		}
+		
+		int result = result1 * result2 * result3;
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "글수정이 완료했습니다.");
+			
+			// 글 수정 성공시 리스트 페이지로 이동
+			mv.setViewName("redirect:/");
+		}
+		else {
+			session.setAttribute("alertMsg", "글 수정 도중 오류가 발생했습니다.");
+			
+			// 글 수정 실패시 다시 작성페이지로 이동
+			mv.setViewName("/productBoard/pBoardEnrollForm");
+		}
+		
+		return mv;
+		
+	}
+	
+	// 상품 게시판 삭제 메소드
+	@RequestMapping("pBoardDelete")
+	public String pBoardDelete(ProductBoard board, ModelAndView mv, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		int result = productBoardService.pBoardDelete(board);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "게시판을 삭제하였습니다.");
+		}
+		else {
+			session.setAttribute("alertMsg", "동작 오류");
+		}
+		
+		return "redirect:/";
+	}
+	
+	// 댓글 신고 메소드
+	@ResponseBody
+	@RequestMapping(value="replyReport", produces="html/text;charset=UTF-8")
+	public String replyReport(Reply reply) {
+		
+		int result = productBoardService.replyReport(reply);
+		
+		String msg = "";
+		
+		if(result > 0) {
+			msg = "NNNNY";
+		}
+		else {
+			msg = "NNNNN";
+		}
+		
+		return msg;
+		
+	}
+	
+	// 댓글 삭제 메소드
+	@ResponseBody
+	@RequestMapping(value="deleteReply", produces="html/text;charset=UTF-8")
+	public String deleteReply(Reply reply) {
+		
+		int result = productBoardService.deleteReply(reply);
+		
+		String msg = "";
+		
+		if(result > 0) {
+			msg = "NNNNY";
+		}
+		else {
+			msg = "NNNNN";
+		}
+		
+		return msg;
+		
+	}
+	
+	// 댓글 수정 메소드
+	@ResponseBody
+	@RequestMapping(value="replyUpdate", produces="html/text;charset=UTF-8")
+	public String replyUpdate(Reply reply) {
+		
+		int result = productBoardService.replyUpdate(reply);
+		
+		String msg = "";
+		
+		if(result > 0) {
+			msg = "NNNNY";
+		}
+		else {
+			msg = "NNNNN";
+		}
+		
+		return msg;
+		
+	}
+	
+	// 판매자 상세 정보 페이지로 이동
+	@RequestMapping("sellerInfoPage")
+	public ModelAndView sellerInfoPage(User user, ModelAndView mv) {
+		
+		User sellerLoginInfo = userService.loginUser(user);
+		UserInfo sellerInfo = userService.selectInfo(user.getUserId());
+		
+		mv.addObject("sellerLogin", sellerLoginInfo);
+		mv.addObject("sellerInfo", sellerInfo);
+		mv.setViewName("productBoard/sellerInfoPage");
+		
+		return mv;
+		
+	}
+	
+	// 판매자의 다른 상품들을 조회해오는 메소드
+	@ResponseBody
+	@RequestMapping(value="getSellerBoard", produces="application/json;charset=UTF-8")
+	public ArrayList<ProductBoard> getSellerBoard(@RequestParam(value="currentPage", defaultValue="1")int currentPage,
+																		ProductBoard board, String type) {
+		User user = User.builder().userId(board.getBoardWriter()).build();
+		
+		int listCount = productBoardService.listCount(user);
+		int listLimit = 15;
+		int pageLimit = 10;
+		
+		PageInfo pi = PageNation.pageNation(listCount, currentPage, pageLimit, listLimit);
+		
+		ArrayList<ProductBoard> list = new ArrayList<>();
+		
+		if(type.equals("판매 중")) {
+			list = productBoardService.selectProductAll(user, pi);
+		}
+		else {
+			list = productBoardService.selectProductDone(user, pi);
+		}
+		
+		return list;
+		
+	}
 }
