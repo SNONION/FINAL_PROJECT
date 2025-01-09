@@ -12,8 +12,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class Warning {
-	private String userId; //신고자 
-	private Date warningDate; //경고 날짜
-	private String declarationId; //피신고자
-	private String declarationContent; //신고사유작성
+
+	private String userId; //	USER_ID	VARCHAR2(15 BYTE)
+	private Date warningDate; //	WARNNING_DATE	DATE
+	private String declarationId; //	DECLARATION_ID	VARCHAR2(15 BYTE)
+	private String declarationContent; //	DECLARATION_CONTENT	VARCHAR2(1000 BYTE)
+	
 }

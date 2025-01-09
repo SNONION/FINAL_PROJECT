@@ -63,4 +63,7 @@ public interface UserService {
 	
 	ArrayList<Warning> warningList();
 
+	// 신고 받은 유저를 삽입하는 메소드
+	int insertWarningUser(Warning warning);
+
 }

@@ -576,6 +576,10 @@
 	.reply-reply-textarea::placeholder {
 	    color: #aaa; /* 플레이스홀더 색상 */
 	}
+	
+	#idSpan:hover{
+		cursor: pointer;
+	}
 
 </style>
 
@@ -802,10 +806,135 @@
 						
 						// 외부 div 생성 (댓글 전체를 감싸는 컨테이너)
 				        var replyDiv = $("<div>").addClass("reply-message");
-
+				      	
 				        // 헤더 생성 (작성자와 작성 날짜 및 댓글 번호(숨김))
 				        var headerDiv = $("<div id='imHeader'>").addClass("reply-header");
-				        var authorSpan = $("<span id='idSpan'>").addClass("reply-author").text(reply.replyWriter);
+				        var authorSpan = $("<span id='idSpan'>").addClass("reply-author").text(reply.replyWriter).on("dblclick", function (event) {
+						     
+				        	// 유저 아이디를 가져옴
+				        	var replyWriter = $(this).text();
+				        	
+				        	if("${loginUser.userId}" != replyWriter){
+				        		
+					        	// 기존 메뉴가 있으면 삭제
+					        	$(".miniMenuDiv").remove();
+	
+	
+					        	// 메뉴 창 div
+					        	var miniMenu = $("<div>").addClass("miniMenuDiv")
+					        	    .css({
+					        	        position: "absolute", // 위치를 절대 좌표로 설정
+					        	        top: event.pageY + "px", // 클릭된 Y 위치
+					        	        left: event.pageX + "px", // 클릭된 X 위치
+					        	        background: "#fff", // 배경색
+					        	        border: "1px solid #ddd", // 테두리
+					        	        borderRadius: "10px", // 모서리 둥글게
+					        	        padding: "10px 0", // 내부 여백
+					        	        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)", // 부드러운 그림자
+					        	        zIndex: 1000, // 상위 레이어 보장
+					        	        minWidth: "100px", // 최소 너비
+					        	        fontFamily: "'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif", // 카카오 스타일의 폰트
+					        	        color: "#333", // 텍스트 색상
+					        	        textAlign: "center", // 텍스트 정렬
+					        	    });
+	
+					        	// 메뉴 창 div에 넣어줄 span 요소
+					        	var menu1 = $("<span>").text("채팅하기")
+					        	    .css({
+					        	        display: "block", // 각 메뉴를 블록 형태로 배치
+					        	        padding: "5px 10px", // 내부 여백
+					        	        fontSize: "10px", // 글씨 크기
+					        	        cursor: "pointer", // 포인터 커서 표시
+					        	        backgroundColor: "#f7e600", // 카카오톡 노란색
+					        	        color: "#333", // 텍스트 색상
+					        	        borderRadius: "5px", // 둥근 모서리
+					        	        margin: "5px 10px", // 메뉴 간 간격
+					        	        fontWeight: "bold", // 굵은 글씨
+					        	    }).hover(
+					        	        function () {
+					        	            $(this).css("backgroundColor", "#ffe500"); // 호버 효과
+					        	        },
+					        	        function () {
+					        	            $(this).css("backgroundColor", "#f7e600");
+					        	        }
+					        	    ).on("click", function(){
+					        	    	
+					        	    	$.ajax({
+					        	    		url : "${contextPath}/board/changeIdToNick",
+					        	    		data : {
+					        	    			userId : replyWriter
+					        	    		},
+					        	    		success : function(nickname){
+					        	    			getChatFromReply(nickname);
+					        	    		},
+					        	    		error : function(){
+					        	    			console.log("통신 오류");
+					        	    		}
+					        	    	});
+					        	    	
+					        	    });
+	
+					        	var menu2 = $("<span id='declaration'>").text("신고하기")
+					        	    .css({
+					        	        display: "block",
+					        	        padding: "5px 10px",
+					        	        fontSize: "10px",
+					        	        cursor: "pointer",
+					        	        backgroundColor: "#f7e600",
+					        	        color: "#333",
+					        	        borderRadius: "5px",
+					        	        margin: "5px 10px",
+					        	        fontWeight: "bold",
+					        	    }).hover(
+					        	        function () {
+					        	            $(this).css("backgroundColor", "#ffe500");
+					        	        },
+					        	        function () {
+					        	            $(this).css("backgroundColor", "#f7e600");
+					        	        }
+					        	    ).on("click", function(){
+					        	    	
+					        	    	alertify.prompt('신고대상 : ' + replyWriter, '', function(evt, value) { 
+					        	    		
+					        	    			$.ajax({
+					        	    				url : "${contextPath}/board/insertWarningUser",
+					        	    				data : {
+					        	    					declarationId : replyWriter,
+					        	    					declarationContent : value
+					        	    				},
+					        	    				success : function(msg){
+					        	    					if(msg == "NNNNY"){
+						        	    					alertify.alert('알림', '신고가 처리되었습니다.');					        	    						
+					        	    					}
+					        	    				},
+					        	    				error : function(){
+					        	    					console.log("통신 오류");
+					        	    				}
+					        	    			});
+					        	    		
+					        	    		});
+					        	    	
+					        	    });
+
+					        	// 삽입
+					        	miniMenu.append(menu1, menu2);
+	
+					        	// 메뉴를 body에 추가
+					        	$("body").append(miniMenu);
+	
+					        	// 클릭 외 다른 영역을 클릭하면 메뉴 닫기
+					        	$(document).on("click", function (e) {
+					        	    if (!$(e.target).closest(".miniMenuDiv, #idSpan").length) {
+					        	        $(".miniMenuDiv").remove();
+					        	    }
+					        	});
+	
+					        	// 이벤트 전파 방지 (메뉴 클릭 시 메뉴 닫힘 방지)
+					        	miniMenu.on("click", function (e) {
+					        	    e.stopPropagation();
+					        	});
+				        	}
+				        });
 				        var dateSpan = $("<span>").addClass("reply-date").text(reply.replyDate);
 				        var input1 = $("<input type='hidden'>").val(reply.replyNo);
 				        var input2 = $("<input type='hidden'>").val(reply.replyNo);
@@ -1228,13 +1357,15 @@
 		// 판매자와 채팅 시스템 메소드
 		$("#chatWithSeller").click(function(){
 			
+			sessionStorage.setItem("sellerInfo", "${writerInfo.nickname}");
+			
 			$.ajax({
 				url : "${contextPath}/user/getChatRecord",
 				data : {
 					chatUser : "${writerInfo.nickname}"
 				},
 				success : function(result){
-					
+					console.log(result);
 					$(".chat-history div").remove();
 					
 					for(var i of result){
@@ -1265,6 +1396,52 @@
 			$(".first-page-content").css("display", "none");
 			openChat();
 		});
+		
+		// 댓글에 유저와 채팅할떄의 메소드
+		function getChatFromReply(nickname){
+			
+			sessionStorage.setItem("sellerInfo", nickname);
+			
+			if("${loginUser.nickname}" != nickname){
+				$.ajax({
+					url : "${contextPath}/user/getChatRecord",
+					data : {
+						chatUser : nickname
+					},
+					success : function(result){
+						
+						$(".chat-history div").remove();
+						
+						for(var i of result){
+							
+							var contentSpan = $("<span class='message-content'>").text(i.messageContent);	
+							var timeSpan = $("<span class='message-time'>").text(i.createData);
+							if("${loginUser.nickname}" == i.nickname){
+								var outDiv = $("<div class='chat-message admin-message'>");
+							}
+							else{
+								var outDiv = $("<div class='chat-message user-message'>");
+							}
+							
+							outDiv.append(contentSpan).append(timeSpan);
+							$(".chat-history").append(outDiv);
+							
+							var content = $(".chat-history");
+							content.scrollTop(content[0].scrollHeight);
+						}
+						
+					},
+					error : function(){
+						console.log("통신 오류");
+					}
+				});
+				
+				$(".kakao-chat-content").css("display", "block");
+				$(".first-page-content").css("display", "none");
+				openChat();
+			}
+			
+		}
 	
 		// 신고하기 버튼 기능 메소드
 		function reportBoard(){

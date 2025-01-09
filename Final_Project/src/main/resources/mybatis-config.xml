@@ -12,6 +12,7 @@
 	<typeAliases>
 		<typeAlias type="com.kh.finalProject.user.model.vo.User" alias="User"/>
 		<typeAlias type="com.kh.finalProject.user.model.vo.Agree" alias="Agree"/>
+		<typeAlias type="com.kh.finalProject.user.model.vo.Warning" alias="Warning"/>
 		<typeAlias type="com.kh.finalProject.user.model.vo.UserInfo" alias="UserInfo"/>
 		<typeAlias type="com.kh.finalProject.user.model.vo.Warning" alias="Warning"/>
 		<typeAlias type="com.kh.finalProject.common.model.vo.Category" alias="Category"/>

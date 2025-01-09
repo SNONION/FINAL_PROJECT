@@ -126,4 +126,10 @@ public class UserServiceImpl implements UserService{
 		return userDao.warningList(sqlSession);
 	}
 
+	@Override
+	public int insertWarningUser(Warning warning) {
+		
+		return userDao.insertWarningUser(sqlSession, warning);
+	}
+
 }

@@ -95,9 +95,15 @@ public class UserDao {
 		
 		return (ArrayList)sqlSession.selectList("userMapper.getChatRecord", nickname);
 	}
-	
+  
 	public ArrayList<Warning> warningList(SqlSessionTemplate sqlSession){
 	
 		return (ArrayList)sqlSession.selectList("userMapper.selectWarningList");
 	}
+
+	public int insertWarningUser(SqlSessionTemplate sqlSession, Warning warning) {
+		
+		return sqlSession.insert("userMapper.insertWarningUser", warning);
+	}
+
 }
