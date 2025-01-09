@@ -126,7 +126,7 @@
 				<div class="footer-section">
 					<div class="social-icons">
 						<a href="#" class="social-icon"> 
-							<img src="/final/resources/facebook.png">
+							<img src="/finalProject/resources/facebook.png">
 						</a> 
 						<a href="#" class="social-icon"> 
 							<img src="/finalProject/resources/twitter.png">

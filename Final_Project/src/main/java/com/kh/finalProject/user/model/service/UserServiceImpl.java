@@ -132,4 +132,10 @@ public class UserServiceImpl implements UserService{
 		return userDao.insertWarningUser(sqlSession, warning);
 	}
 
+	@Override
+	public int checkDeclaration(Warning warning) {
+		
+		return userDao.checkDeclaration(sqlSession, warning);
+	}
+
 }
