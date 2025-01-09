@@ -12,6 +12,7 @@ import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
 import com.kh.finalProject.productBoard.model.vo.ProductInfo;
+import com.kh.finalProject.productBoard.model.vo.ReReply;
 import com.kh.finalProject.productBoard.model.vo.Reply;
 import com.kh.finalProject.productBoard.model.vo.Request;
 import com.kh.finalProject.productBoard.model.vo.Response;
@@ -219,6 +220,12 @@ public interface ProductBoardService {
 
 	// 댓글 수정 메소드
 	int replyUpdate(Reply reply);
+
+	// 대댓글 작성하는 메소드
+	int insertReplyToReply(ReReply reReply);
+
+	// 대댓글을 조회해오는 메소드
+	ArrayList<ReReply> getReplyReply(ReReply reReply);
 
 
 

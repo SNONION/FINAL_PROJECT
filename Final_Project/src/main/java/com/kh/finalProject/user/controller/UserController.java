@@ -513,6 +513,7 @@ public class UserController {
 		}
 		else {
 			loginUser.setUserImg("/resources/Default-Profile-Pic.png");
+			file.delete();
 		}
 		
 		int result = userService.changeProfileImg(loginUser);
