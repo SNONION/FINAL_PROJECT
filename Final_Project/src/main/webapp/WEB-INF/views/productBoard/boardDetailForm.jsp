@@ -906,6 +906,9 @@
 					        	    					if(msg == "NNNNY"){
 						        	    					alertify.alert('알림', '신고가 처리되었습니다.');					        	    						
 					        	    					}
+					        	    					else if(msg == "NNNND"){
+					        	    						alertify.alert('알림', '이미 신고가 처리되었습니다.');	
+					        	    					}
 					        	    				},
 					        	    				error : function(){
 					        	    					console.log("통신 오류");

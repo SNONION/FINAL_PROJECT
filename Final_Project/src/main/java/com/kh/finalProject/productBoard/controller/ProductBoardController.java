@@ -1149,12 +1149,7 @@ public class ProductBoardController {
 		return rrList;
 		
 	}
-	
-	@RequestMapping
-	public String gohome() {
-		return "redirect:/";
-	}
-  
+
 	// 채팅을 위해 아이디를 사용해 닉네임을 조회하는 메소드
 	@ResponseBody
 	@RequestMapping(value="changeIdToNick", produces="html/text;charset=UTF-8")
@@ -1174,15 +1169,22 @@ public class ProductBoardController {
 		User loginUser = (User)request.getSession().getAttribute("loginUser");
 		warning.setUserId(loginUser.getUserId());
 		
-		int result = userService.insertWarningUser(warning);
+		int count = userService.checkDeclaration(warning);
 		
 		String msg = "";
 		
-		if(result > 0) {
-			msg = "NNNNY";
+		if(count == 0) {
+			int result = userService.insertWarningUser(warning);
+			
+			if(result > 0) {
+				msg = "NNNNY";
+			}
+			else {
+				msg = "NNNNN";
+			}
 		}
 		else {
-			msg = "NNNNN";
+			msg = "NNNND";
 		}
 		
 		return msg;

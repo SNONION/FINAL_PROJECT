@@ -6,10 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 페이지</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
-	<title>카카오 느낌 사이드바</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
  <style>
         body {
             margin: 0;
@@ -199,12 +197,14 @@
     </style>
 </head>
 <body>
+	<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+	
     <div class="container">
         <!-- 사이드바 -->
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">KH마켓 관리자 페이지</div>
-            <div class="menu-item">
-                <i class="fas fa-home"></i><a href="http://localhost:8888/final/">홈</a>
+            <div class="menu-item" onclick="goHome();">
+                <i class="fas fa-home"></i><span>홈</span>
             </div>
             <div class="menu-item">
                 <i class="fas fa-user"></i><span>신고유저 확인</span>
@@ -278,6 +278,10 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+    	function goHome(){
+    		location.href="${contextPath}";
+    	}
+    
         $(document).ready(function () {
             // 사이드바 토글
             const sidebar = $('#sidebar');

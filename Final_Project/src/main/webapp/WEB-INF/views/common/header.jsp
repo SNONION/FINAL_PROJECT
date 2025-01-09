@@ -1227,7 +1227,7 @@
 		
 		// 관리자 채팅 접속
 		function connection(){
-			var url ="ws://localhost:8888/final/chatting"
+			var url ="ws://localhost:8888/finalProject/chatting"
 			// 소켓이 없을 경우 생성
 			if(!socket){
 				socket = new WebSocket(url);

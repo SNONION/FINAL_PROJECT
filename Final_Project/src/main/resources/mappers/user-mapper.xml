@@ -234,9 +234,16 @@
 		VALUES(#{userId}, #{declarationId}, #{declarationContent})
 	</insert>
   
-  <select id="selectWarningList" parameterType="Warning" resultMap="WarningResultSet">
+  	<select id="selectWarningList" parameterType="Warning" resultMap="WarningResultSet">
 		SELECT  *
 		FROM    TB_WARNING
+	</select>
+	
+	<select id="checkDeclaration" parameterType="Warning" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_WARNING
+		WHERE	USER_ID = #{userId}
+		AND		DECLARATION_ID = #{declarationId}
 	</select>
 	
 </mapper>

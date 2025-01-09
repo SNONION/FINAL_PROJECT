@@ -60,10 +60,13 @@ public interface UserService {
 	// 로그인한 유저의 채팅 기록을 가져오는 메소드
 	ArrayList<ChatInfo> getChatRecord(String nickname);
 	
-	
+	// 신고 받은 유저 조회해오는 메소드
 	ArrayList<Warning> warningList();
 
 	// 신고 받은 유저를 삽입하는 메소드
 	int insertWarningUser(Warning warning);
+
+	// 신고 당한 상태인지 확인하는 메소드
+	int checkDeclaration(Warning warning);
 
 }

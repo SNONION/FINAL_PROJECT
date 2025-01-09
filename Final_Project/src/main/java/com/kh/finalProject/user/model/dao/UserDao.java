@@ -106,4 +106,9 @@ public class UserDao {
 		return sqlSession.insert("userMapper.insertWarningUser", warning);
 	}
 
+	public int checkDeclaration(SqlSessionTemplate sqlSession, Warning warning) {
+		
+		return sqlSession.selectOne("userMapper.checkDeclaration", warning);
+	}
+
 }
