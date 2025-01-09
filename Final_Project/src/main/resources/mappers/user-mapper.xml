@@ -81,6 +81,18 @@
 		<result column="CREATE_DATE" property="createDate"/>
 	</resultMap>
 	
+	<resultMap type="Warning" id="WarnResultSet">
+		<result column="USER_ID" property="userId"/>
+		<result column="WARNING_DATE" property="warningDate"/> 
+		<result column="DECLARATION_ID" property="declarationId"/> 
+		<result column="DECLARATION_CONTENT" property="declarationContent"/>  
+	</resultMap>
+	
+	<select id="selectWarningList" parameterType="Warning" resultMap="WarnResultSet">
+		SELECT *
+		FROM TB_WARNING
+	</select>
+	
 	<select id="loginUser" parameterType="User" resultMap="userResultSet">
 		SELECT	*
 		FROM	TB_USER
@@ -220,4 +232,5 @@
 		OR		SELLER_ID = #{nickname}
 	</select>
 
+	
 </mapper>

@@ -25,6 +25,7 @@ import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
 import com.kh.finalProject.productBoard.model.vo.ProductInfo;
+import com.kh.finalProject.productBoard.model.vo.ReReply;
 import com.kh.finalProject.productBoard.model.vo.Reply;
 import com.kh.finalProject.productBoard.model.vo.Request;
 import com.kh.finalProject.productBoard.model.vo.Response;
@@ -1115,5 +1116,41 @@ public class ProductBoardController {
 		
 		return list;
 		
+	}
+	
+	// 대댓글을 작성하는 메소드
+	@ResponseBody
+	@RequestMapping(value="insertReplyToReply", produces="html/text;charset=UTF-8")
+	public String insertReplyToReply(ReReply reReply) {
+		
+		int result = productBoardService.insertReplyToReply(reReply);
+		
+		String msg = "";
+		
+		if(result > 0) {
+			msg = "NNNNY";
+		}
+		else {
+			msg = "NNNNN";
+		}
+		
+		return msg;
+		
+	}
+	
+	// 해당 댓글에 대댓글을 조회해오는 메소드
+	@ResponseBody
+	@RequestMapping(value="getReplyReply", produces="application/json;charset=UTF-8")
+	public ArrayList<ReReply> getReplyReply(ReReply reReply) {
+		
+		ArrayList<ReReply> rrList = productBoardService.getReplyReply(reReply);
+		
+		return rrList;
+		
+	}
+	
+	@RequestMapping
+	public String gohome() {
+		return "redirect:/";
 	}
 }

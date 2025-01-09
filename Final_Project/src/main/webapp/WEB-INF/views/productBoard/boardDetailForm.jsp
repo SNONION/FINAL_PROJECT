@@ -35,6 +35,7 @@
 	    border-radius: 8px;
 	    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	    overflow: hidden;
+	    overflow-y: hidden;
 	}
 	
 	.product-header {
@@ -340,6 +341,7 @@
 	  padding: 10px;
 	  border-top: 1px solid #e5e5e5;
 	  background-color: #f9f9f9; /* 카카오의 밝은 배경색 느낌 */
+	  overflow-y: hidden;
 	}
 	
 	.reply-area textarea {
@@ -387,8 +389,7 @@
 	  background-color: #f9f9f9;
 	  border: 1px solid #e5e5e5;
 	  border-radius: 10px;
-	  max-height: 400px; /* 스크롤 필요시 */
-	  overflow-y: auto;
+	  overflow-y: hidden;
 	  font-family: 'Arial', sans-serif;
 	}
 	
@@ -482,6 +483,7 @@
 	    border-radius: 10px;
 	    background-color: #fff;
 	    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+	    overflow-y: hidden;
 	}
 		
 	.product-header {
@@ -541,7 +543,40 @@
 	    background-color: #bbb; /* 호버 시 더 진한 회색 */
 	    color: #000;
 	}
-		
+	
+	.reply-reply-button {
+	    padding: 0 15px;
+	    margin-left: 20px;
+	    height: 40px;
+	    border: none;
+	    border-radius: 20px;
+	    background-color: #f7e600; /* 카카오톡의 노란색 */
+	    color: #333; /* 텍스트 색상 */
+	    font-weight: bold;
+	    font-size: 14px;
+	    cursor: pointer;
+	    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15); /* 버튼 그림자 */
+	    transition: background-color 0.3s ease;
+	}
+	
+	.reply-reply-textarea {
+	    flex: 1; /* 버튼 제외하고 나머지 공간 차지 */
+	    resize: none; /* 크기 조절 비활성화 */
+	    height: 100px;
+	    border: 1px solid #ddd;
+	    border-radius: 20px;
+	    padding: 10px 15px;
+	    font-size: 14px;
+	    outline: none;
+	    background-color: #fff;
+	    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* 살짝 입체감 */
+	    margin-right: 10px; /* 버튼과 간격 */
+	}
+	
+	.reply-reply-textarea::placeholder {
+	    color: #aaa; /* 플레이스홀더 색상 */
+	}
+
 </style>
 
 </head>
@@ -699,7 +734,7 @@
 		    </div>
 		    <div class="product-footer">
 	    		<c:if test="${loginUser.userId != detailBoard.boardWriter}">
-		    		<button class="button-contact" id="PurchaseRequest">구매요청</button>
+		    		<button class="button-contact" id="PurchaseRequest">구매하기</button>
 		        	<button class="button-contact" id="chatWithSeller">판매자와 채팅하기</button>
 			        <button class="button-contact" id="pickBtn" onclick="pick();">찜하기
 			        	<c:if test="${existPick > 0}">
@@ -775,6 +810,7 @@
 				        var input1 = $("<input type='hidden'>").val(reply.replyNo);
 				        var input2 = $("<input type='hidden'>").val(reply.replyNo);
 				        var input3 = $("<input type='hidden'>").val(reply.replyNo);
+				        var input4 = $("<input type='hidden'>").val(reply.replyNo);
 				        
 				        if(reply.replyDeclaration == "Y"){
 				        	authorSpan.append("&nbsp;<i style='color:red; font-size: 10px;' class='fas fa-exclamation-triangle'></i>");
@@ -789,6 +825,7 @@
 				        	if(loginId === writerCheck){
 				        		var beforeReply = $(this).text();
 					        	$(this).text("");
+					        	$("#plusReply").css("display", "none");
 					        	$("#updateReBtn").css("display", "block");
 					        	$(this).append($("<input style='width: 500px; border-radius: 10px;'>").val(beforeReply));
 				        	}
@@ -861,6 +898,7 @@
 			        				
 			        				if(msg = "NNNNY"){
 			        					getReply();
+			        					$("#plusReply").css("display", "block");
 			        				}
 			        				
 			        			},
@@ -872,15 +910,80 @@
 				        
 				        updateButton.append(input3);
 				        
+				        // 대댓글 여는 버튼 추가
+				        var plusButton = $("<button id='plusReply'>").addClass("update-button").append("<i class='fas fa-plus'></i>").on("click", function(){
+				        	
+				        	var replyNo = $(this).children("input").val();
+				        	getReReply(replyNo);
+				        	
+				        	if($(this).closest(".reply-message").siblings(".reply-reply-container").length > 0){
+					        	$(".reply-reply-container").remove();
+					        	$(".rereply-area").remove();
+					        	return;
+					        }
+				        	
+				        	// 대댓글 입력창 생성
+				        	var replyReplyContainer = $("<div>")
+				        	    .addClass("reply-reply-container")
+				        	    .css({
+				        	        "margin-top": "10px",
+				        	        "padding": "10px",
+				        	        "border-left": "2px solid #ddd",
+				        	        "display": "flex", // 수평 정렬을 위해 flexbox 사용
+				        	        "align-items": "center", // 입력창과 버튼을 수직 가운데 정렬
+				        	        "overflow-y": "hidden",
+				        	    });
+
+				        	var replyReplyInput = $("<textarea>")
+				        	    .attr("placeholder", "대댓글을 입력하세요...")
+				        	    .addClass("reply-reply-textarea");
+
+				        	var replyReplyButton = $("<button>")
+				        	    .text("작성")
+				        	    .addClass("reply-reply-button")
+				        	    .on("click", function(){ 
+				        	    	var replyNo = $(this).closest("div").siblings(".reply-message").children("#plusReply").children("input").val();
+				        	    	var reReplyContent = $(this).siblings(".reply-reply-textarea").val();
+				        	    	
+				        	    	$.ajax({
+				        	    		url : "${contextPath}/board/insertReplyToReply",
+				        	    		data : {
+				        	    			replyNo : replyNo,
+				        	    			reReplyWriter : loginId,
+				        	    			reReplyContent : reReplyContent
+				        	    		},
+				        	    		success : function(msg){
+				        	    			
+				        	    			if(msg = "NNNNY"){
+				        	    				console.log(replyNo);
+				        	    				getReReply(replyNo);
+				        	    				$(".reply-reply-button").siblings(".reply-reply-textarea").val("");
+				        	    			}
+				        	    			
+				        	    		},
+				        	    		error : function(){
+				        	    			console.log("통신 오류");
+				        	    		}
+				        	    	})
+				        	    	
+				        	    });
+					        
+					        replyReplyContainer.append(replyReplyInput).append(replyReplyButton);
+					        
+					        $(this).closest(".reply-message").after($("<div class='rereply-area'>")).after(replyReplyContainer);
+				        });
+				        
+				        plusButton.append(input4);
+				        
 				        // 자신이 작성한 댓글에는 수정, 삭제하기 추가
 				        if(loginId == reply.replyWriter){
 				        	// replyDiv에 헤더와 내용을 추가
-					        replyDiv.append(headerDiv).append(contentDiv).append(deleteButton).append(updateButton);
+					        replyDiv.append(headerDiv).append(contentDiv).append(plusButton).append(deleteButton).append(updateButton);
 				        }
 				        // 아닐 경우 신고하기 추가
 				        else{
 					        // replyDiv에 헤더와 내용을 추가
-					        replyDiv.append(headerDiv).append(contentDiv).append(reportButton);
+					        replyDiv.append(headerDiv).append(contentDiv).append(plusButton).append(reportButton);
 				        }  
 
 				        // reply-output-area에 replyDiv 추가
@@ -902,9 +1005,89 @@
 		});
 	
 		$(function(){
-			getReply()
+			getReply();
 			getAnotherList();
 		});
+		
+		// 대댓글 조회해오는 메소드
+		function getReReply(replyNo){
+			
+			$.ajax({
+				url : "${contextPath}/board/getReplyReply",
+				data : {
+					replyNo : replyNo
+				},
+				success : function(result){
+					
+					$(".rereply-area div").remove();
+
+					for (var rere of result) {
+						
+					    // 대댓글 외부 컨테이너 생성
+					    var rereDieContainer = $("<div>")
+					        .addClass("rereply-container")
+					        .css({
+					            "padding": "10px",
+					            "border-left": "2px solid #ddd",
+					            "background-color": "#f9f9f9",
+					            "border-radius": "5px",
+					            "margin-bottom": "10px",
+					            "box-sizing": "border-box",
+					            "width": "100%",
+					            "overflow-y": "hidden",
+					        });
+
+					    // 대댓글 내용 생성
+					    var rereDieContent = $("<div>")
+					        .addClass("rereply-content")
+					        .text(rere.reReplyContent)
+					        .css({
+					            "margin-top": "5px",
+					            "font-size": "14px",
+					            "color": "#333",
+					        });
+
+					    // 작성자와 작성일 정보 생성
+					    var rereplyInfo = $("<div>")
+					        .addClass("rereply-info")
+					        .css({
+					            "display": "flex",
+					            "justify-content": "space-between",
+					            "align-items": "center",
+					        });
+
+					    var rereWriter = $("<span>")
+					        .addClass("rereply-writer")
+					        .text(rere.reReplyWriter)
+					        .css({
+					            "font-weight": "bold",
+					            "color": "#333",
+					        });
+
+					    var rereDate = $("<span>")
+					        .addClass("rereply-date")
+					        .text(rere.reReplyDate)
+					        .css({
+					            "font-size": "0.9em",
+					            "color": "#888",
+					        });
+
+					    // 작성자와 작성일을 정보 div에 추가
+					    rereplyInfo.append(rereWriter).append(rereDate);
+
+					    // 대댓글 구성 요소를 컨테이너에 추가
+					    rereDieContainer.append(rereplyInfo).append(rereDieContent);
+
+					    // 대댓글 영역에 컨테이너 추가
+					    $(".rereply-area").append(rereDieContainer);
+					}
+		            
+				},
+				error : function(){
+					console.log("통신 오류");
+				}
+			});
+		}
 		
 		function getAnotherList(){
 			var boardNo = "${detailBoard.boardNo}";
@@ -1177,7 +1360,7 @@
 		});
 	</script>
 	
-	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+	<%@include file="/WEB-INF/views/common/footer.jsp" %>
 
 </body>
 </html>
