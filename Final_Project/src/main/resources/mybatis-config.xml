@@ -14,6 +14,7 @@
 		<typeAlias type="com.kh.finalProject.user.model.vo.Agree" alias="Agree"/>
 		<typeAlias type="com.kh.finalProject.user.model.vo.Warning" alias="Warning"/>
 		<typeAlias type="com.kh.finalProject.user.model.vo.UserInfo" alias="UserInfo"/>
+		<typeAlias type="com.kh.finalProject.user.model.vo.Warning" alias="Warning"/>
 		<typeAlias type="com.kh.finalProject.common.model.vo.Category" alias="Category"/>
 		<typeAlias type="com.kh.finalProject.common.model.vo.Location" alias="Location"/>
 		<typeAlias type="com.kh.finalProject.common.model.vo.Kind" alias="Kind"/>

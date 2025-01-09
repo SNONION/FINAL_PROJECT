@@ -119,6 +119,12 @@ public class UserServiceImpl implements UserService{
 		
 		return userDao.getChatRecord(sqlSession, nickname);
 	}
+	
+	@Override
+	public ArrayList<Warning> warningList(){
+		
+		return userDao.warningList(sqlSession);
+	}
 
 	@Override
 	public int insertWarningUser(Warning warning) {

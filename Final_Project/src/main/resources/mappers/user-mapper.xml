@@ -80,14 +80,14 @@
 		<result column="FILE_FULLNAME" property="fileFullName"/>
 		<result column="CREATE_DATE" property="createDate"/>
 	</resultMap>
-	
-	<resultMap type="Warning" id="WarningResultSet">
+  
+  <resultMap type="Warning" id="WarningResultSet">
 		<result column="USER_ID" property="userId"/>
 		<result column="WARNNING_DATE" property="warningDate"/>
 		<result column="DECLARATION_ID" property="declarationId"/>
 		<result column="DECLARATION_CONTENT" property="declarationContent"/>
-	</resultMap>
-	
+  </resultMap>
+
 	<select id="loginUser" parameterType="User" resultMap="userResultSet">
 		SELECT	*
 		FROM	TB_USER
@@ -233,5 +233,10 @@
 							   DECLARATION_CONTENT)
 		VALUES(#{userId}, #{declarationId}, #{declarationContent})
 	</insert>
-
+  
+  <select id="selectWarningList" parameterType="Warning" resultMap="WarningResultSet">
+		SELECT  *
+		FROM    TB_WARNING
+	</select>
+	
 </mapper>

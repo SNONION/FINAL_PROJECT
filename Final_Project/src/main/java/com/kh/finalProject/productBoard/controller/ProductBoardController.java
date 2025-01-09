@@ -1150,6 +1150,11 @@ public class ProductBoardController {
 		
 	}
 	
+	@RequestMapping
+	public String gohome() {
+		return "redirect:/";
+	}
+  
 	// 채팅을 위해 아이디를 사용해 닉네임을 조회하는 메소드
 	@ResponseBody
 	@RequestMapping(value="changeIdToNick", produces="html/text;charset=UTF-8")
