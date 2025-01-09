@@ -699,7 +699,7 @@
 		    </div>
 		    <div class="product-footer">
 	    		<c:if test="${loginUser.userId != detailBoard.boardWriter}">
-		    		<button class="button-contact">구매요청</button>
+		    		<button class="button-contact" id="PurchaseRequest">구매요청</button>
 		        	<button class="button-contact" id="chatWithSeller">판매자와 채팅하기</button>
 			        <button class="button-contact" id="pickBtn" onclick="pick();">찜하기
 			        	<c:if test="${existPick > 0}">
@@ -945,6 +945,33 @@
 				}
 			});
 		}
+		
+		$("#PurchaseRequest").click(function () {
+			//get the closable setting value.
+			var closable = alertify.alert().setting('closable');
+			//grab the dialog instance using its parameter-less constructor then set multiple settings at once.
+			
+		   	alertify.confirm('정말로 구매하시겠습니까?', function(){ 
+		   	// 사용자가 "확인"을 클릭한 경우
+		           $.ajax({
+		           	url: "${contextPath}/purchase", // 서버의 구매 요청 처리 경로
+		               method: 'POST',
+		               data: {
+		                   boardNo: "${detailBoard.boardNo}" // 구매할 아이템의 데이터
+		               }, // 구매할 아이템의 데이터
+		               success: function (response) {
+		                   alert("구매가 완료되었습니다!");
+		               },
+		               error: function () {
+		                   alert("구매에 실패했습니다. 다시 시도해주세요.");
+		               }
+		           });
+		   		});
+		       
+		    });
+			 
+		
+		
 	</script>
 	
 	<!-- 카카오톡 스타일 현재 위치 모달창 -->
