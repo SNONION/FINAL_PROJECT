@@ -13,6 +13,7 @@ import com.kh.finalProject.user.model.dao.UserDao;
 import com.kh.finalProject.user.model.vo.Agree;
 import com.kh.finalProject.user.model.vo.User;
 import com.kh.finalProject.user.model.vo.UserInfo;
+import com.kh.finalProject.user.model.vo.Warning;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -117,6 +118,12 @@ public class UserServiceImpl implements UserService{
 	public ArrayList<ChatInfo> getChatRecord(String nickname) {
 		
 		return userDao.getChatRecord(sqlSession, nickname);
+	}
+
+	@Override
+	public int insertWarningUser(Warning warning) {
+		
+		return userDao.insertWarningUser(sqlSession, warning);
 	}
 
 }

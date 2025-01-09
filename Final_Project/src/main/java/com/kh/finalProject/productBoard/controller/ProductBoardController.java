@@ -32,6 +32,7 @@ import com.kh.finalProject.productBoard.model.vo.Response;
 import com.kh.finalProject.user.model.service.UserService;
 import com.kh.finalProject.user.model.vo.User;
 import com.kh.finalProject.user.model.vo.UserInfo;
+import com.kh.finalProject.user.model.vo.Warning;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -1148,4 +1149,39 @@ public class ProductBoardController {
 		return rrList;
 		
 	}
+	
+	// 채팅을 위해 아이디를 사용해 닉네임을 조회하는 메소드
+	@ResponseBody
+	@RequestMapping(value="changeIdToNick", produces="html/text;charset=UTF-8")
+	public String changeIdToNick(User user) {
+		
+		User getUser = userService.loginUser(user);
+		
+		return getUser.getNickname();
+		
+	}
+	
+	// 신고한 대상을 삽입하는 메소드
+	@ResponseBody
+	@RequestMapping(value="insertWarningUser", produces="html/text;charset=UTF-8")
+	public String insertWarningUser(Warning warning, HttpServletRequest request) {
+		
+		User loginUser = (User)request.getSession().getAttribute("loginUser");
+		warning.setUserId(loginUser.getUserId());
+		
+		int result = userService.insertWarningUser(warning);
+		
+		String msg = "";
+		
+		if(result > 0) {
+			msg = "NNNNY";
+		}
+		else {
+			msg = "NNNNN";
+		}
+		
+		return msg;
+		
+	}
+	
 }
