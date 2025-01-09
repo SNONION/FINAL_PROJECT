@@ -17,6 +17,7 @@ import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
 import com.kh.finalProject.productBoard.model.vo.ProductInfo;
+import com.kh.finalProject.productBoard.model.vo.ReReply;
 import com.kh.finalProject.productBoard.model.vo.Reply;
 import com.kh.finalProject.productBoard.model.vo.Request;
 import com.kh.finalProject.productBoard.model.vo.Response;
@@ -431,6 +432,18 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 	public int replyUpdate(Reply reply) {
 		
 		return productBoardDao.replyUpdate(sqlSession, reply);
+	}
+
+	@Override
+	public int insertReplyToReply(ReReply reReply) {
+		
+		return productBoardDao.insertReplyToReply(sqlSession, reReply);
+	}
+
+	@Override
+	public ArrayList<ReReply> getReplyReply(ReReply reReply) {
+		
+		return productBoardDao.getReplyReply(sqlSession, reReply);
 	}
 
 }

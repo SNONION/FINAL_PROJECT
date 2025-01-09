@@ -114,6 +114,14 @@
 		<result column="REPLY_DECLARATION" property="replyDeclaration"/>
 	</resultMap>
 	
+	<resultMap type="ReReply" id="ReReplyResultSet">
+		<result column="REREPLY_NO" property="reReplyNo"/>
+		<result column="REPLY_NO" property="replyNo"/>
+		<result column="REREPLY_WRITER" property="reReplyWriter"/>
+		<result column="REREPLY_CONTENT" property="reReplyContent"/>
+		<result column="REREPLY_DATE" property="reReplyDate"/>
+	</resultMap>
+	
 	<select id="listCount" parameterType="User" resultType="_int">
 		SELECT	COUNT(*)
 		FROM	TB_PRODUCTBOARD
@@ -605,5 +613,20 @@
 		SET		REPLT_CONTENT = #{replyContent}
 		WHERE	REPLY_NO = #{replyNo}
 	</update>
+	
+	<insert id="insertReplyToReply" parameterType="ReReply">
+		INSERT INTO TB_REREPLY(REREPLY_NO,
+							   REPLY_NO,
+							   REREPLY_WRITER,
+							   REREPLY_CONTENT)
+		VALUES(SEQ_RREPLYNO.NEXTVAL, #{replyNo}, #{reReplyWriter}, #{reReplyContent})
+	</insert>
+	
+	<select id="getReplyReply" parameterType="ReReply" resultMap="ReReplyResultSet">
+		SELECT	*
+		FROM	TB_REREPLY
+		WHERE	REPLY_NO = #{replyNo}
+		ORDER BY REREPLY_DATE DESC
+	</select>
 	
 </mapper>
