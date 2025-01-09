@@ -11,6 +11,7 @@ import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.user.model.vo.Agree;
 import com.kh.finalProject.user.model.vo.User;
 import com.kh.finalProject.user.model.vo.UserInfo;
+import com.kh.finalProject.user.model.vo.Warning;
 
 @Repository
 public class UserDao {
@@ -93,6 +94,11 @@ public class UserDao {
 	public ArrayList<ChatInfo> getChatRecord(SqlSessionTemplate sqlSession, String nickname) {
 		
 		return (ArrayList)sqlSession.selectList("userMapper.getChatRecord", nickname);
+	}
+
+	public int insertWarningUser(SqlSessionTemplate sqlSession, Warning warning) {
+		
+		return sqlSession.insert("userMapper.insertWarningUser", warning);
 	}
 
 }

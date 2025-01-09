@@ -81,6 +81,13 @@
 		<result column="CREATE_DATE" property="createDate"/>
 	</resultMap>
 	
+	<resultMap type="Warning" id="WarningResultSet">
+		<result column="USER_ID" property="userId"/>
+		<result column="WARNNING_DATE" property="warningDate"/>
+		<result column="DECLARATION_ID" property="declarationId"/>
+		<result column="DECLARATION_CONTENT" property="declarationContent"/>
+	</resultMap>
+	
 	<select id="loginUser" parameterType="User" resultMap="userResultSet">
 		SELECT	*
 		FROM	TB_USER
@@ -219,5 +226,12 @@
 		WHERE	BUYER_ID = #{nickname}
 		OR		SELLER_ID = #{nickname}
 	</select>
+	
+	<insert id="insertWarningUser" parameterType="Warning">
+		INSERT INTO TB_WARNING(USER_ID,
+							   DECLARATION_ID,
+							   DECLARATION_CONTENT)
+		VALUES(#{userId}, #{declarationId}, #{declarationContent})
+	</insert>
 
 </mapper>
