@@ -157,33 +157,35 @@
 				
 				
 			</script>
-			
-			
-				<div class="modal" id="adpage">
-  <div class="modal-dialog">
-    <div class="modal-content">
 
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title" style="color: black;">관리자 페이지 로그인</h4>
-        
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-<form action="${contextPath}/user/toAdmin" method="POST">
-      <!-- Modal body -->
-      <div class="modal-body" style="color: black;">
-        <input type="password" name="userPwd" id="passwordInput" placeholder="비밀번호를 입력하세요.">
-      </div>
 
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-warning" id="adpg">로그인</button>
-        <button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
-      </div>
-</form>
-    </div>
-  </div>
-</div>
+			<div class="modal" id="adpage">
+				<div class="modal-dialog">
+					<div class="modal-content">
+
+						<!-- Modal Header -->
+						<div class="modal-header">
+							<h4 class="modal-title" style="color: black;">관리자 페이지 로그인</h4>
+
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<form action="${contextPath}/user/toAdmin" method="POST">
+							<!-- Modal body -->
+							<div class="modal-body" style="color: black;">
+								<input type="password" name="userPwd" id="passwordInput"
+									placeholder="비밀번호를 입력하세요.">
+							</div>
+
+							<!-- Modal footer -->
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-warning" id="adpg">로그인</button>
+								<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			
 			<div class="footer-bottom">
 				<p>KH 중고마켓은 통신판매중개자로서 거래 당사자가 아니며 판매 회원과 구매 회원 간의 상품거래 정보 및 거래에 관여하지 않고,</p><p>어떠한 의무와 책임도 부담하지 않습니다.</p>
 				<br>

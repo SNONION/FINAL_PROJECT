@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.finalProject.common.model.vo.AddressInfo;
+import com.kh.finalProject.common.model.vo.BoardCategory;
 import com.kh.finalProject.common.model.vo.Category;
 import com.kh.finalProject.common.model.vo.Kind;
 import com.kh.finalProject.common.model.vo.Location;
@@ -21,6 +23,7 @@ import com.kh.finalProject.common.model.vo.PageInfo;
 import com.kh.finalProject.common.template.ChangeFileName;
 import com.kh.finalProject.common.template.PageNation;
 import com.kh.finalProject.productBoard.model.service.ProductBoardService;
+import com.kh.finalProject.productBoard.model.vo.AreaBoard;
 import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
@@ -1188,6 +1191,105 @@ public class ProductBoardController {
 		}
 		
 		return msg;
+		
+	}
+	
+	// 지역 게시판으로 이동하는 메소드
+	@RequestMapping("areaBoardForm")
+	public ModelAndView areaBoardForm(@RequestParam(value="currentPage", defaultValue="1")int currentPage,
+									  AddressInfo addr, ModelAndView mv) {
+		
+		int pageLimit = 10;
+		int listLimit = 15;
+		
+		Location location = Location.builder().locationDetail1(addr.getRegionDepthName1())
+						  					  .locationDetail2(addr.getRegionDepthName2()).build();
+		
+		ArrayList<Location> list = productBoardService.getLocationNo(location);
+		
+		ArrayList<AreaBoard> abList = null;
+		PageInfo pi = null;
+		
+		if(list.size() != 0) {
+			int listCount = productBoardService.AreaBoardCount(list.get(0).getLocationNo());
+			pi = PageNation.pageNation(listCount, currentPage, pageLimit, listLimit);
+			
+			abList = productBoardService.areaBoardForm(list.get(0).getLocationNo(), pi);
+			mv.addObject("abList", abList);
+		}
+		else {
+			int listCount = productBoardService.AreaBoardCount();
+			pi = PageNation.pageNation(listCount, currentPage, pageLimit, listLimit);
+			
+			abList = productBoardService.areaBoardForm(pi);
+			mv.addObject("abList", abList);
+		}
+		
+		mv.addObject("abList", abList);
+		mv.setViewName("AreaBoard/areaBoardListForm");
+		
+		return mv;
+		
+	}
+	
+	// 지역 게시판 작성 페이지 이동 메소드
+	@RequestMapping("AreaBoardEnrollForm")
+	public ModelAndView AreaBoardEnrollForm(ModelAndView mv) {
+		
+		ArrayList<BoardCategory> cList = productBoardService.getBoardCate();
+		mv.addObject("cList", cList);
+		mv.setViewName("AreaBoard/areaBoardEnrollForm");
+		
+		return mv;
+		
+	}
+	
+	// 지역 게시판 작성 메소드
+	@RequestMapping("insertAreaBoard")
+	public String insertAreaBoard(AreaBoard board, Location location, HttpServletRequest request) {
+		
+		ArrayList<Location> list = productBoardService.getLocationNo(location);
+		
+		board.setLocationNo(list.get(0).getLocationNo());
+		
+		productBoardService.insertAreaBoard(board);
+		
+		request.getSession().setAttribute("alertMsg", "글이 작성되었습니다.");
+		
+		return "redirect:/";
+		
+	}
+	
+	// 지역 게시판 상세보기 메소드
+	@RequestMapping("areaBoardEnrollForm")
+	public ModelAndView areaBoardEnrollForm(int areaNo, ModelAndView mv) {
+		
+		int result = productBoardService.updateCount(areaNo);
+		
+		if(result > 0) {
+			AreaBoard board = productBoardService.selectAreaBoard(areaNo);
+			mv.addObject("board", board);
+			mv.setViewName("AreaBoard/areaBoardDetailForm");
+		}
+		else {
+			mv.setViewName("redirect:/");
+		}
+		
+		return mv;
+		
+	}
+	
+	// 지역 게시판 삭제 메소드
+	@RequestMapping("deleteAreaBoard")
+	public String deleteAreaBoard(int areaNo, HttpServletRequest request) {
+		
+		int result = productBoardService.deleteAreaBoard(areaNo);
+		
+		if(result > 0) {
+			request.getSession().setAttribute("alertMsg", "게시글이 삭제 되었습니다.");
+		}
+		
+		return "redirect:/";
 		
 	}
 	

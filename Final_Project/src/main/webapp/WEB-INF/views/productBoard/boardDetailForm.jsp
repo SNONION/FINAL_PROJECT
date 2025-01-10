@@ -745,7 +745,11 @@
 			        		<i class='fas fa-heart filled-heart'></i>
 			        	</c:if>
 			        </button>
-			        <button class="button-report" onclick="reportBoard();">신고하기</button>
+			        <button class="button-report" onclick="reportBoard();">신고하기
+			        	<c:if test="${detailBoard.boardDeclaration == 'Y'}">
+			        		<i class='fas fa-times'></i>
+			        	</c:if>
+			        </button>
 	    		</c:if>
 		    </div>
 			<div class="reply-area">

@@ -259,21 +259,26 @@
             <table class="reported-comments-table" id="reported-comments-table">
                 <thead>
                     <tr>
-                        <th>댓글 ID</th>
-                        <th>댓글 내용</th>
-                        <th>게시물 보기</th>
+                        <th>피신고자</th>
+                        <th>사유</th>
+                        <th>신고자</th>
+                        <th>신고날짜</th>
                     </tr>
                 </thead>
                 <tbody id="reported-comments-list">
                     <!-- 신고된 댓글 목록이 동적으로 여기에 추가됩니다. -->
-                </tbody>
+					<c:forEach var="w" items="${wList}">
+						<tr>
+							<td>${w.userId}</td>
+							<td>${w.declarationContent}</td>
+							<td>${w.declarationId}</td>
+							<td>${w.warningDate}</td>
+						</tr>
+					</c:forEach>
+				</tbody>
             </table>
         </div>
     </div>
-    
-    <c:forEach var="w" items="${wList}">
-    	<div>w.userId</div>
-    </c:forEach>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

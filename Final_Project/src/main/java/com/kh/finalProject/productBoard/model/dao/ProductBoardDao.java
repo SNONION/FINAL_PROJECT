@@ -6,12 +6,14 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.finalProject.common.model.vo.BoardCategory;
 import com.kh.finalProject.common.model.vo.Category;
 import com.kh.finalProject.common.model.vo.ChatInfo;
 import com.kh.finalProject.common.model.vo.Kind;
 import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.common.model.vo.PageInfo;
 import com.kh.finalProject.common.model.vo.ReportUser;
+import com.kh.finalProject.productBoard.model.vo.AreaBoard;
 import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
@@ -399,6 +401,57 @@ public class ProductBoardDao {
 	public ArrayList<ReReply> getReplyReply(SqlSessionTemplate sqlSession, ReReply reReply) {
 		
 		return (ArrayList)sqlSession.selectList("productBoardMapper.getReplyReply", reReply);
+	}
+
+	public ArrayList<AreaBoard> areaBoardForm(SqlSessionTemplate sqlSession, int address, PageInfo pi) {
+		
+		int limit = pi.getListLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.areaBoardForm1", address, new RowBounds(offset, limit));
+	}
+
+	public ArrayList<AreaBoard> areaBoardForm(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int limit = pi.getListLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.areaBoardForm2", new RowBounds(offset, limit));
+	}
+
+	public int AreaBoardCount(SqlSessionTemplate sqlSession, int locationNo) {
+		
+		return sqlSession.selectOne("productBoardMapper.AreaBoardCount1", locationNo);
+	}
+
+	public int AreaBoardCount(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("productBoardMapper.AreaBoardCount2");
+	}
+
+	public ArrayList<BoardCategory> getBoardCate(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.getBoardCate");
+	}
+
+	public int insertAreaBoard(SqlSessionTemplate sqlSession, AreaBoard board) {
+		
+		return sqlSession.insert("productBoardMapper.insertAreaBoard", board);
+	}
+
+	public AreaBoard selectAreaBoard(SqlSessionTemplate sqlSession, int areaNo) {
+		
+		return sqlSession.selectOne("productBoardMapper.selectAreaBoard", areaNo);
+	}
+
+	public int updateCount(SqlSessionTemplate sqlSession, int areaNo) {
+		
+		return sqlSession.update("productBoardMapper.updateCountArea", areaNo);
+	}
+
+	public int deleteAreaBoard(SqlSessionTemplate sqlSession, int areaNo) {
+		
+		return sqlSession.delete("productBoardMapper.deleteAreaBoard", areaNo);
 	}
 
 
