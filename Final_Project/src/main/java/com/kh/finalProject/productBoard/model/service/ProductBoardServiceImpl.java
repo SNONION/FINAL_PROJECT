@@ -379,7 +379,15 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 		
 		return productBoardDao.getAnotherList(sqlSession, board);
 	}
-
+	
+	@Override
+	public ArrayList<ProductBoard> declarationBoard() {
+		
+		return productBoardDao.declarationBoard(sqlSession);
+	}
+	
+	
+	
 	@Override
 	public ArrayList<Reply> getReply(int boardNo) {
 		
@@ -446,4 +454,9 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 		return productBoardDao.getReplyReply(sqlSession, reReply);
 	}
 
+	@Override
+	public ArrayList<Reply> declarationReply() {
+		return productBoardDao.declarationReply(sqlSession);
+	}
+	
 }
