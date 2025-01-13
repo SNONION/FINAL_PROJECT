@@ -24,6 +24,7 @@ import com.kh.finalProject.common.template.ChangeFileName;
 import com.kh.finalProject.common.template.PageNation;
 import com.kh.finalProject.productBoard.model.service.ProductBoardService;
 import com.kh.finalProject.productBoard.model.vo.AreaBoard;
+import com.kh.finalProject.productBoard.model.vo.AreaBoardReply;
 import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
@@ -1233,7 +1234,7 @@ public class ProductBoardController {
 	}
 	
 	// 지역 게시판 작성 페이지 이동 메소드
-	@RequestMapping("AreaBoardEnrollForm")
+	@RequestMapping("areaBoardEnroll")
 	public ModelAndView AreaBoardEnrollForm(ModelAndView mv) {
 		
 		ArrayList<BoardCategory> cList = productBoardService.getBoardCate();
@@ -1261,7 +1262,7 @@ public class ProductBoardController {
 	}
 	
 	// 지역 게시판 상세보기 메소드
-	@RequestMapping("areaBoardEnrollForm")
+	@RequestMapping("areaBoardDetailForm")
 	public ModelAndView areaBoardEnrollForm(int areaNo, ModelAndView mv) {
 		
 		int result = productBoardService.updateCount(areaNo);
@@ -1290,6 +1291,70 @@ public class ProductBoardController {
 		}
 		
 		return "redirect:/";
+		
+	}
+	
+	// 지역 게시판 수정 페이지 이동 메소드
+	@RequestMapping("updateAreaBoard")
+	public ModelAndView updateAreaBoard(AreaBoard board, ModelAndView mv) {
+		
+		AreaBoard areaBoard = productBoardService.selectAreaBoard(board.getAreaNo());
+		ArrayList<BoardCategory> cList = productBoardService.getBoardCate();
+		
+		mv.addObject("cList", cList);
+		mv.addObject("ab", areaBoard);
+		mv.setViewName("AreaBoard/areaBoardUpdateForm");
+		
+		return mv;
+		
+	}
+	
+	// 지역 게시판 수정하는 메소드
+	@RequestMapping("updateAreaBoardEnroll")
+	public ModelAndView updateAreaBoard(AreaBoard board, HttpServletRequest request, ModelAndView mv) {
+		
+		int result = productBoardService.updateAreaBoard(board);
+		
+		if(result > 0) {
+			request.getSession().setAttribute("alertMsg", "게시글이 수정되었습니다.");
+		}
+		
+		mv.setViewName("redirect:/");
+		
+		return mv;
+		
+	}
+	
+	// 지역 게시판 메시지 작성 메소드
+	@ResponseBody
+	@RequestMapping(value="insertBoardReply", produces="html/text;charset=UTF-8")
+	public String insertBoardReply(AreaBoardReply reply, HttpServletRequest request) {
+		log.debug("{}", reply);
+		User loginUser = (User)request.getSession().getAttribute("loginUser");
+		reply.setBoardReplyWriter(loginUser.getUserId());
+		int result = productBoardService.insertBoardReply(reply);
+		
+		String msg = "";
+		
+		if(result > 0) {
+			msg = "NNNNY";
+		}
+		else {
+			msg = "NNNNN";
+		}
+		
+		return msg;
+		
+	}
+	
+	// 지역 게시판 댓글 조회해오는 메소드
+	@ResponseBody
+	@RequestMapping(value="selectAreaBoardReply", produces="application/json;charset=UTF-8")
+	public ArrayList<AreaBoardReply> selectAreaBoardReply(AreaBoardReply reply) {
+		
+		ArrayList<AreaBoardReply> replyAreaList = productBoardService.selectAreaBoardReply(reply);
+		
+		return replyAreaList;
 		
 	}
 	

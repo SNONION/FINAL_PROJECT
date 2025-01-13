@@ -14,6 +14,7 @@ import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.common.model.vo.PageInfo;
 import com.kh.finalProject.common.model.vo.ReportUser;
 import com.kh.finalProject.productBoard.model.vo.AreaBoard;
+import com.kh.finalProject.productBoard.model.vo.AreaBoardReply;
 import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
@@ -452,6 +453,21 @@ public class ProductBoardDao {
 	public int deleteAreaBoard(SqlSessionTemplate sqlSession, int areaNo) {
 		
 		return sqlSession.delete("productBoardMapper.deleteAreaBoard", areaNo);
+	}
+
+	public int updateAreaBoard(SqlSessionTemplate sqlSession, AreaBoard board) {
+		
+		return sqlSession.update("productBoardMapper.updateAreaBoard", board);
+	}
+
+	public int insertBoardReply(SqlSessionTemplate sqlSession, AreaBoardReply reply) {
+		
+		return sqlSession.insert("productBoardMapper.insertBoardReply", reply);
+	}
+
+	public ArrayList<AreaBoardReply> selectAreaBoardReply(SqlSessionTemplate sqlSession, AreaBoardReply reply) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.selectAreaBoardReply", reply);
 	}
 
 

@@ -148,13 +148,13 @@
 			<div class="paging-area">
 				<ul class="pagination">
 					<c:if test="${pi.currentPage > 1}">
-						<li class="page-item"><a class="page-link" href="${contextPath}/board/areaBoardForm?currentPage=${pi.currentPage - 1}"><</a></li>
+						<li class="page-item"><a class="page-link" href="${contextPath}/board/areaBoardForm?regionDepthName1=${regionDepthName1}&regionDepthName2=${regionDepthName1}&currentPage=${pi.currentPage - 1}"><</a></li>
 					</c:if>
 					<c:forEach var="i" begin="${pi.startPage}" end="${pi.maxPage}">
-						<li class="page-item"><a class="page-link" href="${contextPath}/board/areaBoardForm?currentPage=${i}">${i + 1}</a></li>
+						<li class="page-item"><a class="page-link" href="${contextPath}/board/areaBoardForm?regionDepthName1=${regionDepthName1}&regionDepthName2=${regionDepthName1}&currentPage=${i}">${i + 1}</a></li>
 					</c:forEach>
 					<c:if test="${pi.currentPage != pi.endPage}">
-						<li class="page-item"><a class="page-link" href="${contextPath}/board/areaBoardForm?currentPage=${pi.currentPage + 1}">></a></li>
+						<li class="page-item"><a class="page-link" href="${contextPath}/board/areaBoardForm?regionDepthName1=${regionDepthName1}&regionDepthName2=${regionDepthName1}&currentPage=${pi.currentPage + 1}">></a></li>
 					</c:if>
 				</ul>
 			</div>
@@ -163,13 +163,13 @@
 	
 	<script>
 		function writeAreaBoard(){
-			location.href="${contextPath}/board/areaBoardEnrollForm";
+			location.href="${contextPath}/board/areaBoardEnroll";
 		}
-	
+		
 		$("#notice-click").on("click", "tr", function(){
 			var areaNo = $(this).children().first().text();
 			
-			location.href="${contextPath}/board/areaBoardEnrollForm?areaNo=" + areaNo;
+			location.href="${contextPath}/board/areaBoardDetailForm?areaNo=" + areaNo;
 		})
 		
 	</script>

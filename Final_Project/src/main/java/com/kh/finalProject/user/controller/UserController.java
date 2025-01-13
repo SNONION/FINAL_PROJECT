@@ -174,7 +174,7 @@ public class UserController {
 
 	}
 
-	// 회원가입 정보입력창으로 이동 메소드
+	// 회원가입 정보 동의 후 정보입력창으로 이동 메소드
 	@GetMapping("userEnrollForm")
 	public ModelAndView phoneCheckForm(Agree agree, ModelAndView mv) {
 
