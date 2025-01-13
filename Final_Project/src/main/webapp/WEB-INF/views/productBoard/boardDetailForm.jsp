@@ -2126,7 +2126,6 @@
 					chatUser : "${writerInfo.nickname}"
 				},
 				success : function(result){
-					console.log(result);
 					$(".chat-history div").remove();
 					
 					for(var i of result){

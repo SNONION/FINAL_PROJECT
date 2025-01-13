@@ -469,23 +469,21 @@
 		SELECT	*
 		FROM	TB_PRODUCTBOARD
 		<where>
-			<choose>
-				<when test="categoryNo != 0">
-					CATEGORY_NO = #{categoryNo}
-				</when>
-				<when test="sellLocation != null">
-					SELL_LOCATION LIKE '%'||#{sellLocation}||'%'
-				</when>
-				<when test="kindNo != 0">
-					KIND_NO = #{kindNo}
-				</when>
-				<when test="productStatus != null">
-					PRODUCT_STATUS = #{productStatus}
-				</when>
-				<when test="sellWay != null">
-					SELL_WAY = #{sellWay}
-				</when>
-			</choose>
+			<if test="categoryNo != 0">
+				CATEGORY_NO = #{categoryNo}
+			</if>
+			<if test="sellLocation != null">
+				AND SELL_LOCATION LIKE '%'||#{sellLocation}||'%'
+			</if>
+			<if test="kindNo != 0">
+				AND KIND_NO = #{kindNo}
+			</if>
+			<if test="productStatus != null">
+				AND PRODUCT_STATUS = #{productStatus}
+			</if>
+			<if test="sellWay != null">
+				AND SELL_WAY = #{sellWay}
+			</if>
 		</where>
 	</select>
 	
