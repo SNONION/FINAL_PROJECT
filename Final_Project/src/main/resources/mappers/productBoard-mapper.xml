@@ -662,7 +662,7 @@
 
 	<update id="rereplyReport" parameterType="ReReply">
 		UPDATE	TB_REREPLY
-		SET		REPLY_DECLARATION = 'Y'
+		SET		REREPLY_DECLARATION = 'Y'
 		WHERE	REREPLY_NO = #{reReplyNo}
 	</update>
 	

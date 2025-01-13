@@ -1235,25 +1235,24 @@ public class ProductBoardController {
 
   }
 	
-  // 대댓글 신고 메소드
-  @ResponseBody
-  @RequestMapping(value="rereplyReport", produces="html/text;charset=UTF-8")
-  public String rereplyReport(ReReply rereply) {
+	// 대댓글 신고 메소드
+	@ResponseBody
+	@RequestMapping(value = "rereplyReport", produces = "html/text;charset=UTF-8")
+	public String rereplyReport(ReReply rereply) {
 
-    int result = productBoardService.rereplyReport(rereply);
+		int result = productBoardService.rereplyReport(rereply);
+		log.debug("{}", rereply);
+		String msg = "";
 
-    String msg = "";
+		if (result > 0) {
+			msg = "NNNNY";
+		} else {
+			msg = "NNNNN";
+		}
 
-    if(result > 0) {
-      msg = "NNNNY";
-    }
-    else {
-      msg = "NNNNN";
-    }
+		return msg;
 
-    return msg;
-
-  }
+	}
 	
 	// 지역 게시판으로 이동하는 메소드
 	@RequestMapping("areaBoardForm")
