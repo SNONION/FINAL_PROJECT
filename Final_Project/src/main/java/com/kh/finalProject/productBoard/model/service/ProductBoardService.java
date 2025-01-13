@@ -10,6 +10,7 @@ import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.common.model.vo.PageInfo;
 import com.kh.finalProject.common.model.vo.ReportUser;
 import com.kh.finalProject.productBoard.model.vo.AreaBoard;
+import com.kh.finalProject.productBoard.model.vo.AreaBoardReply;
 import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
@@ -255,5 +256,14 @@ public interface ProductBoardService {
 
 	// 지역 게시판 삭제 메소드
 	int deleteAreaBoard(int areaNo);
+
+	// 지역 게시판 수정 메소드
+	int updateAreaBoard(AreaBoard board);
+
+	// 지역 게시판 댓글 작성 메소드
+	int insertBoardReply(AreaBoardReply reply);
+
+	// 지역 게시판 댓글 조회해오는 메소드
+	ArrayList<AreaBoardReply> selectAreaBoardReply(AreaBoardReply reply);
 
 }

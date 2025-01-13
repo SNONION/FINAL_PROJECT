@@ -26,4 +26,7 @@ public class AreaBoard {
 	private String locationName; //	LOCATION_NAME
 	private String boardCateName; // BOARDCATE_NAME
 	
+	private String locationDetail1; //	상세주소 1
+	private String locationDetail2; // 상세주소 2
+	
 }

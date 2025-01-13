@@ -15,6 +15,7 @@ import com.kh.finalProject.common.model.vo.PageInfo;
 import com.kh.finalProject.common.model.vo.ReportUser;
 import com.kh.finalProject.productBoard.model.dao.ProductBoardDao;
 import com.kh.finalProject.productBoard.model.vo.AreaBoard;
+import com.kh.finalProject.productBoard.model.vo.AreaBoardReply;
 import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
@@ -500,6 +501,24 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 	public int deleteAreaBoard(int areaNo) {
 		
 		return productBoardDao.deleteAreaBoard(sqlSession, areaNo);
+	}
+
+	@Override
+	public int updateAreaBoard(AreaBoard board) {
+		
+		return productBoardDao.updateAreaBoard(sqlSession, board);
+	}
+
+	@Override
+	public int insertBoardReply(AreaBoardReply reply) {
+		
+		return productBoardDao.insertBoardReply(sqlSession, reply);
+	}
+
+	@Override
+	public ArrayList<AreaBoardReply> selectAreaBoardReply(AreaBoardReply reply) {
+		
+		return productBoardDao.selectAreaBoardReply(sqlSession, reply);
 	}
 
 }

@@ -93,6 +93,22 @@
         border-color: #ffe500; /* 포커스 시 테두리 색 변경 */
         box-shadow: 0 0 5px #ffe500; /* 포커스 시 그림자 강조 */
     }
+    
+    #change-loc-btn {
+      background-color: #FFCD00; /* 카카오 노란색 */
+      color: white; /* 아이콘 색상 흰색 */
+      border: none; /* 버튼 테두리 없애기 */
+      padding: 5px 10px; /* 여백 조정 */
+      font-size: 16px; /* 아이콘 크기 */
+      border-radius: 5px; /* 둥근 테두리 */
+      cursor: pointer; /* 마우스 포인터 */
+      display: inline-flex; /* 아이콘과 텍스트 정렬 */
+      align-items: center; /* 아이콘 중앙 정렬 */
+      justify-content: center; /* 아이콘 중앙 정렬 */
+    }
+    #change-loc-btn:hover {
+      background-color: #ffb800; /* hover 시 색상 변경 */
+    }
 	
 
 </style>
@@ -104,15 +120,22 @@
 	
 	<div class="outer">
 		<button class="btn-kakao" style="float: left;" onclick="backBtn();">이전</button>
-		<form action="insertAreaBoard" method="post">
-			<button type="submit" class="btn-kakao" style="float: right; margin-right: 20px;">작성완료</button>
+		<form action="${contextPath}/board/updateAreaBoardEnroll" method="post">
+			<button type="submit" class="btn-kakao" style="float: right; margin-right: 20px;">수정완료</button>
 			<br><br><br>
 		    <div class="inner">
 				<!-- 카테고리 선택 -->
 				<div id="areaBoard-cate" style="text-align: center; margin: 20px 0;">
 					<select name="boardCateNo" id="boardCateSelect">
 						<c:forEach var="cateB" items="${cList}">
-							<option value="${cateB.boardCateNo}">${cateB.boardCateName}</option>
+							<c:choose>
+								<c:when test="${ab.boardCateName eq cateB.boardCateName}">
+									<option value="${cateB.boardCateNo}" selected>${cateB.boardCateName}</option>
+								</c:when>
+								<c:otherwise>
+									<option value="${cateB.boardCateNo}">${cateB.boardCateName}</option>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 					</select>
 				</div>
@@ -121,7 +144,7 @@
 				<!-- 게시판 제목 -->
 			    <div id="notice-header">
 			        <h1 id="notice-title">
-			        	<input type="text" name="areaTitle">
+			        	<input type="text" name="areaTitle" value="${ab.areaTitle}">
 			        </h1>
 			    </div>
 			    
@@ -130,14 +153,22 @@
 			    	<button class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortRight();"><i class="fas fa-align-right"></i></button>
 			    	<button class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortCenter();"><i class="fas fa-align-center"></i></button>
 			    	<button class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortLeft();"><i class="fas fa-align-left"></i></button>
-			        <p><textarea id="noticeContent" name="areaContent" style="resize: none;"></textarea></p>
+			        <p><textarea id="noticeContent" name="areaContent" style="resize: none;">${ab.areaContent}</textarea></p>
 			    </div>
 			    
 			    <!-- 게시판 작성 날짜 -->
 			    <div id="notice-date">
 			        <p>작성자: <span id="notice-date-text">${loginUser.userId}</span></p>
-			        <p>작성위치: <span class="location-out" id="notice-date-text"></span></p>
+			        <p>작성위치: 
+			        	<span class="location-out" id="notice-date-text">${ab.locationName}&nbsp;${ab.locationDetail1}&nbsp;${ab.locationDetail2}</span>
+			        	<button type="button" id="change-loc-btn" onclick="changeAddr();"><i class="fas fa-map-marker-alt"></i></button>
+			        	<button type="button" id="change-loc-btn" onclick="rollbackaddr();"><i class="fas fa-undo"></i></button>
+			        </p>
+			        <input type="hidden" name="areaNo" value="${ab.areaNo}">
 			        <input type="hidden" name="areaWriter" value="${loginUser.userId}">
+			        <div class="pass-loc">
+			        
+			        </div>
 			    </div>
 			    <br><br>
 	    	</div>
@@ -151,15 +182,39 @@
 			var regionDepthName2 = sessionStorage.getItem("regionDepthName2");
 			var regionDepthName3 = sessionStorage.getItem("regionDepthName3");
 			
+			var input1 = $("<input type='hidden'>").attr("name", "locationName").val("${ab.locationName}");
+			var input2 = $("<input type='hidden'>").attr("name", "locationDetail1").val("${ab.locationDetail1}");
+			var input3 = $("<input type='hidden'>").attr("name", "locationDetail2").val("${ab.locationDetail2}");
+			
+			$(".pass-loc input").remove();
+			$(".pass-loc").append(input1, input2, input3);
+		})
+		
+		// 주소를 현위치로 변경
+		function changeAddr(){
+			$(".location-out").text(regionDepthName1 + " " + regionDepthName2 + " " + regionDepthName3);
+			
 			var input1 = $("<input type='hidden'>").attr("name", "locationName").val(regionDepthName1);
 			var input2 = $("<input type='hidden'>").attr("name", "locationDetail1").val(regionDepthName2);
 			var input3 = $("<input type='hidden'>").attr("name", "locationDetail2").val(regionDepthName3);
 			
-			$("#notice-date").append(input1, input2, input3);
+			$(".pass-loc input").remove();
+			$(".pass-loc").append(input1, input2, input3);
 			
-			$(".location-out").text(regionDepthName1 + " " + regionDepthName2 + " " + regionDepthName3);
-		})
-	
+		}
+		
+		// 주소를 원래 위치로 변경
+		function rollbackaddr(){
+			$(".location-out").text("${ab.locationName} ${ab.locationDetail1} ${ab.locationDetail2}");
+			
+			var input1 = $("<input type='hidden'>").attr("name", "locationName").val("${ab.locationName}");
+			var input2 = $("<input type='hidden'>").attr("name", "locationDetail1").val("${ab.locationDetail1}");
+			var input3 = $("<input type='hidden'>").attr("name", "locationDetail2").val("${ab.locationDetail2}");
+			
+			$(".pass-loc input").remove();
+			$(".pass-loc").append(input1, input2, input3);
+		}
+			
 		// 뒤로가기
 		function backBtn(){
 			location.href="${contextPath}/board/areaBoardForm?regionDepthName1=" + regionDepthName1 + "&regionDepthName2=" + regionDepthName1 + "&currentPage=1";

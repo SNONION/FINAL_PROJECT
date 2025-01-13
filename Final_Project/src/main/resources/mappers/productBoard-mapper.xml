@@ -133,12 +133,23 @@
 		<result column="CREATE_DATE" property="createDate"/>
 		<result column="AREAB_DECLARATION" property="areaDeclaration"/>
 		<result column="LOCATION_NAME" property="locationName"/>
+		<result column="LOCATION_DETAIL_1" property="locationDetail1"/>
+		<result column="LOCATION_DETAIL_2" property="locationDetail2"/>
 		<result column="BOARDCATE_NAME" property="boardCateName"/>
 	</resultMap>
 	
 	<resultMap type="BoardCategory" id="BoardCategoryResultSet">
 		<result column="BOARDCATE_NO" property="boardCateNo"/>
 		<result column="BOARDCATE_NAME" property="boardCateName"/>
+	</resultMap>
+	
+	<resultMap type="AreaBoardReply" id="AreaBoardReplyResultSet">
+		<result column="REPLY_NO" property="boardReplyNo"/>
+		<result column="REPLY_CONTENT" property="boardReplyContent"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="REF_BNO" property="refBno"/>
+		<result column="REPLY_DECLARATION" property="replyDeclaration"/>
+		<result column="REPLY_WRITER" property="boardReplyWriter"/>
 	</resultMap>
 	
 	<select id="listCount" parameterType="User" resultType="_int">
@@ -651,7 +662,7 @@
 	<select id="AreaBoardCount1" parameterType="_int" resultType="_int">
 		SELECT	COUNT(*)
 		FROM	TB_AREABOARD
-		WHERE	LOCATION_NO = ${address}
+		WHERE	LOCATION_NO = #{address}
 	</select>
 	
 	<select id="AreaBoardCount2" parameterType="_int" resultType="_int">
@@ -662,6 +673,8 @@
 	<select id="areaBoardForm1" parameterType="_int" resultMap="AreaResultSet">
 		SELECT	AREAB_NO,
 				LOCATION_NAME,
+				LOCATION_DETAIL_1,
+				LOCATION_DETAIL_2,
 				BOARDCATE_NAME,
 				AREAB_TITLE,
 				COUNT,
@@ -669,7 +682,7 @@
 				CREATE_DATE,
 				AREAB_DECLARATION
 		FROM	TB_AREABOARD
-		WHERE	LOCATION_NO = ${address}
+		WHERE	LOCATION_NO = #{address}
 		JOIN	TB_BOARDCATE USING(BOARDCATE_NO)
 		JOIN	TB_LOCATION USING(LOCATION_NO)
 	</select>
@@ -677,6 +690,8 @@
 	<select id="areaBoardForm2" resultMap="AreaResultSet">
 		SELECT	AREAB_NO,
 				LOCATION_NAME,
+				LOCATION_DETAIL_1,
+				LOCATION_DETAIL_2,
 				BOARDCATE_NAME,
 				AREAB_TITLE,
 				COUNT,
@@ -706,6 +721,8 @@
 	<select id="selectAreaBoard" parameterType="_int" resultMap="AreaResultSet">
 		SELECT	AREAB_NO,
 				LOCATION_NAME,
+				LOCATION_DETAIL_1,
+				LOCATION_DETAIL_2,
 				BOARDCATE_NAME,
 				AREAB_TITLE,
 				COUNT,
@@ -729,5 +746,30 @@
 		DELETE FROM TB_AREABOARD
 		WHERE	AREAB_NO = #{areaNo}
 	</delete>
+	
+	<update id="updateAreaBoard" parameterType="AreaBoard">
+		UPDATE	TB_AREABOARD
+		SET		LOCATION_NO = CHANGE_LOC_NO(#{locationName}, #{locationDetail1}, #{locationDetail2}),
+				BOARDCATE_NO = #{boardCateNo},
+				AREAB_TITLE = #{areaTitle},
+				AREAB_CONTENT = #{areaContent},
+				COUNT = #{count}
+		WHERE	AREAB_NO = #{areaNo}
+	</update>
+	
+	<insert id="insertBoardReply" parameterType="AreaBoardReply">
+		INSERT INTO TB_BOARDREPLY(REPLY_NO,
+								  REPLY_CONTENT,
+								  REF_BNO,
+								  REPLY_WRITER)
+		VALUES(SEQ_BCRNO.NEXTVAL, #{boardReplyContent}, #{refBno}, #{boardReplyWriter})
+	</insert>
+	
+	<select id="selectAreaBoardReply" parameterType="AreaBoardReply" resultMap="AreaBoardReplyResultSet">
+		SELECT	*
+		FROM	TB_BOARDREPLY
+		WHERE	REF_BNO = #{refBno}
+		ORDER BY CREATE_DATE DESC
+	</select>
 	
 </mapper>
