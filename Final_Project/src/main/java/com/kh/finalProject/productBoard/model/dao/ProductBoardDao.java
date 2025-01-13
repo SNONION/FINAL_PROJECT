@@ -401,5 +401,20 @@ public class ProductBoardDao {
 		return (ArrayList)sqlSession.selectList("productBoardMapper.getReplyReply", reReply);
 	}
 
+	public int getredeleteReply(SqlSessionTemplate sqlSession, ReReply rereply) {
+		
+		return sqlSession.delete("productBoardMapper.redeleteReply", rereply);
+	}
+
+	public int getrereplyUpdate(SqlSessionTemplate sqlSession, ReReply rereply) {
+		
+		return sqlSession.update("productBoardMapper.rereplyUpdate", rereply);
+	}
+	
+	public int rereplyReport(SqlSessionTemplate sqlSession, ReReply rereply) {
+		
+		return sqlSession.update("productBoardMapper.rereplyReport", rereply);
+	}
+
 
 }

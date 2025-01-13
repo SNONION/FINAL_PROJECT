@@ -1061,7 +1061,6 @@ public class ProductBoardController {
 	@ResponseBody
 	@RequestMapping(value="replyUpdate", produces="html/text;charset=UTF-8")
 	public String replyUpdate(Reply reply) {
-		
 		int result = productBoardService.replyUpdate(reply);
 		
 		String msg = "";
@@ -1122,6 +1121,7 @@ public class ProductBoardController {
 	@ResponseBody
 	@RequestMapping(value="insertReplyToReply", produces="html/text;charset=UTF-8")
 	public String insertReplyToReply(ReReply reReply) {
+	
 		
 		int result = productBoardService.insertReplyToReply(reReply);
 		
@@ -1148,4 +1148,70 @@ public class ProductBoardController {
 		return rrList;
 		
 	}
+	
+	// 대댓글 삭제 메소드
+		@ResponseBody
+		@RequestMapping(value="redeleteReply", produces="html/text;charset=UTF-8")
+		public String redeleteReply(ReReply rereply) {
+			System.out.println("rereply : "+ rereply);
+			int result = productBoardService.redeleteReply(rereply);
+			
+			String msg = "";
+			
+			if(result > 0) {
+				msg = "NNNNY";
+			}
+			else {
+				msg = "NNNNN";
+			}
+			
+			return msg;
+			
+		}
+		
+	// 대댓글 수정 메소드
+		@ResponseBody
+		@RequestMapping(value="rereplyUpdate", produces="html/text;charset=UTF-8")
+		public String rereplyUpdate(ReReply rereply) {
+			System.out.print("## rereplyUpdate" + rereply);
+			int result = productBoardService.rereplyUpdate(rereply);
+			
+			String msg = "";
+			
+			if(result > 0) {
+				msg = "NNNNY";
+			}
+			else {
+				msg = "NNNNN";
+			}
+			
+			return msg;
+			
+		}
+	
+		// 대댓글 신고 메소드
+		@ResponseBody
+		@RequestMapping(value="rereplyReport", produces="html/text;charset=UTF-8")
+		public String rereplyReport(ReReply rereply) {
+			
+			int result = productBoardService.rereplyReport(rereply);
+			
+			String msg = "";
+			
+			if(result > 0) {
+				msg = "NNNNY";
+			}
+			else {
+				msg = "NNNNN";
+			}
+			
+			return msg;
+			
+		}
+	
+	
+	
+	
+	
+	
 }

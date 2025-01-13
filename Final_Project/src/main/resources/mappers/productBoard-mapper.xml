@@ -629,4 +629,24 @@
 		ORDER BY REREPLY_DATE DESC
 	</select>
 	
+	<update id="rereplyReport" parameterType="ReReply">
+		UPDATE	TB_REREPLY
+		SET		REPLY_DECLARATION = 'Y'
+		WHERE	REREPLY_NO = #{reReplyNo}
+	</update>
+	
+	<delete id="redeleteReply" parameterType="ReReply">
+		DELETE FROM TB_REREPLY
+		WHERE	REREPLY_NO = #{reReplyNo}
+	</delete>
+	
+	<update id="rereplyUpdate" parameterType="ReReply">
+		UPDATE	TB_REREPLY
+		SET		REREPLY_CONTENT = #{reReplyContent}
+		WHERE	REREPLY_NO = #{reReplyNo}
+	</update>
+	
+	
+	
+	
 </mapper>

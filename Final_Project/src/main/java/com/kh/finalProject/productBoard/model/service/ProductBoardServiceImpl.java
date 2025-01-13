@@ -446,4 +446,24 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 		return productBoardDao.getReplyReply(sqlSession, reReply);
 	}
 
+	@Override
+	public int redeleteReply(ReReply rereply) {
+		
+		return productBoardDao.getredeleteReply(sqlSession, rereply);
+	}
+
+	@Override
+	public int rereplyUpdate(ReReply rereply) {
+		
+		return productBoardDao.getrereplyUpdate(sqlSession, rereply);
+	}
+	
+	@Override
+	public int rereplyReport(ReReply rereply) {
+		
+		return productBoardDao.rereplyReport(sqlSession, rereply);
+	}
+	
+	
+
 }
