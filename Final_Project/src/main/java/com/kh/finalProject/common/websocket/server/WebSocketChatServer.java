@@ -59,7 +59,7 @@ public class WebSocketChatServer extends TextWebSocketHandler{
 		MessageInfo msgInfo = MessageInfo.builder().nickname(nickname).messageContent(msg).createData(date).build();
 		
 		// 보내는 사람과 받는 사람이 다른 경우에만 저장
-		if(!nickname.equals(otherUser) || !otherUser.equals("")) {
+		if(!nickname.equals(otherUser) && !otherUser.equals("")) {
 			
 			// 파일명을 동일하게 만들기 위해 알파벳 순으로 정렬한 배열을 사용
 			String[] usersChat = {nickname, otherUser};

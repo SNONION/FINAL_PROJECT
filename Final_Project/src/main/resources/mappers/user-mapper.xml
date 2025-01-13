@@ -80,7 +80,14 @@
 		<result column="FILE_FULLNAME" property="fileFullName"/>
 		<result column="CREATE_DATE" property="createDate"/>
 	</resultMap>
-	
+  
+  <resultMap type="Warning" id="WarningResultSet">
+		<result column="USER_ID" property="userId"/>
+		<result column="WARNNING_DATE" property="warningDate"/>
+		<result column="DECLARATION_ID" property="declarationId"/>
+		<result column="DECLARATION_CONTENT" property="declarationContent"/>
+  </resultMap>
+
 	<select id="loginUser" parameterType="User" resultMap="userResultSet">
 		SELECT	*
 		FROM	TB_USER
@@ -219,5 +226,24 @@
 		WHERE	BUYER_ID = #{nickname}
 		OR		SELLER_ID = #{nickname}
 	</select>
-
+	
+	<insert id="insertWarningUser" parameterType="Warning">
+		INSERT INTO TB_WARNING(USER_ID,
+							   DECLARATION_ID,
+							   DECLARATION_CONTENT)
+		VALUES(#{userId}, #{declarationId}, #{declarationContent})
+	</insert>
+  
+  	<select id="selectWarningList" parameterType="Warning" resultMap="WarningResultSet">
+		SELECT  *
+		FROM    TB_WARNING
+	</select>
+	
+	<select id="checkDeclaration" parameterType="Warning" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_WARNING
+		WHERE	USER_ID = #{userId}
+		AND		DECLARATION_ID = #{declarationId}
+	</select>
+	
 </mapper>

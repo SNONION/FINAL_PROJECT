@@ -1096,7 +1096,7 @@
 				            </div>
 				        </li>
 				        <li class="nav-item"><a class="nav-link" href="${contextPath}/board/toNotice">공지사항</a></li>
-				        <li class="nav-item"><a class="nav-link" href="#">지역모임</a></li>
+				        <li class="nav-item"><a class="nav-link" href="#" onclick="goAreaBoard();">지역모임</a></li>
 				        <li class="nav-item"><a class="nav-link" href="${contextPath}/board/productBoardEnrollForm">요청하기</a></li>
 				        <li class="nav-item"><a class="nav-link" href="${contextPath}/board/myPickPage">찜한목록</a></li>
 				        <li class="nav-item"><a class="nav-link" href="${contextPath}/user/toPurchaseKH">KAKAO구매</a></li>
@@ -1143,6 +1143,12 @@
 	</c:if>
 	
 	<script>
+		// 지역 게시판 이동 메소드
+		function goAreaBoard(){
+			
+			location.href="${contextPath}/board/areaBoardForm?regionDepthName1=" + regionDepthName1 + "&regionDepthName2=" + regionDepthName1 + "&currentPage=1";
+		};
+	
 		// 부모 메뉴 클릭 시
 		$("#category-area").on("click", "li.dropdown-item", function(event) {
 		    event.stopPropagation(); // 부모 메뉴 클릭 시 이벤트 전파 차단
@@ -1228,7 +1234,6 @@
 		// 관리자 채팅 접속
 		function connection(){
 			var url ="ws://localhost:8888/finalProject/chatting"
-			
 			// 소켓이 없을 경우 생성
 			if(!socket){
 				socket = new WebSocket(url);
@@ -1396,7 +1401,9 @@
 	</div>
 	
 	<script>
-	
+		let regionDepthName1;
+		let regionDepthName2;
+		let regionDepthName3;
 		let addressName;
 		
 		function getLocationName(latitude, longitude){
@@ -1409,7 +1416,15 @@
 				},
 				success : function(result){
 					addressName = result.addressName;
+					regionDepthName1 = result.regionDepthName1
+					regionDepthName2 = result.regionDepthName2
+					regionDepthName3 = result.regionDepthName3
 					$("#outputLocation").val(result.addressName);
+					
+					// 지역 게시판 작성시 사용
+					sessionStorage.setItem("regionDepthName1", regionDepthName1);
+					sessionStorage.setItem("regionDepthName2", regionDepthName2);
+					sessionStorage.setItem("regionDepthName3", regionDepthName3);
 					
 				},
 				error : function(error){

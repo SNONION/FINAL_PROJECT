@@ -18,192 +18,572 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <style>
-.outer {
-	width: 1000px;
-	height: auto;
-	margin: auto;
-}
-
-body {
-	font-family: 'Arial', sans-serif;
-	background-color: #f7f7f7;
-	margin: 0;
-	padding: 0;
-}
-
-.product-detail-page {
-	width: 800px;
-	margin: 50px auto;
-	background-color: #ffffff;
-	border: 1px solid #e0e0e0;
-	border-radius: 8px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	overflow: hidden;
-	overflow-y: hidden;
-}
-
-.product-header {
-	padding: 20px;
-	border-bottom: 1px solid #e0e0e0;
-	background-color: #f9f9f9;
-}
-
-.product-title {
-	margin: 0;
-	font-size: 24px;
-	color: #333;
-}
-
-.product-date {
-	margin: 5px 0 0;
-	font-size: 14px;
-	color: #888;
-}
-
-.product-content {
-	display: flex;
-	padding: 20px;
-	border-bottom: 1px solid #e0e0e0;
-}
-
-.product-image {
-	margin-top: 20px;
-}
-
-.product-image img {
-	width: 300px;
-	height: 300px;
-	object-fit: cover;
-	border-radius: 8px;
-	border: 1px solid #e0e0e0;
-}
-
-.product-info {
-	margin-left: 20px;
-	flex: 1;
-}
-
-.product-info p {
-	margin: 10px 0;
-	font-size: 16px;
-	color: #555;
-}
-
-.product-price {
-	font-size: 20px;
-	font-weight: bold;
-	color: #222;
-}
-
-.product-description {
-	padding: 20px;
-	border-bottom: 1px solid #e0e0e0;
-}
-
-.product-description h2 {
-	margin: 0 0 10px;
-	font-size: 18px;
-	color: #333;
-}
-
-.product-description p {
-	font-size: 16px;
-	color: #555;
-	line-height: 1.5;
-}
-
-.seller-info {
-	padding: 20px;
-	border-bottom: 1px solid #e0e0e0;
-}
-
-.seller-info h2 {
-	margin: 0 0 10px;
-	font-size: 18px;
-	color: #333;
-}
-
-.seller-info p {
-	margin: 5px 0;
-	font-size: 16px;
-	color: #555;
-}
-
-.product-footer {
-	padding: 20px;
-	text-align: center;
-}
-
-.button-contact, .button-report {
-	padding: 12px 30px; /* 버튼 여백 */
-	margin: 8px; /* 버튼 간 간격 */
-	font-size: 16px; /* 글자 크기 */
-	font-weight: bold; /* 글자 굵기 */
-	border: none; /* 테두리 제거 */
-	border-radius: 50px; /* 둥근 모서리 */
-	cursor: pointer; /* 커서 포인터 */
-	transition: background-color 0.3s ease, transform 0.3s ease;
-	/* 부드러운 전환 효과 */
-}
-
-/* 연락하기 버튼 */
-.button-contact {
-	background-color: #ffdd00; /* 카카오톡과 유사한 노란색 */
-	color: #3e1c2b; /* 어두운 색 글자 */
-}
-
-/* 연락하기 버튼 호버 상태 */
-.button-contact:hover {
-	background-color: #f2c100; /* 더 어두운 노란색 */
-	transform: scale(1.05); /* 살짝 확대되는 효과 */
-}
-
-/* 신고하기 버튼 */
-.button-report {
-	background-color: #ff4f57; /* 붉은색 */
-	color: white; /* 하얀색 글자 */
-}
-
-/* 신고하기 버튼 호버 상태 */
-.button-report:hover {
-	background-color: #e03e42; /* 더 어두운 붉은색 */
-	transform: scale(1.05); /* 살짝 확대되는 효과 */
-}
-
-.additional-info {
-	margin-top: 20px;
-	padding: 10px;
-	border: 1px solid #e0e0e0;
-	border-radius: 8px;
-	background-color: #f9f9f9;
-}
-
-.additional-info p {
-	margin: 5px 0;
-	font-size: 14px;
-	color: #555;
-}
-
-.additional-info p strong {
-	font-weight: bold;
-	color: #333;
-}
-
-.product-slider {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: relative;
-	margin: 20px auto;
-	width: 100%;
-	max-width: 600px; /* 슬라이더의 최대 너비 */
-	height: 400px; /* 슬라이더의 높이 */
-	background-color: #f9f9f9;
-	border: 1px solid #e0e0e0;
-	border-radius: 8px;
-	overflow: hidden; /* 슬라이더 영역을 넘는 이미지는 보이지 않음 */
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+	.outer{
+		width: 1000px;
+		height: auto;
+		margin: auto;
+	}
+	
+	body {
+	    font-family: 'Arial', sans-serif;
+	    background-color: #f7f7f7;
+	    margin: 0;
+	    padding: 0;
+	}
+	
+	.product-detail-page {
+	    width: 800px;
+	    margin: 50px auto;
+	    background-color: #ffffff;
+	    border: 1px solid #e0e0e0;
+	    border-radius: 8px;
+	    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	    overflow: hidden;
+	    overflow-y: hidden;
+	}
+	
+	.product-header {
+	    padding: 20px;
+	    border-bottom: 1px solid #e0e0e0;
+	    background-color: #f9f9f9;
+	}
+	
+	.product-title {
+	    margin: 0;
+	    font-size: 24px;
+	    color: #333;
+	}
+	
+	.product-date {
+	    margin: 5px 0 0;
+	    font-size: 14px;
+	    color: #888;
+	}
+	
+	.product-content {
+	    display: flex;
+	    padding: 20px;
+	    border-bottom: 1px solid #e0e0e0;
+	}
+	
+	.product-image{
+		margin-top: 20px;
+	}
+	
+	.product-image img {
+	    width: 300px;
+	    height: 300px;
+	    object-fit: cover;
+	    border-radius: 8px;
+	    border: 1px solid #e0e0e0;
+	}
+	
+	.product-info {
+	    margin-left: 20px;
+	    flex: 1;
+	}
+	
+	.product-info p {
+	    margin: 10px 0;
+	    font-size: 16px;
+	    color: #555;
+	}
+	
+	.product-price {
+	    font-size: 20px;
+	    font-weight: bold;
+	    color: #222;
+	}
+	
+	.product-description {
+	    padding: 20px;
+	    border-bottom: 1px solid #e0e0e0;
+	}
+	
+	.product-description h2 {
+	    margin: 0 0 10px;
+	    font-size: 18px;
+	    color: #333;
+	}
+	
+	.product-description p {
+	    font-size: 16px;
+	    color: #555;
+	    line-height: 1.5;
+	}
+	
+	.seller-info {
+	    padding: 20px;
+	    border-bottom: 1px solid #e0e0e0;
+	}
+	
+	.seller-info h2 {
+	    margin: 0 0 10px;
+	    font-size: 18px;
+	    color: #333;
+	}
+	
+	.seller-info p {
+	    margin: 5px 0;
+	    font-size: 16px;
+	    color: #555;
+	}
+	
+	.product-footer {
+	    padding: 20px;
+	    text-align: center;
+	}
+	
+	.button-contact,
+	.button-report {
+	    padding: 12px 30px;            /* 버튼 여백 */
+	    margin: 8px;                   /* 버튼 간 간격 */
+	    font-size: 16px;               /* 글자 크기 */
+	    font-weight: bold;             /* 글자 굵기 */
+	    border: none;                  /* 테두리 제거 */
+	    border-radius: 50px;           /* 둥근 모서리 */
+	    cursor: pointer;               /* 커서 포인터 */
+	    transition: background-color 0.3s ease, transform 0.3s ease; /* 부드러운 전환 효과 */
+	}
+	
+	/* 연락하기 버튼 */
+	.button-contact {
+	    background-color: #ffdd00;    /* 카카오톡과 유사한 노란색 */
+	    color: #3e1c2b;                /* 어두운 색 글자 */
+	}
+	
+	/* 연락하기 버튼 호버 상태 */
+	.button-contact:hover {
+	    background-color: #f2c100;    /* 더 어두운 노란색 */
+	    transform: scale(1.05);        /* 살짝 확대되는 효과 */
+	}
+	
+	/* 신고하기 버튼 */
+	.button-report {
+	    background-color: #ff4f57;    /* 붉은색 */
+	    color: white;                  /* 하얀색 글자 */
+	}
+	
+	/* 신고하기 버튼 호버 상태 */
+	.button-report:hover {
+	    background-color: #e03e42;    /* 더 어두운 붉은색 */
+	    transform: scale(1.05);        /* 살짝 확대되는 효과 */
+	}
+	
+	.additional-info {
+	    margin-top: 20px;
+	    padding: 10px;
+	    border: 1px solid #e0e0e0;
+	    border-radius: 8px;
+	    background-color: #f9f9f9;
+	}
+	
+	.additional-info p {
+	    margin: 5px 0;
+	    font-size: 14px;
+	    color: #555;
+	}
+	
+	.additional-info p strong {
+	    font-weight: bold;
+	    color: #333;
+	}
+	
+	.product-slider {
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    position: relative;
+	    margin: 20px auto;
+	    width: 100%;
+	    max-width: 600px; /* 슬라이더의 최대 너비 */
+	    height: 400px;    /* 슬라이더의 높이 */
+	    background-color: #f9f9f9;
+	    border: 1px solid #e0e0e0;
+	    border-radius: 8px;
+	    overflow: hidden;  /* 슬라이더 영역을 넘는 이미지는 보이지 않음 */
+	    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	}
+	
+	.slider-image-container {
+	    display: flex;
+	    transition: transform 0.3s ease; /* 부드럽게 이미지가 슬라이드 되도록 */
+	    width: 100%;  /* 전체 컨테이너 너비 */
+	    height: 100%; /* 전체 컨테이너 높이 */
+	}
+	
+	.slider-image-container img {
+	    width: 100%;
+	    height: 100%;
+	    object-fit: contain;  /* 이미지 크기 맞추기 */
+	    border-radius: 8px;
+	    flex-shrink: 0; /* 이미지가 축소되지 않도록 */
+	}
+	
+	.slider-arrow {
+	    position: absolute;
+	    top: 50%;
+	    transform: translateY(-50%);
+	    background-color: rgba(0, 0, 0, 0.5);
+	    color: #ffffff;
+	    border: none;
+	    border-radius: 50%;
+	    width: 40px;
+	    height: 40px;
+	    cursor: pointer;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    font-size: 18px;
+	    z-index: 10;
+	}
+	
+	.slider-arrow:hover {
+	    background-color: rgba(0, 0, 0, 0.8);
+	}
+	
+	.left-arrow {
+	    left: 10px;
+	}
+	
+	.right-arrow {
+	    right: 10px;
+	}
+	
+	#trust-point{
+		font-size: 24px;
+		font-weight: bold;
+	}
+	
+	/* 프로세스 바 기본 스타일 */
+	.progress {
+	    width: auto;               /* 프로세스 바의 너비 */
+	    height: 20px;               /* 프로세스 바의 높이 */
+	    background-color: #f3f3f3;  /* 프로세스 바의 배경색 */
+	    border-radius: 10px;        /* 둥근 모서리 */
+	    margin: 10px 0;             /* 위아래 여백 */
+	}
+	
+	/* 프로세스 바 진행 부분 */
+	.progress-bar {
+	    height: 100%;               /* 프로세스 바의 높이는 100% */
+	    width: 0%;                  /* 초기 상태, 프로세스 바는 비어 있음 */
+	    background-color: #ffdd00;  /* 카카오 느낌의 노란색 */
+	    border-radius: 10px;        /* 둥근 모서리 */
+	    transition: width 0.5s ease; /* 프로세스 바의 변화 애니메이션 */
+	}
+	
+	#writerProduct:hover{
+		cursor: pointer;
+		text-decoration: underline;
+	}
+	
+	#sellArea{
+		font-size: 13px;
+		padding: 5px 10px;
+		background-color: #dcdcdc;
+		border-radius: 10px;
+		font-weight: bold;
+		color: gray;
+	}
+	
+	#sellArea:hover{
+		cursor: pointer;
+	}
+	
+	/* 추천 상품 */
+	.recommended-products h3 {
+	    font-size: 24px;
+	    font-weight: bold;
+	    margin-bottom: 20px;
+	}
+	
+	.recommended-products {
+	    display: flex;
+	    margin-bottom: 30px;
+	}
+	
+	.recommended-products .product-card {
+	    width: 170px;
+	    height: 250px;
+	    background-color: #fff;
+	    border-radius: 12px;
+	    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	    overflow: hidden;
+	    cursor: pointer;
+	    transition: transform 0.3s ease;
+	}
+	
+	.recommended-products .product-card:hover {
+	    transform: scale(1.05);
+	}
+	
+	.recommended-products .product-card img {
+	    width: 100%;
+	    height: 150px;
+	    object-fit: cover;
+	}
+	
+	.recommended-products .product-card .product-info {
+	    padding: 10px;
+	}
+	
+	.recommended-products .product-card .product-info .product-title {
+	    font-size: 18px;
+	    font-weight: bold;
+	    color: #333;
+	}
+	
+	.recommended-products .product-card .product-info .product-price {
+	    font-size: 16px;
+	    color: #fee500;
+	}
+	
+	.reply-area {
+	  display: flex;
+	  align-items: center;
+	  padding: 10px;
+	  border-top: 1px solid #e5e5e5;
+	  background-color: #f9f9f9; /* 카카오의 밝은 배경색 느낌 */
+	  overflow-y: hidden;
+	}
+	
+	.reply-area textarea {
+	  flex: 1; /* 버튼 제외하고 나머지 공간 차지 */
+	  resize: none; /* 크기 조절 비활성화 */
+	  height: 100px;
+	  border: 1px solid #ddd;
+	  border-radius: 20px;
+	  padding: 10px 15px;
+	  font-size: 14px;
+	  outline: none;
+	  background-color: #fff;
+	  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* 살짝 입체감 */
+	  margin-right: 10px; /* 버튼과 간격 */
+	}
+	
+	.reply-area textarea::placeholder {
+	  color: #aaa; /* 플레이스홀더 색상 */
+	}
+	
+	.reply-area button {
+	  padding: 0 15px;
+	  height: 40px;
+	  border: none;
+	  border-radius: 20px;
+	  background-color: #f7e600; /* 카카오톡의 노란색 */
+	  color: #333; /* 텍스트 색상 */
+	  font-weight: bold;
+	  font-size: 14px;
+	  cursor: pointer;
+	  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15); /* 버튼 그림자 */
+	  transition: background-color 0.3s ease;
+	}
+	
+	.reply-area button:hover {
+	  background-color: #fce000; /* 호버 시 약간 더 진한 노란색 */
+	}
+	
+	.reply-area button:active {
+	  background-color: #e5c800; /* 클릭 시 어두운 노란색 */
+	}
+		
+	.reply-output-area {
+	  padding: 10px;
+	  background-color: #f9f9f9;
+	  border: 1px solid #e5e5e5;
+	  border-radius: 10px;
+	  overflow-y: hidden;
+	  font-family: 'Arial', sans-serif;
+	}
+	
+	.reply-message {
+	  margin-bottom: 15px;
+	  padding: 10px;
+	  border-radius: 10px;
+	  background-color: #fff;
+	  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+	}
+	
+	.reply-header {
+	  display: flex;
+	  justify-content: space-between;
+	  margin-bottom: 5px;
+	  font-size: 12px;
+	  color: #555;
+	}
+	
+	.reply-author {
+	  font-weight: bold;
+	  color: #333;
+	}
+	
+	.reply-date {
+	  font-size: 11px;
+	  color: #888;
+	}
+	
+	.reply-content {
+	  font-size: 14px;
+	  color: #333;
+	  word-wrap: break-word;
+	}
+	
+	.reply-profile {
+	  width: 30px;
+	  height: 30px;
+	  border-radius: 50%;
+	  margin-right: 5px;
+	}
+	
+	.report-button {
+	    position: absolute; /* 절대 위치 설정 */
+	    bottom: 5px; /* 하단에서 간격 */
+	    right: 10px; /* 오른쪽에서 간격 */
+	    padding: 3px 8px; /* 버튼 크기 조정 */
+	    font-size: 10px; /* 작은 글씨 */
+	    border: none; /* 테두리 없음 */
+	    background-color: transparent; /* 배경 투명 */
+	    color: #888; /* 텍스트 색상 (회색) */
+	    cursor: pointer;
+	    transition: color 0.2s ease, transform 0.2s ease;
+	}
+	
+	.update-button {
+	    position: absolute; /* 절대 위치 설정 */
+	    bottom: 5px; /* 하단에서 간격 */
+	    right: 60px; /* 오른쪽에서 간격 */
+	    padding: 3px 8px; /* 버튼 크기 조정 */
+	    font-size: 10px; /* 작은 글씨 */
+	    border: none; /* 테두리 없음 */
+	    background-color: transparent; /* 배경 투명 */
+	    color: #888; /* 텍스트 색상 (회색) */
+	    cursor: pointer;
+	    transition: color 0.2s ease, transform 0.2s ease;
+	}
+	
+	.report-button:hover {
+	    color: #333; /* 호버 시 진한 색상 */
+	    transform: scale(1.1); /* 살짝 확대 */
+	}
+	
+	.report-button:active {
+	    transform: scale(1); /* 클릭 시 원래 크기로 */
+	}
+	
+	.update-button:hover {
+	    color: #333; /* 호버 시 진한 색상 */
+	    transform: scale(1.1); /* 살짝 확대 */
+	}
+	
+	.update-button:active {
+	    transform: scale(1); /* 클릭 시 원래 크기로 */
+	}
+	
+	.reply-message {
+	    position: relative; /* 버튼을 오른쪽 하단에 위치시키기 위해 부모 요소를 기준으로 설정 */
+	    margin-bottom: 15px;
+	    padding: 10px;
+	    border-radius: 10px;
+	    background-color: #fff;
+	    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+	    overflow-y: hidden;
+	}
+		
+	.product-header {
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    padding: 10px 20px;
+	    border-bottom: 2px solid #f5f5f5;
+	}
+	
+	.product-title {
+	    font-size: 22px;
+	    font-weight: bold;
+	    color: #333;
+	    margin: 0;
+	}
+	
+	.product-date {
+	    font-size: 14px;
+	    color: #888;
+	    margin-top: 5px;
+	}
+	
+	.button-group {
+	    display: flex;
+	    gap: 10px; /* 버튼 간 간격 */
+	}
+	
+	.button-group button {
+	    padding: 5px 15px;
+	    font-size: 14px;
+	    font-weight: bold;
+	    border: none;
+	    border-radius: 20px;
+	    cursor: pointer;
+	    transition: background-color 0.3s ease, color 0.3s ease;
+	}
+	
+	/* 수정하기 버튼 (노란색) */
+	.edit-button {
+	    background-color: #ffe812;
+	    color: #333;
+	}
+	
+	.edit-button:hover {
+	    background-color: #ffd700; /* 호버 시 더 진한 노란색 */
+	    color: #000;
+	}
+	
+	/* 삭제하기 버튼 (회색) */
+	.delete-button {
+	    background-color: #ddd;
+	    color: #333;
+	}
+	
+	.delete-button:hover {
+	    background-color: #bbb; /* 호버 시 더 진한 회색 */
+	    color: #000;
+	}
+	
+	.reply-reply-button {
+	    padding: 0 15px;
+	    margin-left: 20px;
+	    height: 40px;
+	    border: none;
+	    border-radius: 20px;
+	    background-color: #f7e600; /* 카카오톡의 노란색 */
+	    color: #333; /* 텍스트 색상 */
+	    font-weight: bold;
+	    font-size: 14px;
+	    cursor: pointer;
+	    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15); /* 버튼 그림자 */
+	    transition: background-color 0.3s ease;
+	}
+	
+	.reply-reply-textarea {
+	    flex: 1; /* 버튼 제외하고 나머지 공간 차지 */
+	    resize: none; /* 크기 조절 비활성화 */
+	    height: 100px;
+	    border: 1px solid #ddd;
+	    border-radius: 20px;
+	    padding: 10px 15px;
+	    font-size: 14px;
+	    outline: none;
+	    background-color: #fff;
+	    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* 살짝 입체감 */
+	    margin-right: 10px; /* 버튼과 간격 */
+	}
+	
+	.reply-reply-textarea::placeholder {
+	    color: #aaa; /* 플레이스홀더 색상 */
+	}
+	
+	#idSpan:hover{
+		cursor: pointer;
+	}
 
 .slider-image-container {
 	display: flex;
@@ -769,27 +1149,29 @@ body {
 				</div>
 				<br>
 				<div class="recommended-products">
-					<div class="top5-board-list" style="display: flex;">
-						<div class="product-card">
-							<div class="product-title">상품을 불러오는 중입니다.</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="product-footer">
-				<c:if test="${loginUser.userId != detailBoard.boardWriter}">
-					<button class="button-contact">구매하기</button>
-					<button class="button-contact" id="chatWithSeller">판매자와
-						채팅하기</button>
-					<button class="button-contact" id="pickBtn" onclick="pick();">
-						찜하기
-						<c:if test="${existPick > 0}">
-							<i class='fas fa-heart filled-heart'></i>
-						</c:if>
-					</button>
-					<button class="button-report" onclick="reportBoard();">신고하기</button>
-				</c:if>
-			</div>
+          <div class="top5-board-list" style="display: flex;">
+            <div class="product-card">
+              <div class="product-title">상품을 불러오는 중입니다.</div>
+            </div>
+          </div>
+				</div>	
+		    </div>
+		    <div class="product-footer">
+	    		<c:if test="${loginUser.userId != detailBoard.boardWriter}">
+		    		<button class="button-contact" id="PurchaseRequest">구매하기</button>
+		        	<button class="button-contact" id="chatWithSeller">판매자와 채팅하기</button>
+			        <button class="button-contact" id="pickBtn" onclick="pick();">찜하기
+			        	<c:if test="${existPick > 0}">
+			        		<i class='fas fa-heart filled-heart'></i>
+			        	</c:if>
+			        </button>
+			        <button class="button-report" onclick="reportBoard();">신고하기
+			        	<c:if test="${detailBoard.boardDeclaration == 'Y'}">
+			        		<i class='fas fa-times'></i>
+			        	</c:if>
+			        </button>
+	    		</c:if>
+		    </div>
 			<div class="reply-area">
 				<textarea id="replyContent" placeholder="메시지를 입력하세요"></textarea>
 				<button onclick="replyInsert();">작성</button>
@@ -846,10 +1228,138 @@ body {
 						
 						// 외부 div 생성 (댓글 전체를 감싸는 컨테이너)
 				        var replyDiv = $("<div>").addClass("reply-message");
-
+				      	
 				        // 헤더 생성 (작성자와 작성 날짜 및 댓글 번호(숨김))
 				        var headerDiv = $("<div id='imHeader'>").addClass("reply-header");
-				        var authorSpan = $("<span id='idSpan'>").addClass("reply-author").text(reply.replyWriter);
+				        var authorSpan = $("<span id='idSpan'>").addClass("reply-author").text(reply.replyWriter).on("dblclick", function (event) {
+						     
+				        	// 유저 아이디를 가져옴
+				        	var replyWriter = $(this).text();
+				        	
+				        	if("${loginUser.userId}" != replyWriter){
+				        		
+					        	// 기존 메뉴가 있으면 삭제
+					        	$(".miniMenuDiv").remove();
+	
+	
+					        	// 메뉴 창 div
+					        	var miniMenu = $("<div>").addClass("miniMenuDiv")
+					        	    .css({
+					        	        position: "absolute", // 위치를 절대 좌표로 설정
+					        	        top: event.pageY + "px", // 클릭된 Y 위치
+					        	        left: event.pageX + "px", // 클릭된 X 위치
+					        	        background: "#fff", // 배경색
+					        	        border: "1px solid #ddd", // 테두리
+					        	        borderRadius: "10px", // 모서리 둥글게
+					        	        padding: "10px 0", // 내부 여백
+					        	        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)", // 부드러운 그림자
+					        	        zIndex: 1000, // 상위 레이어 보장
+					        	        minWidth: "100px", // 최소 너비
+					        	        fontFamily: "'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif", // 카카오 스타일의 폰트
+					        	        color: "#333", // 텍스트 색상
+					        	        textAlign: "center", // 텍스트 정렬
+					        	    });
+	
+					        	// 메뉴 창 div에 넣어줄 span 요소
+					        	var menu1 = $("<span>").text("채팅하기")
+					        	    .css({
+					        	        display: "block", // 각 메뉴를 블록 형태로 배치
+					        	        padding: "5px 10px", // 내부 여백
+					        	        fontSize: "10px", // 글씨 크기
+					        	        cursor: "pointer", // 포인터 커서 표시
+					        	        backgroundColor: "#f7e600", // 카카오톡 노란색
+					        	        color: "#333", // 텍스트 색상
+					        	        borderRadius: "5px", // 둥근 모서리
+					        	        margin: "5px 10px", // 메뉴 간 간격
+					        	        fontWeight: "bold", // 굵은 글씨
+					        	    }).hover(
+					        	        function () {
+					        	            $(this).css("backgroundColor", "#ffe500"); // 호버 효과
+					        	        },
+					        	        function () {
+					        	            $(this).css("backgroundColor", "#f7e600");
+					        	        }
+					        	    ).on("click", function(){
+					        	    	
+					        	    	$.ajax({
+					        	    		url : "${contextPath}/board/changeIdToNick",
+					        	    		data : {
+					        	    			userId : replyWriter
+					        	    		},
+					        	    		success : function(nickname){
+					        	    			getChatFromReply(nickname);
+					        	    		},
+					        	    		error : function(){
+					        	    			console.log("통신 오류");
+					        	    		}
+					        	    	});
+					        	    	
+					        	    });
+	
+					        	var menu2 = $("<span id='declaration'>").text("신고하기")
+					        	    .css({
+					        	        display: "block",
+					        	        padding: "5px 10px",
+					        	        fontSize: "10px",
+					        	        cursor: "pointer",
+					        	        backgroundColor: "#f7e600",
+					        	        color: "#333",
+					        	        borderRadius: "5px",
+					        	        margin: "5px 10px",
+					        	        fontWeight: "bold",
+					        	    }).hover(
+					        	        function () {
+					        	            $(this).css("backgroundColor", "#ffe500");
+					        	        },
+					        	        function () {
+					        	            $(this).css("backgroundColor", "#f7e600");
+					        	        }
+					        	    ).on("click", function(){
+					        	    	
+					        	    	alertify.prompt('신고대상 : ' + replyWriter, '', function(evt, value) { 
+					        	    		
+					        	    			$.ajax({
+					        	    				url : "${contextPath}/board/insertWarningUser",
+					        	    				data : {
+					        	    					declarationId : replyWriter,
+					        	    					declarationContent : value
+					        	    				},
+					        	    				success : function(msg){
+					        	    					if(msg == "NNNNY"){
+						        	    					alertify.alert('알림', '신고가 처리되었습니다.');					        	    						
+					        	    					}
+					        	    					else if(msg == "NNNND"){
+					        	    						alertify.alert('알림', '이미 신고가 처리되었습니다.');	
+					        	    					}
+					        	    				},
+					        	    				error : function(){
+					        	    					console.log("통신 오류");
+					        	    				}
+					        	    			});
+					        	    		
+					        	    		});
+					        	    	
+					        	    });
+
+					        	// 삽입
+					        	miniMenu.append(menu1, menu2);
+	
+					        	// 메뉴를 body에 추가
+					        	$("body").append(miniMenu);
+	
+					        	// 클릭 외 다른 영역을 클릭하면 메뉴 닫기
+					        	$(document).on("click", function (e) {
+					        	    if (!$(e.target).closest(".miniMenuDiv, #idSpan").length) {
+					        	        $(".miniMenuDiv").remove();
+					        	    }
+					        	});
+	
+					        	// 이벤트 전파 방지 (메뉴 클릭 시 메뉴 닫힘 방지)
+					        	miniMenu.on("click", function (e) {
+					        	    e.stopPropagation();
+					        	});
+				        	}
+				        });
 				        var dateSpan = $("<span>").addClass("reply-date").text(reply.replyDate);
 				        var input1 = $("<input type='hidden'>").val(reply.replyNo);
 				        var input2 = $("<input type='hidden'>").val(reply.replyNo);
@@ -1247,7 +1757,30 @@ body {
 			});
 		}
 		
-		
+		$("#PurchaseRequest").click(function () {
+			//get the closable setting value.
+			var closable = alertify.alert().setting('closable');
+			//grab the dialog instance using its parameter-less constructor then set multiple settings at once.
+			
+		   	alertify.confirm('정말로 구매하시겠습니까?', function(){ 
+		   	// 사용자가 "확인"을 클릭한 경우
+		           $.ajax({
+		           	url: "${contextPath}/purchase", // 서버의 구매 요청 처리 경로
+		               method: 'POST',
+		               data: {
+		                   boardNo: "${detailBoard.boardNo}" // 구매할 아이템의 데이터
+		               }, // 구매할 아이템의 데이터
+		               success: function (response) {
+		                   alert("구매가 완료되었습니다!");
+		               },
+		               error: function () {
+		                   alert("구매에 실패했습니다. 다시 시도해주세요.");
+		               }
+		           });
+		   		});
+		       
+		    });
+			 
 	</script>
 
 	<!-- 카카오톡 스타일 현재 위치 모달창 -->
@@ -1327,13 +1860,15 @@ body {
 		// 판매자와 채팅 시스템 메소드
 		$("#chatWithSeller").click(function(){
 			
+			sessionStorage.setItem("sellerInfo", "${writerInfo.nickname}");
+			
 			$.ajax({
 				url : "${contextPath}/user/getChatRecord",
 				data : {
 					chatUser : "${writerInfo.nickname}"
 				},
 				success : function(result){
-					
+					console.log(result);
 					$(".chat-history div").remove();
 					
 					for(var i of result){
@@ -1364,6 +1899,52 @@ body {
 			$(".first-page-content").css("display", "none");
 			openChat();
 		});
+		
+		// 댓글에 유저와 채팅할떄의 메소드
+		function getChatFromReply(nickname){
+			
+			sessionStorage.setItem("sellerInfo", nickname);
+			
+			if("${loginUser.nickname}" != nickname){
+				$.ajax({
+					url : "${contextPath}/user/getChatRecord",
+					data : {
+						chatUser : nickname
+					},
+					success : function(result){
+						
+						$(".chat-history div").remove();
+						
+						for(var i of result){
+							
+							var contentSpan = $("<span class='message-content'>").text(i.messageContent);	
+							var timeSpan = $("<span class='message-time'>").text(i.createData);
+							if("${loginUser.nickname}" == i.nickname){
+								var outDiv = $("<div class='chat-message admin-message'>");
+							}
+							else{
+								var outDiv = $("<div class='chat-message user-message'>");
+							}
+							
+							outDiv.append(contentSpan).append(timeSpan);
+							$(".chat-history").append(outDiv);
+							
+							var content = $(".chat-history");
+							content.scrollTop(content[0].scrollHeight);
+						}
+						
+					},
+					error : function(){
+						console.log("통신 오류");
+					}
+				});
+				
+				$(".kakao-chat-content").css("display", "block");
+				$(".first-page-content").css("display", "none");
+				openChat();
+			}
+			
+		}
 	
 		// 신고하기 버튼 기능 메소드
 		function reportBoard(){
@@ -1459,7 +2040,7 @@ body {
 		});
 	</script>
 
-	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+	<%@include file="/WEB-INF/views/common/footer.jsp" %>
 
 </body>
 </html>

@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.finalProject.common.model.vo.BoardCategory;
 import com.kh.finalProject.common.model.vo.Category;
 import com.kh.finalProject.common.model.vo.ChatInfo;
 import com.kh.finalProject.common.model.vo.Kind;
@@ -13,6 +14,8 @@ import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.common.model.vo.PageInfo;
 import com.kh.finalProject.common.model.vo.ReportUser;
 import com.kh.finalProject.productBoard.model.dao.ProductBoardDao;
+import com.kh.finalProject.productBoard.model.vo.AreaBoard;
+import com.kh.finalProject.productBoard.model.vo.AreaBoardReply;
 import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
@@ -464,6 +467,75 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 		return productBoardDao.rereplyReport(sqlSession, rereply);
 	}
 	
-	
+	public ArrayList<AreaBoard> areaBoardForm(int address, PageInfo pi) {
+		
+		return productBoardDao.areaBoardForm(sqlSession, address, pi);
+	}
+
+	@Override
+	public ArrayList<AreaBoard> areaBoardForm(PageInfo pi) {
+		
+		return productBoardDao.areaBoardForm(sqlSession, pi);
+	}
+
+	@Override
+	public int AreaBoardCount(int locationNo) {
+		
+		return productBoardDao.AreaBoardCount(sqlSession, locationNo);
+	}
+
+	@Override
+	public int AreaBoardCount() {
+		
+		return productBoardDao.AreaBoardCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<BoardCategory> getBoardCate() {
+		
+		return productBoardDao.getBoardCate(sqlSession);
+	}
+
+	@Override
+	public int insertAreaBoard(AreaBoard board) {
+		
+		return productBoardDao.insertAreaBoard(sqlSession, board);
+	}
+
+	@Override
+	public AreaBoard selectAreaBoard(int areaNo) {
+		
+		return productBoardDao.selectAreaBoard(sqlSession, areaNo);
+	}
+
+	@Override
+	public int updateCount(int areaNo) {
+		
+		return productBoardDao.updateCount(sqlSession, areaNo);
+	}
+
+	@Override
+	public int deleteAreaBoard(int areaNo) {
+		
+		return productBoardDao.deleteAreaBoard(sqlSession, areaNo);
+	}
+
+	@Override
+	public int updateAreaBoard(AreaBoard board) {
+		
+		return productBoardDao.updateAreaBoard(sqlSession, board);
+	}
+
+	@Override
+	public int insertBoardReply(AreaBoardReply reply) {
+		
+		return productBoardDao.insertBoardReply(sqlSession, reply);
+	}
+
+	@Override
+	public ArrayList<AreaBoardReply> selectAreaBoardReply(AreaBoardReply reply) {
+		
+		return productBoardDao.selectAreaBoardReply(sqlSession, reply);
+	}
 
 }
