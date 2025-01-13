@@ -234,7 +234,15 @@
                     </tr>
                 </thead>
                 <tbody id="reported-users-list">
-                    <!-- 신고된 유저 목록이 동적으로 여기에 추가됩니다. -->
+                      <c:forEach var="w" items="${wList}">
+                      	<tr>
+    						<td>${w.userId}</td>
+    						<td>${w.warningDate}</td>
+    						<td>${w.declarationId}</td>
+    						<td>${w.declarationContent}</td>
+    						<td><input type="submit" value="조치"> </td>
+       				   </tr>
+    				  </c:forEach>
                 </tbody>
             </table>
 
@@ -243,39 +251,44 @@
             <table class="reported-posts-table" id="reported-posts-table">
                 <thead>
                     <tr>
-                        <th>게시물 ID</th>
+                        <th>게시물 번호</th>
                         <th>게시물 제목</th>
-                        <th>신고 이유</th>
-                        <th>조치</th>
+                        <th>작성자</th>
+                        <th>게시물이동</th>
                     </tr>
                 </thead>
                 <tbody id="reported-posts-list">
-                    <!-- 신고된 게시물 목록이 동적으로 여기에 추가됩니다. -->
+                    <c:forEach var="wpb" items="${wpbList}">
+                      	<tr>
+    						<td>${wpb.boardNo}</td>
+    						<td>${wpb.boardTitle}</td>
+    						<td>${wpb.boardWriter}</td>
+    						<td><a href="http://localhost:8888/final/board/boardDetailForm?boardNo=+${wpb.boardNo}+"><input type="submit" value="이동"></a></td>
+       				   </tr>
+    				  </c:forEach>
                 </tbody>
             </table>
-
             <!-- 신고된 댓글 목록 -->
             <h2>신고된 댓글 목록</h2>
             <table class="reported-comments-table" id="reported-comments-table">
                 <thead>
                     <tr>
-                        <th>피신고자</th>
-                        <th>사유</th>
-                        <th>신고자</th>
-                        <th>신고날짜</th>
+                        <th>댓글 작성자</th>
+                        <th>참조 게시판</th>
+                        <th>댓글 내용</th>
+                        <th>게시물이동</th>
                     </tr>
                 </thead>
                 <tbody id="reported-comments-list">
-                    <!-- 신고된 댓글 목록이 동적으로 여기에 추가됩니다. -->
-					<c:forEach var="w" items="${wList}">
-						<tr>
-							<td>${w.userId}</td>
-							<td>${w.declarationContent}</td>
-							<td>${w.declarationId}</td>
-							<td>${w.warningDate}</td>
-						</tr>
-					</c:forEach>
-				</tbody>
+                   <c:forEach var="r" items="${rList}">
+                      	<tr>
+    						<td>${r.replyWriter}</td>
+    						<td>${r.refBno}</td>
+    						<td>${r.replyContent}</td>
+    						<td><a href="http://localhost:8888/final/board/boardDetailForm?boardNo=+${r.refBno}+"><input type="submit" value="이동"></a></td>
+       				   </tr>
+    				  </c:forEach>
+                </tbody>
             </table>
         </div>
     </div>
@@ -297,41 +310,8 @@
                 sidebar.toggleClass('collapsed');
             });
 
-            // 신고된 유저 목록
-            
-            const reportedUsers = [
-                { userId: 'user02', name: '김철수', reporter: 'userB', status: '신고됨' },
-                { userId: 'user03', name: '이영희', reporter: 'userC', status: '신고됨' }
-            ];
-
-            // 신고된 유저 목록 동적으로 삽입
-            for (let user of reportedUsers) {
-                let row = $("<tr>");
-                row.append("<td>" + user.userId + "</td>");
-                row.append("<td>" + user.name + "</td>");
-                row.append("<td>" + user.reporter + "</td>");
-                row.append("<td>" + user.status + "</td>");
-                row.append(`<td><button class="btn-action" onclick="handleUserAction('${user.userId}')">조치</button></td>`);
-                $("#reported-users-list").append(row);
-            }
-
-            // 신고된 게시물 목록
-            const reportedPosts = [
-                { postId: 'post01', title: '불법 광고', reason: '불법 링크 공유' },
-                { postId: 'post02', title: '허위 정보', reason: '허위 정보 게시' },
-                { postId: 'post03', title: '욕설 비방', reason: '욕설 및 비방' }
-            ];
-
-            // 신고된 게시물 목록 동적으로 삽입
-            for (let post of reportedPosts) {
-                let row = $("<tr>");
-                row.append("<td>" + post.postId + "</td>");
-                row.append("<td>" + post.title + "</td>");
-                row.append("<td>" + post.reason + "</td>");
-                row.append(`<td><button class="btn-action" onclick="handlePostAction('${post.postId}')">조치</button></td>`);
-                $("#reported-posts-list").append(row);
-            }
-
+            console.log(${wpbList});
+           
             // 신고된 댓글 목록
             const reportedComments = [
                 { commentId: 'cmt01', content: '불법 링크 공유' },

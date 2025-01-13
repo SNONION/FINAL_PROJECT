@@ -37,6 +37,9 @@ import com.kh.finalProject.common.model.vo.ChatInfo;
 import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.common.template.ChangeFileName;
 import com.kh.finalProject.common.websocket.vo.MessageInfo;
+import com.kh.finalProject.productBoard.model.service.ProductBoardService;
+import com.kh.finalProject.productBoard.model.vo.ProductBoard;
+import com.kh.finalProject.productBoard.model.vo.Reply;
 import com.kh.finalProject.user.model.service.UserService;
 import com.kh.finalProject.user.model.vo.Agree;
 import com.kh.finalProject.user.model.vo.User;
@@ -52,7 +55,10 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-
+	
+	@Autowired
+	private ProductBoardService productBoardService;
+	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 
@@ -664,7 +670,7 @@ public class UserController {
 		return cList;
 
 	}
-
+	
 	@RequestMapping("toAdmin")
 	public ModelAndView adPwd(User user, HttpServletRequest request, ModelAndView mv) {
 
@@ -672,9 +678,13 @@ public class UserController {
 		
 		if (bcryptPasswordEncoder.matches(user.getUserPwd(), loginUser.getUserPwd())) {
 			
-			// 채팅 기록에 로그인한 유저의 이름으로 저장된 이름이 있다면 해당 파일 명을 가져온다.
-			ArrayList<Warning> wList = userService.warningList();
 			
+			ArrayList<Warning> wList = userService.warningList();
+			ArrayList<ProductBoard> wpbList = productBoardService.declarationBoard();
+			ArrayList<Reply> rList = productBoardService.declarationReply();
+			
+			mv.addObject("rList",rList);
+			mv.addObject("wpbList",wpbList);
 			mv.addObject("wList",wList);
 			mv.setViewName("adminpage/adminPage");
 		} else {

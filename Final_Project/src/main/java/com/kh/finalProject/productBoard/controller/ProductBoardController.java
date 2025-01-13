@@ -269,6 +269,8 @@ public class ProductBoardController {
 		
 	}
 	
+	
+	
 	// 문의 수정페이지 이동 메소드
 	@RequestMapping("toUpdateRequestForm")
 	public ModelAndView toUpdateRequestForm(Request request, ModelAndView mv) {
@@ -424,7 +426,8 @@ public class ProductBoardController {
 		
 	}
 	
-	// 상세카테고리 조회하는 메소드
+	
+	
 	@ResponseBody
 	@RequestMapping(value="cateDetail", produces="application/json;charset=UTF-8")
 	public ArrayList<Category> cateDetail(Category category) {

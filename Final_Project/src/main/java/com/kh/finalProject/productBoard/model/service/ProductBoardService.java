@@ -229,6 +229,12 @@ public interface ProductBoardService {
 
 	// 대댓글을 조회해오는 메소드
 	ArrayList<ReReply> getReplyReply(ReReply reReply);
+	
+	//신고된 게시글 조회해오는 메소드
+	ArrayList<ProductBoard> declarationBoard();
+	
+	//신고된 댓글 조회해오는 메소드
+	ArrayList<Reply> declarationReply();
 
 	//대댓글 삭제하는 메소드 
 	int redeleteReply(ReReply rereply);

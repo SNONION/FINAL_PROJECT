@@ -153,6 +153,19 @@
 		<result column="REPLY_WRITER" property="boardReplyWriter"/>
 	</resultMap>
 	
+	<select id="declarationBoard" resultMap="PBResultSet">
+		SELECT 	BOARD_NO,BOARD_TITLE,BOARD_WRITER
+		FROM 	TB_PRODUCTBOARD
+		WHERE 	BOARD_DECLARATION='Y'
+	</select>
+	
+	<select id="declarationReply" resultMap="ReplyResultSet">
+		SELECT REPLY_WRITER,REF_BNO,REPLT_CONTENT
+		FROM TB_REPLY
+		WHERE REPLY_DECLARATION='Y'
+	</select>
+	
+	
 	<select id="listCount" parameterType="User" resultType="_int">
 		SELECT	COUNT(*)
 		FROM	TB_PRODUCTBOARD

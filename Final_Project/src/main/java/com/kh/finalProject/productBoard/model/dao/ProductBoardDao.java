@@ -288,6 +288,8 @@ public class ProductBoardDao {
 		
 		return (ArrayList)sqlSession.selectList("productBoardMapper.productSearch", searchValue);
 	}
+	
+	
 
 	public Category boardCategory(SqlSessionTemplate sqlSession, int categoryNo) {
 		
@@ -402,6 +404,16 @@ public class ProductBoardDao {
 	public ArrayList<ReReply> getReplyReply(SqlSessionTemplate sqlSession, ReReply reReply) {
 		
 		return (ArrayList)sqlSession.selectList("productBoardMapper.getReplyReply", reReply);
+	}
+	
+	public ArrayList<ProductBoard> declarationBoard(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.declarationBoard");
+	}
+
+	public ArrayList<Reply> declarationReply(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.declarationReply");
 	}
 
 	public int getredeleteReply(SqlSessionTemplate sqlSession, ReReply rereply) {
