@@ -1154,7 +1154,7 @@ public class ProductBoardController {
 		
 	}
   
-  // 채팅을 위해 아이디를 사용해 닉네임을 조회하는 메소드
+	// 채팅을 위해 아이디를 사용해 닉네임을 조회하는 메소드
 	@ResponseBody
 	@RequestMapping(value="changeIdToNick", produces="html/text;charset=UTF-8")
 	public String changeIdToNick(User user) {
@@ -1165,7 +1165,7 @@ public class ProductBoardController {
 		
 	}
     
-  // 신고한 대상을 삽입하는 메소드
+	// 신고한 대상을 삽입하는 메소드
 	@ResponseBody
 	@RequestMapping(value="insertWarningUser", produces="html/text;charset=UTF-8")
 	public String insertWarningUser(Warning warning, HttpServletRequest request) {

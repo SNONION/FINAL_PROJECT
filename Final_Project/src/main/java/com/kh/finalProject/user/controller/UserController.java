@@ -683,5 +683,15 @@ public class UserController {
 		
 		return mv;
 	};
+	
+	@ResponseBody
+	@RequestMapping(value="getUserImg", produces="html/text;charset=UTF-8")
+	public String getUserImg(User user) {
+		
+		User loginUser = userService.getUserImg(user);
+		
+		return loginUser.getUserImg();
+		
+	}
 
 }
