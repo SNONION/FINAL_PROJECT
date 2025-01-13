@@ -138,4 +138,10 @@ public class UserServiceImpl implements UserService{
 		return userDao.checkDeclaration(sqlSession, warning);
 	}
 
+	@Override
+	public User getUserImg(User user) {
+		
+		return userDao.getUserImg(sqlSession, user);
+	}
+
 }

@@ -936,6 +936,10 @@
 		});
 	
 		$(document).ready(function() {
+			
+			var outDiv;
+			var innerDiv;
+			
 	        // 채팅창 열기/닫기 함수
 	        function openChat() {
 	            var checkOpenClass = $("#chatBox").hasClass("open");
@@ -950,18 +954,14 @@
 	            			
 	            			for(var i of result){
 	            				
-            					var outDiv = $("<div class='chat-item' id='clickChat'>");
-            					var innerDiv;
-            					var userImg = $("<img class='seller-img'>").attr("src", "${contextPath}");
+            					outDiv = $("<div class='chat-item' id='clickChat'>");
             					
 	            				if("${loginUser.nickname}" == i.sellerId || "${loginUser.nickname}" != i.buyerId){
-	            					innerDiv = $("<div class='seller-id'>").text(i.buyerId);
+	            					getUserImg(i.buyerId);
 	            				}
 	            				else if("${loginUser.nickname}" != i.sellerId || "${loginUser.nickname}" == i.buyerId){
-	            					innerDiv = $("<div class='seller-id'>").text(i.sellerId);
+	            					getUserImg(i.sellerId);
 	            				}
-	            				
-	            				outDiv.append(userImg).append(innerDiv);
 	            				
 	            				$(".first-page-content").append(outDiv);
 	            			}
@@ -977,6 +977,24 @@
 	            } else {
 	                $("#chatBox").removeClass("open");  // 채팅창 닫기
 	            }
+	        }
+	        
+	        // 위에서 조회한 아이디를 통해서 유저의 이미지를 가져오는 함수
+	        function getUserImg(userId){
+	        	$.ajax({
+	        		url : "${contextPath}/user/getUserImg",
+	        		data : {
+	        			nickname : userId
+	        		},
+	        		success : function(result){
+	        			var userImg = $("<img class='seller-img'>").attr("src", "${contextPath}" + result);
+	        			innerDiv = $("<div class='seller-id'>").text(userId);
+	        			outDiv.append(userImg).append(innerDiv);
+	        		},
+	        		error : function(){
+	        			console.log("통신 오류");
+	        		}
+	        	});
 	        }
 	
 	        // 닫기 버튼 클릭 시 채팅창 닫기
@@ -1149,14 +1167,11 @@
 			location.href="${contextPath}/board/areaBoardForm?regionDepthName1=" + regionDepthName1 + "&regionDepthName2=" + regionDepthName1 + "&currentPage=1";
 		};
 	
-		// 부모 메뉴 클릭 시
 		$("#category-area").on("click", "li.dropdown-item", function(event) {
-		    event.stopPropagation(); // 부모 메뉴 클릭 시 이벤트 전파 차단
+		    event.stopPropagation();
 	
-		    // 부모 메뉴 텍스트 추출 (예: "디지털기기")
 		    var categoryName = $(this).contents().first().text().trim();
 		    
-		    // 페이지 이동 또는 다른 동작을 처리할 수 있음
 		    location.href = "${contextPath}/board/productBoardForm?categoryName=" + categoryName;
 		});
 	

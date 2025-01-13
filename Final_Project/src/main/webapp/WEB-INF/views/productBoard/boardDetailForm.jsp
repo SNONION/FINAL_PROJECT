@@ -992,6 +992,22 @@
 		transform: scale(1); /* 클릭 시 원래 크기로 */
 	}
 	
+	.rereply-writer:hover{
+		cursor: pointer;
+	}
+	
+	.rereply-writer:hover{
+		transform: scale(1.1); /* 살짝 확대 */
+	}
+	
+	.reply-author:active {
+		transform: scale(1); /* 클릭 시 원래 크기로 */
+	}
+	
+	.reply-author:hover{
+		transform: scale(1.1); /* 살짝 확대 */
+	}
+	
 </style>
 
 </head>
@@ -1124,12 +1140,10 @@
 						</span> <span id="trust-point"
 							style="font-size: 18px; font-weight: bold; color: black;">${writerInfo.trustPoint}</span>
 					</div>
-					<div id="writerProduct"
-						style="display: flex; align-items: center; gap: 10px;">
+					<div id="writerProduct" style="display: flex; align-items: center; gap: 10px;">
 						<img src="${contextPath}${writerInfo.userImg}" width="70px"
 							height="70px">
-						<p
-							style="color: black; font-size: 24px; font-weight: bold; margin: 0;">${detailBoard.boardWriter}</p>
+						<p style="color: black; font-size: 24px; font-weight: bold; margin: 0;">${detailBoard.boardWriter}</p>
 					</div>
 				</div>
 
@@ -1280,7 +1294,7 @@
 					        	    });
 	
 					        	// 메뉴 창 div에 넣어줄 span 요소
-					        	var menu1 = $("<span>").text("채팅하기")
+					        	var menu1 = $("<span>").text("채팅하기").append($("<input type='hidden'>").val(replyWriter))
 					        	    .css({
 					        	        display: "block", // 각 메뉴를 블록 형태로 배치
 					        	        padding: "5px 10px", // 내부 여백
@@ -1299,6 +1313,7 @@
 					        	            $(this).css("backgroundColor", "#f7e600");
 					        	        }
 					        	    ).on("click", function(){
+					        	    	var replyWriter = $(this).children("input").val();
 					        	    	
 					        	    	$.ajax({
 					        	    		url : "${contextPath}/board/changeIdToNick",
@@ -1359,9 +1374,32 @@
 					        	    		});
 					        	    	
 					        	    });
-
+								
+					        	var menu3 = $("<span id='declaration'>").text("유저정보")
+				        	    .css({
+				        	        display: "block",
+				        	        padding: "5px 10px",
+				        	        fontSize: "10px",
+				        	        cursor: "pointer",
+				        	        backgroundColor: "#f7e600",
+				        	        color: "#333",
+				        	        borderRadius: "5px",
+				        	        margin: "5px 10px",
+				        	        fontWeight: "bold",
+				        	    }).hover(
+				        	        function () {
+				        	            $(this).css("backgroundColor", "#ffe500");
+				        	        },
+				        	        function () {
+				        	            $(this).css("backgroundColor", "#f7e600");
+				        	        }
+				        	    ).on("click", function(){
+				        	    	
+				        	    	location.href="${contextPath}/board/sellerInfoPage?userId=" + replyWriter;
+				        	    });
+					        	
 					        	// 삽입
-					        	miniMenu.append(menu1, menu2);
+					        	miniMenu.append(menu3, menu1, menu2);
 	
 					        	// 메뉴를 body에 추가
 					        	$("body").append(miniMenu);
@@ -1385,11 +1423,24 @@
 				        var input3 = $("<input type='hidden'>").val(reply.replyNo);
 				        var input4 = $("<input type='hidden'>").val(reply.replyNo);
 				        
-				        if(reply.replyDeclaration == "Y"){
-				        	authorSpan.append("&nbsp;<i style='color:red; font-size: 10px;' class='fas fa-exclamation-triangle'></i>");
-				        }
+				        var iconSpan = $("<span>")
+				        var iCon = $("<i>").addClass(".icon fas fa-exclamation-triangle")
+				        				   .css({
+				        					   "color": "red",
+				        					   "font-size": "10px",
+				        					   "position": "absolute",
+				        					   "top": "14px",
+				        					   "left": "40px",
+				        				   });
 				        
-				        headerDiv.append(authorSpan).append(dateSpan);
+				        iconSpan.append(iCon);
+				        
+				        if(reply.replyDeclaration == "Y"){
+				        	headerDiv.append(authorSpan).append(iconSpan).append(dateSpan);
+				        }
+				        else{
+				        	 headerDiv.append(authorSpan).append(dateSpan);	
+				        }
 				        
 				        // 내용 생성 (댓글 내용)
 				        var contentDiv = $("<div class='content-area'>").addClass("reply-content").text(reply.replyContent).on("dblclick", function(){
@@ -1504,7 +1555,7 @@
 				        	    });
 
 				        	var replyReplyInput = $("<textarea>")
-				        	    .attr("placeholder", "대댓글을 입력하세요...")
+				        	    .attr("placeholder", "댓글을 입력하세요...")
 				        	    .addClass("reply-reply-textarea");
 				        	
 				        	var replyReplyButton = $("<button>")
@@ -1627,6 +1678,7 @@
 					            "display": "flex",
 					            "justify-content": "space-between",
 					            "align-items": "center",
+					            "position": "relative",
 					        });
 
 					    var rereWriter = $("<span>")
@@ -1635,11 +1687,165 @@
 					        .css({
 					            "font-weight": "bold",
 					            "color": "#333",
+					            "font-size": "12px",
+					        }).on("dblclick", function(){
+					        	var reReplyWriter = $(this).text();
+
+					        	if("${loginUser.userId}" != reReplyWriter){
+					        		
+						        	// 기존 메뉴가 있으면 삭제
+						        	$(".miniMenuDiv").remove();
+		
+		
+						        	// 메뉴 창 div
+						        	var miniMenu = $("<div>").addClass("miniMenuDiv")
+						        	    .css({
+						        	        position: "absolute", // 위치를 절대 좌표로 설정
+						        	        top: event.pageY + "px", // 클릭된 Y 위치
+						        	        left: event.pageX + "px", // 클릭된 X 위치
+						        	        background: "#fff", // 배경색
+						        	        border: "1px solid #ddd", // 테두리
+						        	        borderRadius: "10px", // 모서리 둥글게
+						        	        padding: "10px 0", // 내부 여백
+						        	        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)", // 부드러운 그림자
+						        	        zIndex: 1000, // 상위 레이어 보장
+						        	        minWidth: "100px", // 최소 너비
+						        	        fontFamily: "'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif", // 카카오 스타일의 폰트
+						        	        color: "#333", // 텍스트 색상
+						        	        textAlign: "center", // 텍스트 정렬
+						        	    });
+		
+						        	// 메뉴 창 div에 넣어줄 span 요소
+						        	var menu1 = $("<span>").text("채팅하기").append($("<input type='hidden'>").val(reReplyWriter))
+						        	    .css({
+						        	        display: "block", // 각 메뉴를 블록 형태로 배치
+						        	        padding: "5px 10px", // 내부 여백
+						        	        fontSize: "10px", // 글씨 크기
+						        	        cursor: "pointer", // 포인터 커서 표시
+						        	        backgroundColor: "#f7e600", // 카카오톡 노란색
+						        	        color: "#333", // 텍스트 색상
+						        	        borderRadius: "5px", // 둥근 모서리
+						        	        margin: "5px 10px", // 메뉴 간 간격
+						        	        fontWeight: "bold", // 굵은 글씨
+						        	    }).hover(
+						        	        function () {
+						        	            $(this).css("backgroundColor", "#ffe500"); // 호버 효과
+						        	        },
+						        	        function () {
+						        	            $(this).css("backgroundColor", "#f7e600");
+						        	        }
+						        	    ).on("click", function(){
+						        	    	var reReplyWriter = $(this).children("input").val();
+						        	    	
+						        	    	$.ajax({
+						        	    		url : "${contextPath}/board/changeIdToNick",
+						        	    		data : {
+						        	    			userId : reReplyWriter
+						        	    		},
+						        	    		success : function(nickname){
+						        	    			getChatFromReply(nickname);
+						        	    		},
+						        	    		error : function(){
+						        	    			console.log("통신 오류");
+						        	    		}
+						        	    	});
+						        	    	
+						        	    });
+		
+						        	var menu2 = $("<span id='declaration'>").text("신고하기")
+						        	    .css({
+						        	        display: "block",
+						        	        padding: "5px 10px",
+						        	        fontSize: "10px",
+						        	        cursor: "pointer",
+						        	        backgroundColor: "#f7e600",
+						        	        color: "#333",
+						        	        borderRadius: "5px",
+						        	        margin: "5px 10px",
+						        	        fontWeight: "bold",
+						        	    }).hover(
+						        	        function () {
+						        	            $(this).css("backgroundColor", "#ffe500");
+						        	        },
+						        	        function () {
+						        	            $(this).css("backgroundColor", "#f7e600");
+						        	        }
+						        	    ).on("click", function(){
+						        	    	
+						        	    	alertify.prompt('신고대상 : ' + reReplyWriter, '', function(evt, value) { 
+						        	    		
+						        	    			$.ajax({
+						        	    				url : "${contextPath}/board/insertWarningUser",
+						        	    				data : {
+						        	    					declarationId : reReplyWriter,
+						        	    					declarationContent : value
+						        	    				},
+						        	    				success : function(msg){
+						        	    					if(msg == "NNNNY"){
+							        	    					alertify.alert('알림', '신고가 처리되었습니다.');					        	    						
+						        	    					}
+						        	    					else if(msg == "NNNND"){
+						        	    						alertify.alert('알림', '이미 신고가 처리되었습니다.');	
+						        	    					}
+						        	    				},
+						        	    				error : function(){
+						        	    					console.log("통신 오류");
+						        	    				}
+						        	    			});
+						        	    		
+						        	    		});
+						        	    	
+						        	    });
+						        	
+						        	var menu3 = $("<span id='declaration'>").text("유저정보")
+					        	    .css({
+					        	        display: "block",
+					        	        padding: "5px 10px",
+					        	        fontSize: "10px",
+					        	        cursor: "pointer",
+					        	        backgroundColor: "#f7e600",
+					        	        color: "#333",
+					        	        borderRadius: "5px",
+					        	        margin: "5px 10px",
+					        	        fontWeight: "bold",
+					        	    }).hover(
+					        	        function () {
+					        	            $(this).css("backgroundColor", "#ffe500");
+					        	        },
+					        	        function () {
+					        	            $(this).css("backgroundColor", "#f7e600");
+					        	        }
+					        	    ).on("click", function(){
+					        	    	
+					        	    	location.href="${contextPath}/board/sellerInfoPage?userId=" + reReplyWriter;
+					        	    });
+
+						        	// 삽입
+						        	miniMenu.append(menu3, menu1, menu2);
+		
+						        	// 메뉴를 body에 추가
+						        	$("body").append(miniMenu);
+		
+						        	// 클릭 외 다른 영역을 클릭하면 메뉴 닫기
+						        	$(document).on("click", function (e) {
+						        	    if (!$(e.target).closest(".miniMenuDiv, #idSpan").length) {
+						        	        $(".miniMenuDiv").remove();
+						        	    }
+						        	});
+					        	}
 					        });
 					    
-					    if(rere.reReplyDeclaration == "Y"){
-					    	rereWriter.append("&nbsp;<i style='color:red; font-size: 10px;' class='fas fa-exclamation-triangle'></i>");
-				        }
+					    var iconSpan = $("<span>")
+				        var iCon = $("<i>").addClass(".icon fas fa-exclamation-triangle")
+				        				   .css({
+				        					   "color": "red",
+				        					   "font-size": "10px",
+				        					   "position": "absolute",
+				        					   "top": "8px",
+				        					   "left": "40px",
+				        				   });
+				        
+				        iconSpan.append(iCon);
 
 					    var rereDate = $("<span>")
 					        .addClass("rereply-date")
@@ -1648,8 +1854,13 @@
 					            "font-size": "0.9em",
 					            "color": "#888",
 					        });
-
-					    rereplyInfo.append(rereWriter, rereDate);
+						
+					    if(rere.reReplyDeclaration == "Y"){
+						    rereplyInfo.append(rereWriter, iconSpan, rereDate);					    	
+					    }
+					    else{
+					    	rereplyInfo.append(rereWriter, rereDate);	
+					    }
 
 		                // 대댓글 버튼들 추가 (신고하기, 삭제하기, 수정하기)
 		                var buttonsContainer = $("<span>").addClass("rereply-buttons")
