@@ -120,6 +120,7 @@
 		<result column="REREPLY_WRITER" property="reReplyWriter"/>
 		<result column="REREPLY_CONTENT" property="reReplyContent"/>
 		<result column="REREPLY_DATE" property="reReplyDate"/>
+		<result column="REREPLY_DECLARATION" property="reReplyDeclaration"/>
 	</resultMap>
 	
 	<resultMap type="AreaBoard" id="AreaResultSet">
