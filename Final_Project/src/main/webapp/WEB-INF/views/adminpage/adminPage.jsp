@@ -240,7 +240,7 @@
     						<td>${w.warningDate}</td>
     						<td>${w.declarationId}</td>
     						<td>${w.declarationContent}</td>
-    						<td><input type="submit" value="조치"></td>
+    						<td><input type="submit" value="조치"> </td>
        				   </tr>
     				  </c:forEach>
                 </tbody>
@@ -254,6 +254,7 @@
                         <th>게시물 번호</th>
                         <th>게시물 제목</th>
                         <th>작성자</th>
+                        <th>게시물이동</th>
                     </tr>
                 </thead>
                 <tbody id="reported-posts-list">
@@ -262,6 +263,7 @@
     						<td>${wpb.boardNo}</td>
     						<td>${wpb.boardTitle}</td>
     						<td>${wpb.boardWriter}</td>
+    						<td><a href="http://localhost:8888/final/board/boardDetailForm?boardNo=+${wpb.boardNo}+"><input type="submit" value="이동"></a></td>
        				   </tr>
     				  </c:forEach>
                 </tbody>
@@ -274,6 +276,7 @@
                         <th>댓글 작성자</th>
                         <th>참조 게시판</th>
                         <th>댓글 내용</th>
+                        <th>게시물이동</th>
                     </tr>
                 </thead>
                 <tbody id="reported-comments-list">
@@ -282,6 +285,7 @@
     						<td>${r.replyWriter}</td>
     						<td>${r.refBno}</td>
     						<td>${r.replyContent}</td>
+    						<td><a href="http://localhost:8888/final/board/boardDetailForm?boardNo=+${r.refBno}+"><input type="submit" value="이동"></a></td>
        				   </tr>
     				  </c:forEach>
                 </tbody>
