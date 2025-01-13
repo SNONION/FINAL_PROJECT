@@ -585,394 +585,413 @@
 		cursor: pointer;
 	}
 
-.slider-image-container {
-	display: flex;
-	transition: transform 0.3s ease; /* 부드럽게 이미지가 슬라이드 되도록 */
-	width: 100%; /* 전체 컨테이너 너비 */
-	height: 100%; /* 전체 컨테이너 높이 */
-}
-
-.slider-image-container img {
-	width: 100%;
-	height: 100%;
-	object-fit: contain; /* 이미지 크기 맞추기 */
-	border-radius: 8px;
-	flex-shrink: 0; /* 이미지가 축소되지 않도록 */
-}
-
-.slider-arrow {
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	background-color: rgba(0, 0, 0, 0.5);
-	color: #ffffff;
-	border: none;
-	border-radius: 50%;
-	width: 40px;
-	height: 40px;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 18px;
-	z-index: 10;
-}
-
-.slider-arrow:hover {
-	background-color: rgba(0, 0, 0, 0.8);
-}
-
-.left-arrow {
-	left: 10px;
-}
-
-.right-arrow {
-	right: 10px;
-}
-
-#trust-point {
-	font-size: 24px;
-	font-weight: bold;
-}
-
-/* 프로세스 바 기본 스타일 */
-.progress {
-	width: auto; /* 프로세스 바의 너비 */
-	height: 20px; /* 프로세스 바의 높이 */
-	background-color: #f3f3f3; /* 프로세스 바의 배경색 */
-	border-radius: 10px; /* 둥근 모서리 */
-	margin: 10px 0; /* 위아래 여백 */
-}
-
-/* 프로세스 바 진행 부분 */
-.progress-bar {
-	height: 100%; /* 프로세스 바의 높이는 100% */
-	width: 0%; /* 초기 상태, 프로세스 바는 비어 있음 */
-	background-color: #ffdd00; /* 카카오 느낌의 노란색 */
-	border-radius: 10px; /* 둥근 모서리 */
-	transition: width 0.5s ease; /* 프로세스 바의 변화 애니메이션 */
-}
-
-#writerProduct:hover {
-	cursor: pointer;
-	text-decoration: underline;
-}
-
-#sellArea {
-	font-size: 13px;
-	padding: 5px 10px;
-	background-color: #dcdcdc;
-	border-radius: 10px;
-	font-weight: bold;
-	color: gray;
-}
-
-#sellArea:hover {
-	cursor: pointer;
-}
-
-/* 추천 상품 */
-.recommended-products h3 {
-	font-size: 24px;
-	font-weight: bold;
-	margin-bottom: 20px;
-}
-
-.recommended-products {
-	display: flex;
-	margin-bottom: 30px;
-}
-
-.recommended-products .product-card {
-	width: 170px;
-	height: 250px;
-	background-color: #fff;
-	border-radius: 12px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	overflow: hidden;
-	cursor: pointer;
-	transition: transform 0.3s ease;
-}
-
-.recommended-products .product-card:hover {
-	transform: scale(1.05);
-}
-
-.recommended-products .product-card img {
-	width: 100%;
-	height: 150px;
-	object-fit: cover;
-}
-
-.recommended-products .product-card .product-info {
-	padding: 10px;
-}
-
-.recommended-products .product-card .product-info .product-title {
-	font-size: 18px;
-	font-weight: bold;
-	color: #333;
-}
-
-.recommended-products .product-card .product-info .product-price {
-	font-size: 16px;
-	color: #fee500;
-}
-
-.reply-area {
-	display: flex;
-	align-items: center;
-	padding: 10px;
-	border-top: 1px solid #e5e5e5;
-	background-color: #f9f9f9; /* 카카오의 밝은 배경색 느낌 */
-	overflow-y: hidden;
-}
-
-.reply-area textarea {
-	flex: 1; /* 버튼 제외하고 나머지 공간 차지 */
-	resize: none; /* 크기 조절 비활성화 */
-	height: 100px;
-	border: 1px solid #ddd;
-	border-radius: 20px;
-	padding: 10px 15px;
-	font-size: 14px;
-	outline: none;
-	background-color: #fff;
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* 살짝 입체감 */
-	margin-right: 10px; /* 버튼과 간격 */
-}
-
-.reply-area textarea::placeholder {
-	color: #aaa; /* 플레이스홀더 색상 */
-}
-
-.reply-area button {
-	padding: 0 15px;
-	height: 40px;
-	border: none;
-	border-radius: 20px;
-	background-color: #f7e600; /* 카카오톡의 노란색 */
-	color: #333; /* 텍스트 색상 */
-	font-weight: bold;
-	font-size: 14px;
-	cursor: pointer;
-	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15); /* 버튼 그림자 */
-	transition: background-color 0.3s ease;
-}
-
-.reply-area button:hover {
-	background-color: #fce000; /* 호버 시 약간 더 진한 노란색 */
-}
-
-.reply-area button:active {
-	background-color: #e5c800; /* 클릭 시 어두운 노란색 */
-}
-
-.reply-output-area {
-	padding: 10px;
-	background-color: #f9f9f9;
-	border: 1px solid #e5e5e5;
-	border-radius: 10px;
-	overflow-y: hidden;
-	font-family: 'Arial', sans-serif;
-}
-
-.reply-message {
-	margin-bottom: 15px;
-	padding: 10px;
-	border-radius: 10px;
-	background-color: #fff;
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.reply-header {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 5px;
-	font-size: 12px;
-	color: #555;
-}
-
-.reply-author {
-	font-weight: bold;
-	color: #333;
-}
-
-.reply-date {
-	font-size: 11px;
-	color: #888;
-}
-
-.reply-content {
-	font-size: 14px;
-	color: #333;
-	word-wrap: break-word;
-}
-
-.reply-profile {
-	width: 30px;
-	height: 30px;
-	border-radius: 50%;
-	margin-right: 5px;
-}
-
-.report-button {
-	position: absolute; /* 절대 위치 설정 */
-	bottom: 5px; /* 하단에서 간격 */
-	right: 10px; /* 오른쪽에서 간격 */
-	padding: 3px 8px; /* 버튼 크기 조정 */
-	font-size: 10px; /* 작은 글씨 */
-	border: none; /* 테두리 없음 */
-	background-color: transparent; /* 배경 투명 */
-	color: #888; /* 텍스트 색상 (회색) */
-	cursor: pointer;
-	transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.rereport-button { //
-	position: absolute; /* 절대 위치 설정 */
-	bottom: 5px; /* 하단에서 간격 */
-	right: 10px; /* 오른쪽에서 간격 */
-	padding: 3px 8px; /* 버튼 크기 조정 */
-	font-size: 10px; /* 작은 글씨 */
-	border: none; /* 테두리 없음 */
-	background-color: transparent; /* 배경 투명 */
-	color: #888; /* 텍스트 색상 (회색) */
-	cursor: pointer;
-	transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.update-button {
-	position: absolute; /* 절대 위치 설정 */
-	bottom: 5px; /* 하단에서 간격 */
-	right: 60px; /* 오른쪽에서 간격 */
-	padding: 3px 8px; /* 버튼 크기 조정 */
-	font-size: 10px; /* 작은 글씨 */
-	border: none; /* 테두리 없음 */
-	background-color: transparent; /* 배경 투명 */
-	color: #888; /* 텍스트 색상 (회색) */
-	cursor: pointer;
-	transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.report-button:hover {
-	color: #333; /* 호버 시 진한 색상 */
-	transform: scale(1.1); /* 살짝 확대 */
-}
-
-.report-button:active {
-	transform: scale(1); /* 클릭 시 원래 크기로 */
-}
-
-.update-button:hover {
-	color: #333; /* 호버 시 진한 색상 */
-	transform: scale(1.1); /* 살짝 확대 */
-}
-
-.update-button:active {
-	transform: scale(1); /* 클릭 시 원래 크기로 */
-}
-
-.reply-message {
-	position: relative; /* 버튼을 오른쪽 하단에 위치시키기 위해 부모 요소를 기준으로 설정 */
-	margin-bottom: 15px;
-	padding: 10px;
-	border-radius: 10px;
-	background-color: #fff;
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-	overflow-y: hidden;
-}
-
-.product-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px 20px;
-	border-bottom: 2px solid #f5f5f5;
-}
-
-.product-title {
-	font-size: 22px;
-	font-weight: bold;
-	color: #333;
-	margin: 0;
-}
-
-.product-date {
-	font-size: 14px;
-	color: #888;
-	margin-top: 5px;
-}
-
-.button-group {
-	display: flex;
-	gap: 10px; /* 버튼 간 간격 */
-}
-
-.button-group button {
-	padding: 5px 15px;
-	font-size: 14px;
-	font-weight: bold;
-	border: none;
-	border-radius: 20px;
-	cursor: pointer;
-	transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* 수정하기 버튼 (노란색) */
-.edit-button {
-	background-color: #ffe812;
-	color: #333;
-}
-
-.edit-button:hover {
-	background-color: #ffd700; /* 호버 시 더 진한 노란색 */
-	color: #000;
-}
-
-/* 삭제하기 버튼 (회색) */
-.delete-button {
-	background-color: #ddd;
-	color: #333;
-}
-
-.delete-button:hover {
-	background-color: #bbb; /* 호버 시 더 진한 회색 */
-	color: #000;
-}
-
-.reply-reply-button {
-	padding: 0 15px;
-	margin-left: 20px;
-	height: 40px;
-	border: none;
-	border-radius: 20px;
-	background-color: #f7e600; /* 카카오톡의 노란색 */
-	color: #333; /* 텍스트 색상 */
-	font-weight: bold;
-	font-size: 14px;
-	cursor: pointer;
-	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15); /* 버튼 그림자 */
-	transition: background-color 0.3s ease;
-}
-
-.reply-reply-textarea {
-	flex: 1; /* 버튼 제외하고 나머지 공간 차지 */
-	resize: none; /* 크기 조절 비활성화 */
-	height: 100px;
-	border: 1px solid #ddd;
-	border-radius: 20px;
-	padding: 10px 15px;
-	font-size: 14px;
-	outline: none;
-	background-color: #fff;
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* 살짝 입체감 */
-	margin-right: 10px; /* 버튼과 간격 */
-}
-
-.reply-reply-textarea::placeholder {
-	color: #aaa; /* 플레이스홀더 색상 */
-}
+	.slider-image-container {
+		display: flex;
+		transition: transform 0.3s ease; /* 부드럽게 이미지가 슬라이드 되도록 */
+		width: 100%; /* 전체 컨테이너 너비 */
+		height: 100%; /* 전체 컨테이너 높이 */
+	}
+	
+	.slider-image-container img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain; /* 이미지 크기 맞추기 */
+		border-radius: 8px;
+		flex-shrink: 0; /* 이미지가 축소되지 않도록 */
+	}
+	
+	.slider-arrow {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		background-color: rgba(0, 0, 0, 0.5);
+		color: #ffffff;
+		border: none;
+		border-radius: 50%;
+		width: 40px;
+		height: 40px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 18px;
+		z-index: 10;
+	}
+	
+	.slider-arrow:hover {
+		background-color: rgba(0, 0, 0, 0.8);
+	}
+	
+	.left-arrow {
+		left: 10px;
+	}
+	
+	.right-arrow {
+		right: 10px;
+	}
+	
+	#trust-point {
+		font-size: 24px;
+		font-weight: bold;
+	}
+	
+	/* 프로세스 바 기본 스타일 */
+	.progress {
+		width: auto; /* 프로세스 바의 너비 */
+		height: 20px; /* 프로세스 바의 높이 */
+		background-color: #f3f3f3; /* 프로세스 바의 배경색 */
+		border-radius: 10px; /* 둥근 모서리 */
+		margin: 10px 0; /* 위아래 여백 */
+	}
+	
+	/* 프로세스 바 진행 부분 */
+	.progress-bar {
+		height: 100%; /* 프로세스 바의 높이는 100% */
+		width: 0%; /* 초기 상태, 프로세스 바는 비어 있음 */
+		background-color: #ffdd00; /* 카카오 느낌의 노란색 */
+		border-radius: 10px; /* 둥근 모서리 */
+		transition: width 0.5s ease; /* 프로세스 바의 변화 애니메이션 */
+	}
+	
+	#writerProduct:hover {
+		cursor: pointer;
+		text-decoration: underline;
+	}
+	
+	#sellArea {
+		font-size: 13px;
+		padding: 5px 10px;
+		background-color: #dcdcdc;
+		border-radius: 10px;
+		font-weight: bold;
+		color: gray;
+	}
+	
+	#sellArea:hover {
+		cursor: pointer;
+	}
+	
+	/* 추천 상품 */
+	.recommended-products h3 {
+		font-size: 24px;
+		font-weight: bold;
+		margin-bottom: 20px;
+	}
+	
+	.recommended-products {
+		display: flex;
+		margin-bottom: 30px;
+	}
+	
+	.recommended-products .product-card {
+		width: 170px;
+		height: 250px;
+		background-color: #fff;
+		border-radius: 12px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		overflow: hidden;
+		cursor: pointer;
+		transition: transform 0.3s ease;
+	}
+	
+	.recommended-products .product-card:hover {
+		transform: scale(1.05);
+	}
+	
+	.recommended-products .product-card img {
+		width: 100%;
+		height: 150px;
+		object-fit: cover;
+	}
+	
+	.recommended-products .product-card .product-info {
+		padding: 10px;
+	}
+	
+	.recommended-products .product-card .product-info .product-title {
+		font-size: 18px;
+		font-weight: bold;
+		color: #333;
+	}
+	
+	.recommended-products .product-card .product-info .product-price {
+		font-size: 16px;
+		color: #fee500;
+	}
+	
+	.reply-area {
+		display: flex;
+		align-items: center;
+		padding: 10px;
+		border-top: 1px solid #e5e5e5;
+		background-color: #f9f9f9; /* 카카오의 밝은 배경색 느낌 */
+		overflow-y: hidden;
+	}
+	
+	.reply-area textarea {
+		flex: 1; /* 버튼 제외하고 나머지 공간 차지 */
+		resize: none; /* 크기 조절 비활성화 */
+		height: 100px;
+		border: 1px solid #ddd;
+		border-radius: 20px;
+		padding: 10px 15px;
+		font-size: 14px;
+		outline: none;
+		background-color: #fff;
+		box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* 살짝 입체감 */
+		margin-right: 10px; /* 버튼과 간격 */
+	}
+	
+	.reply-area textarea::placeholder {
+		color: #aaa; /* 플레이스홀더 색상 */
+	}
+	
+	.reply-area button {
+		padding: 0 15px;
+		height: 40px;
+		border: none;
+		border-radius: 20px;
+		background-color: #f7e600; /* 카카오톡의 노란색 */
+		color: #333; /* 텍스트 색상 */
+		font-weight: bold;
+		font-size: 14px;
+		cursor: pointer;
+		box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15); /* 버튼 그림자 */
+		transition: background-color 0.3s ease;
+	}
+	
+	.reply-area button:hover {
+		background-color: #fce000; /* 호버 시 약간 더 진한 노란색 */
+	}
+	
+	.reply-area button:active {
+		background-color: #e5c800; /* 클릭 시 어두운 노란색 */
+	}
+	
+	.reply-output-area {
+		padding: 10px;
+		background-color: #f9f9f9;
+		border: 1px solid #e5e5e5;
+		border-radius: 10px;
+		overflow-y: hidden;
+		font-family: 'Arial', sans-serif;
+	}
+	
+	.reply-message {
+		margin-bottom: 15px;
+		padding: 10px;
+		border-radius: 10px;
+		background-color: #fff;
+		box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+	}
+	
+	.reply-header {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 5px;
+		font-size: 12px;
+		color: #555;
+	}
+	
+	.reply-author {
+		font-weight: bold;
+		color: #333;
+	}
+	
+	.reply-date {
+		font-size: 11px;
+		color: #888;
+	}
+	
+	.reply-content {
+		font-size: 14px;
+		color: #333;
+		word-wrap: break-word;
+	}
+	
+	.reply-profile {
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
+		margin-right: 5px;
+	}
+	
+	.report-button {
+		position: absolute; /* 절대 위치 설정 */
+		bottom: 5px; /* 하단에서 간격 */
+		right: 10px; /* 오른쪽에서 간격 */
+		padding: 3px 8px; /* 버튼 크기 조정 */
+		font-size: 10px; /* 작은 글씨 */
+		border: none; /* 테두리 없음 */
+		background-color: transparent; /* 배경 투명 */
+		color: #888; /* 텍스트 색상 (회색) */
+		cursor: pointer;
+		transition: color 0.2s ease, transform 0.2s ease;
+	}
+	
+	.rereport-button { //
+		position: absolute; /* 절대 위치 설정 */
+		bottom: 5px; /* 하단에서 간격 */
+		right: 10px; /* 오른쪽에서 간격 */
+		padding: 3px 8px; /* 버튼 크기 조정 */
+		font-size: 10px; /* 작은 글씨 */
+		border: none; /* 테두리 없음 */
+		background-color: transparent; /* 배경 투명 */
+		color: #888; /* 텍스트 색상 (회색) */
+		cursor: pointer;
+		transition: color 0.2s ease, transform 0.2s ease;
+	}
+	
+	.update-button {
+		position: absolute; /* 절대 위치 설정 */
+		bottom: 5px; /* 하단에서 간격 */
+		right: 60px; /* 오른쪽에서 간격 */
+		padding: 3px 8px; /* 버튼 크기 조정 */
+		font-size: 10px; /* 작은 글씨 */
+		border: none; /* 테두리 없음 */
+		background-color: transparent; /* 배경 투명 */
+		color: #888; /* 텍스트 색상 (회색) */
+		cursor: pointer;
+		transition: color 0.2s ease, transform 0.2s ease;
+	}
+	
+	.report-button:hover {
+		color: #333; /* 호버 시 진한 색상 */
+		transform: scale(1.1); /* 살짝 확대 */
+	}
+	
+	.report-button:active {
+		transform: scale(1); /* 클릭 시 원래 크기로 */
+	}
+	
+	.update-button:hover {
+		color: #333; /* 호버 시 진한 색상 */
+		transform: scale(1.1); /* 살짝 확대 */
+	}
+	
+	.update-button:active {
+		transform: scale(1); /* 클릭 시 원래 크기로 */
+	}
+	
+	.reply-message {
+		position: relative; /* 버튼을 오른쪽 하단에 위치시키기 위해 부모 요소를 기준으로 설정 */
+		margin-bottom: 15px;
+		padding: 10px;
+		border-radius: 10px;
+		background-color: #fff;
+		box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+		overflow-y: hidden;
+	}
+	
+	.product-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 10px 20px;
+		border-bottom: 2px solid #f5f5f5;
+	}
+	
+	.product-title {
+		font-size: 22px;
+		font-weight: bold;
+		color: #333;
+		margin: 0;
+	}
+	
+	.product-date {
+		font-size: 14px;
+		color: #888;
+		margin-top: 5px;
+	}
+	
+	.button-group {
+		display: flex;
+		gap: 10px; /* 버튼 간 간격 */
+	}
+	
+	.button-group button {
+		padding: 5px 15px;
+		font-size: 14px;
+		font-weight: bold;
+		border: none;
+		border-radius: 20px;
+		cursor: pointer;
+		transition: background-color 0.3s ease, color 0.3s ease;
+	}
+	
+	/* 수정하기 버튼 (노란색) */
+	.edit-button {
+		background-color: #ffe812;
+		color: #333;
+	}
+	
+	.edit-button:hover {
+		background-color: #ffd700; /* 호버 시 더 진한 노란색 */
+		color: #000;
+	}
+	
+	/* 삭제하기 버튼 (회색) */
+	.delete-button {
+		background-color: #ddd;
+		color: #333;
+	}
+	
+	.delete-button:hover {
+		background-color: #bbb; /* 호버 시 더 진한 회색 */
+		color: #000;
+	}
+	
+	.reply-reply-button {
+		padding: 0 15px;
+		margin-left: 20px;
+		height: 40px;
+		border: none;
+		border-radius: 20px;
+		background-color: #f7e600; /* 카카오톡의 노란색 */
+		color: #333; /* 텍스트 색상 */
+		font-weight: bold;
+		font-size: 14px;
+		cursor: pointer;
+		box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15); /* 버튼 그림자 */
+		transition: background-color 0.3s ease;
+	}
+	
+	.reply-reply-textarea {
+		flex: 1; /* 버튼 제외하고 나머지 공간 차지 */
+		resize: none; /* 크기 조절 비활성화 */
+		height: 100px;
+		border: 1px solid #ddd;
+		border-radius: 20px;
+		padding: 10px 15px;
+		font-size: 14px;
+		outline: none;
+		background-color: #fff;
+		box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* 살짝 입체감 */
+		margin-right: 10px; /* 버튼과 간격 */
+	}
+	
+	.reply-reply-textarea::placeholder {
+		color: #aaa; /* 플레이스홀더 색상 */
+	}
+	
+	.rereport-button:hover {
+		color: #333; /* 호버 시 진한 색상 */
+		transform: scale(1.1); /* 살짝 확대 */
+	}
+	
+	.rereport-button:active {
+		transform: scale(1); /* 클릭 시 원래 크기로 */
+	}
+	
+	.rereport-button:hover {
+		color: #333; /* 호버 시 진한 색상 */
+		transform: scale(1.1); /* 살짝 확대 */
+	}
+	
+	.rereport-button:active {
+		transform: scale(1); /* 클릭 시 원래 크기로 */
+	}
+	
 </style>
 
 </head>
@@ -1386,7 +1405,7 @@
 				        });
 						
 				        // 댓글 신고하기 버튼 생성
-				        var reportButton = $("<button>").addClass("report-button").text("신고하기").on("click", function(){
+				        var reportButton = $("<button>").addClass("report-button").append(input1).append("<i class='fas fa-flag'></i>").on("click", function(){
 				        	var replyNo = $(this).children().val();
 				        	
 				        	alertify.confirm('해당 댓글을 신고하시겠습니까?', function(){
@@ -1410,10 +1429,8 @@
 							});
 				        });
 				        
-				        reportButton.append(input1);
-				        
 				     	// 댓글 삭제하기 버튼 생성
-				        var deleteButton = $("<button>").addClass("report-button").text("삭제하기").on("click", function(){
+				        var deleteButton = $("<button>").addClass("report-button").append(input2).append("<i class='fas fa-trash'></i>").on("click", function(){
 				        	var replyNo = $(this).children().val();
 				        	
 				        	alertify.confirm('해당 댓글을 삭제하시겠습니까?', function(){
@@ -1435,8 +1452,6 @@
 				        		});
 							});
 				        });
-				     	
-				        deleteButton.append(input2);
 				     	
 				        var updateButton = $("<button id='updateReBtn' style='display:none;'>").addClass("update-button").append("<i class='fas fa-edit'></i>").on("click", function(){
 				        	var replyNo = $(this).children("input").val();
@@ -1491,12 +1506,13 @@
 				        	var replyReplyInput = $("<textarea>")
 				        	    .attr("placeholder", "대댓글을 입력하세요...")
 				        	    .addClass("reply-reply-textarea");
-
+				        	
 				        	var replyReplyButton = $("<button>")
 				        	    .text("작성")
 				        	    .addClass("reply-reply-button")
+				        	    .append($("<input type='hidden'>").val(replyNo))
 				        	    .on("click", function(){ 
-				        	    	var replyNo = $(this).closest("div").siblings(".reply-message").children("#plusReply").children("input").val();
+				        	    	var replyNo = $(this).children().val();
 				        	    	var reReplyContent = $(this).siblings(".reply-reply-textarea").val();
 				        	    	
 				        	    	$.ajax({
@@ -1509,7 +1525,6 @@
 				        	    		success : function(msg){
 				        	    			
 				        	    			if(msg = "NNNNY"){
-				        	    				console.log(replyNo);
 				        	    				getReReply(replyNo);
 				        	    				$(".reply-reply-button").siblings(".reply-reply-textarea").val("");
 				        	    			}
@@ -1521,7 +1536,7 @@
 				        	    	})
 				        	    	
 				        	    });
-					        
+
 					        replyReplyContainer.append(replyReplyInput).append(replyReplyButton);
 					        
 					        $(this).closest(".reply-message").after($("<div class='rereply-area'>")).after(replyReplyContainer);
@@ -1535,10 +1550,13 @@
 					        replyDiv.append(headerDiv).append(contentDiv).append(plusButton).append(deleteButton).append(updateButton);
 				        }
 				        // 아닐 경우 신고하기 추가
-				        else{
+				        else if(loginId != reply.replyWriter && reply.replyDeclaration == "N"){
 					        // replyDiv에 헤더와 내용을 추가
 					        replyDiv.append(headerDiv).append(contentDiv).append(plusButton).append(reportButton);
-				        }  
+				        }
+				        else{
+				        	replyDiv.append(headerDiv).append(contentDiv).append(plusButton);
+				        }
 
 				        // reply-output-area에 replyDiv 추가
 				        $(".reply-output-area").append(replyDiv);
@@ -1599,6 +1617,7 @@
 					            "margin-top": "5px",
 					            "font-size": "14px",
 					            "color": "#333",
+					            "position": "relative",
 					        });
 
 					    // 작성자와 작성일 정보 생성
@@ -1617,6 +1636,10 @@
 					            "font-weight": "bold",
 					            "color": "#333",
 					        });
+					    
+					    if(rere.reReplyDeclaration == "Y"){
+					    	rereWriter.append("&nbsp;<i style='color:red; font-size: 10px;' class='fas fa-exclamation-triangle'></i>");
+				        }
 
 					    var rereDate = $("<span>")
 					        .addClass("rereply-date")
@@ -1625,23 +1648,34 @@
 					            "font-size": "0.9em",
 					            "color": "#888",
 					        });
-					    
+
 					    rereplyInfo.append(rereWriter, rereDate);
 
 		                // 대댓글 버튼들 추가 (신고하기, 삭제하기, 수정하기)
-		                var buttonsContainer = $("<div>").addClass("rereply-buttons");
+		                var buttonsContainer = $("<span>").addClass("rereply-buttons")
+		                								  .css({
+		                									  "position": "absolute",
+		                									  "right": "0",
+		                								  });
+		                
+		                var inputNo3 = $("<input>").attr("type", "hidden").val(rere.reReplyNo);
 		                
 		                // 대댓글 신고하기 버튼
-		                var rereportButton = $("<button>").addClass("rereport-button").text("신고하기").on("click", function() {
-		                    alertify.confirm('해당 대댓글을 신고하시겠습니까?', function() {
+		                var rereportButton = $("<button>").addClass("rereport-button").append(inputNo3).append("<i class='fas fa-flag'></i> ").on("click", function() {
+		                	var reReplyNo = $(this).children("input").val();
+		                	
+		                	alertify.confirm('해당 댓글을 신고하시겠습니까?', function() {
 		                  
 		                        $.ajax({
 		                            url: "${contextPath}/board/rereplyReport",
-		                            data: { rereplyNo: rere.reReplyNo },
+		                            data: { 
+		                            	reReplyNo : reReplyNo
+		                            },
 		                            success: function(msg) {
+		                            	console.log(msg);
 		                                if (msg === "NNNNY") {
 		                                    getReReply(replyNo); // 대댓글 새로고침
-		                                    alertify.alert('알림', '신고가 접수 되었습니다.');
+		                                    alertify.alert('알림!', '댓글이 신고되었습니다.');
 		                                }
 		                            },
 		                            error: function() {
@@ -1650,16 +1684,20 @@
 		                        });
 		                    });
 		                });
+		                
+		                var inputNo1 = $("<input>").attr("type", "hidden").val(rere.reReplyNo);
 
 		                // 대댓글 삭제하기 버튼
-		                var redeleteButton = $("<button>").addClass("rereport-button").text("삭제하기").on("click", function() {
-		                    alertify.confirm('해당 대댓글을 삭제하시겠습니까?', function() {
-		                    	
-		                   	
-		                   
+		                var redeleteButton = $("<button>").addClass("rereport-button").append(inputNo1).append("<i class='fas fa-trash'></i>").on("click", function() {
+		                	var reReplyNo = $(this).children("input").val();
+		                	
+		                	alertify.confirm('해당 대댓글을 삭제하시겠습니까?', function() {
+
 		                    	$.ajax({
 		                            url: "${contextPath}/board/redeleteReply",
-		                            data: { reReplyNo: rere.reReplyNo },
+		                            data: { 
+		                            	reReplyNo: reReplyNo
+		                            },
 		                            success: function(msg) {
 		                                if (msg === "NNNNY") {
 		                                    getReReply(replyNo); // 대댓글 새로고침
@@ -1672,40 +1710,49 @@
 		                    });
 		                });
 
-		             // 대댓글 수정하기 버튼
-		                var reupdateButton = $("<button>").addClass("rereport-button").text("수정하기").on("click", function() {
-		                	var rereplyContent = $(this).closest(".rereply-buttons").siblings(".rereply-content").text();
-	                    	console.log('##rereplyContent' ,rereplyContent);
+		                var inputNo2 = $("<input>").attr("type", "hidden").val(rere.reReplyNo);
+		                
+		             	// 대댓글 수정하기 버튼
+		                var reupdateButton = $("<button>").addClass("rereport-button").append(inputNo2).append("<i class='fas fa-edit'></i>").on("click", function() {
+		                	var reReplyNo = $(this).children("input").val();
+	                    	var reReplyContent = $(this).closest(".rereply-content").text();
 	                    	
-		                	var newContent = prompt("새로운 대댓글 내용을 입력하세요", rereplyContent);
-		                    if (newContent !== null && newContent !== rere.reReplyContent) {
+		                	alertify.prompt('수정할 댓글 내용 작성', reReplyContent, function(evt, value) { 
 		                    	
-		                    	console.log('#rere' , rere)
-		                    	console.log('#newContents' , newContent)
 		                        $.ajax({
 		                            url: "${contextPath}/board/rereplyUpdate",
 		                            data: {
-		                               reReplyNo: rere.reReplyNo,
-		                               reReplyContent: newContent
+		                               reReplyNo: reReplyNo,
+		                               reReplyContent: value
 		                            },
 		                            success: function(msg) {
 		                                if (msg === "NNNNY") {
 		                                    getReReply(replyNo); // 대댓글 새로고침
-		                                    alertify.alert('알림', '대댓글이 수정되었습니다.');
 		                                }
 		                            },
 		                            error: function() {
 		                                console.log("통신 오류");
 		                            }
 		                        });
-		                    }
+		                    });
 		                });
 
-		                // 버튼을 버튼 컨테이너에 추가
-		                buttonsContainer.append(rereportButton, reupdateButton , redeleteButton );
+		             	if("${loginUser.userId}" == rere.reReplyWriter && rere.reReplyDeclaration != 'Y'){
+			                // 버튼을 버튼 컨테이너에 추가 (자신이 작성한 댓글일때 수정 및 삭제만)
+			                buttonsContainer.append(reupdateButton , redeleteButton);
+		             	}
+		             	else if("${loginUser.userId}" == rere.reReplyWriter && rere.reReplyDeclaration != 'N'){
+		             	// 버튼을 버튼 컨테이너에 추가 (자신이 작성한 댓글이고 신고된 경우 삭제만)
+			                buttonsContainer.append(redeleteButton);
+		             	}
+		             	else if("${loginUser.userId}" != rere.reReplyWriter && rere.reReplyDeclaration != 'Y'){
+		             		// 버튼을 버튼 컨테이너에 추가 (자신이 작성한 댓글이 아닐경우 신고만)
+			                buttonsContainer.append(rereportButton);
+		             	}
 
 		                // 대댓글 컨테이너에 내용과 버튼 추가
-		                rereDieContainer.append(rereDieContent, rereplyInfo, buttonsContainer);
+		                rereDieContent.append(buttonsContainer);
+		                rereDieContainer.append(rereplyInfo, rereDieContent);
 
 		                // 해당 대댓글을 화면에 추가
 		                $(".rereply-area").append(rereDieContainer);
