@@ -180,7 +180,7 @@ public class UserController {
 
 	}
 
-	// 회원가입 정보입력창으로 이동 메소드
+	// 회원가입 정보 동의 후 정보입력창으로 이동 메소드
 	@GetMapping("userEnrollForm")
 	public ModelAndView phoneCheckForm(Agree agree, ModelAndView mv) {
 
@@ -693,5 +693,15 @@ public class UserController {
 		
 		return mv;
 	};
+	
+	@ResponseBody
+	@RequestMapping(value="getUserImg", produces="html/text;charset=UTF-8")
+	public String getUserImg(User user) {
+		
+		User loginUser = userService.getUserImg(user);
+		
+		return loginUser.getUserImg();
+		
+	}
 
 }

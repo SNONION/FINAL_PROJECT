@@ -936,6 +936,10 @@
 		});
 	
 		$(document).ready(function() {
+			
+			var outDiv;
+			var innerDiv;
+			
 	        // 채팅창 열기/닫기 함수
 	        function openChat() {
 	            var checkOpenClass = $("#chatBox").hasClass("open");
@@ -950,18 +954,14 @@
 	            			
 	            			for(var i of result){
 	            				
-            					var outDiv = $("<div class='chat-item' id='clickChat'>");
-            					var innerDiv;
-            					var userImg = $("<img class='seller-img'>").attr("src", "${contextPath}");
+            					outDiv = $("<div class='chat-item' id='clickChat'>");
             					
 	            				if("${loginUser.nickname}" == i.sellerId || "${loginUser.nickname}" != i.buyerId){
-	            					innerDiv = $("<div class='seller-id'>").text(i.buyerId);
+	            					getUserImg(i.buyerId);
 	            				}
 	            				else if("${loginUser.nickname}" != i.sellerId || "${loginUser.nickname}" == i.buyerId){
-	            					innerDiv = $("<div class='seller-id'>").text(i.sellerId);
+	            					getUserImg(i.sellerId);
 	            				}
-	            				
-	            				outDiv.append(userImg).append(innerDiv);
 	            				
 	            				$(".first-page-content").append(outDiv);
 	            			}
@@ -977,6 +977,24 @@
 	            } else {
 	                $("#chatBox").removeClass("open");  // 채팅창 닫기
 	            }
+	        }
+	        
+	        // 위에서 조회한 아이디를 통해서 유저의 이미지를 가져오는 함수
+	        function getUserImg(userId){
+	        	$.ajax({
+	        		url : "${contextPath}/user/getUserImg",
+	        		data : {
+	        			nickname : userId
+	        		},
+	        		success : function(result){
+	        			var userImg = $("<img class='seller-img'>").attr("src", "${contextPath}" + result);
+	        			innerDiv = $("<div class='seller-id'>").text(userId);
+	        			outDiv.append(userImg).append(innerDiv);
+	        		},
+	        		error : function(){
+	        			console.log("통신 오류");
+	        		}
+	        	});
 	        }
 	
 	        // 닫기 버튼 클릭 시 채팅창 닫기
@@ -1096,7 +1114,7 @@
 				            </div>
 				        </li>
 				        <li class="nav-item"><a class="nav-link" href="${contextPath}/board/toNotice">공지사항</a></li>
-				        <li class="nav-item"><a class="nav-link" href="#">지역모임</a></li>
+				        <li class="nav-item"><a class="nav-link" href="#" onclick="goAreaBoard();">지역모임</a></li>
 				        <li class="nav-item"><a class="nav-link" href="${contextPath}/board/productBoardEnrollForm">요청하기</a></li>
 				        <li class="nav-item"><a class="nav-link" href="${contextPath}/board/myPickPage">찜한목록</a></li>
 				        <li class="nav-item"><a class="nav-link" href="${contextPath}/user/toPurchaseKH">KAKAO구매</a></li>
@@ -1143,14 +1161,17 @@
 	</c:if>
 	
 	<script>
-		// 부모 메뉴 클릭 시
-		$("#category-area").on("click", "li.dropdown-item", function(event) {
-		    event.stopPropagation(); // 부모 메뉴 클릭 시 이벤트 전파 차단
+		// 지역 게시판 이동 메소드
+		function goAreaBoard(){
+			
+			location.href="${contextPath}/board/areaBoardForm?regionDepthName1=" + regionDepthName1 + "&regionDepthName2=" + regionDepthName1 + "&currentPage=1";
+		};
 	
-		    // 부모 메뉴 텍스트 추출 (예: "디지털기기")
+		$("#category-area").on("click", "li.dropdown-item", function(event) {
+		    event.stopPropagation();
+	
 		    var categoryName = $(this).contents().first().text().trim();
 		    
-		    // 페이지 이동 또는 다른 동작을 처리할 수 있음
 		    location.href = "${contextPath}/board/productBoardForm?categoryName=" + categoryName;
 		});
 	
@@ -1395,7 +1416,9 @@
 	</div>
 	
 	<script>
-	
+		let regionDepthName1;
+		let regionDepthName2;
+		let regionDepthName3;
 		let addressName;
 		
 		function getLocationName(latitude, longitude){
@@ -1408,7 +1431,15 @@
 				},
 				success : function(result){
 					addressName = result.addressName;
+					regionDepthName1 = result.regionDepthName1
+					regionDepthName2 = result.regionDepthName2
+					regionDepthName3 = result.regionDepthName3
 					$("#outputLocation").val(result.addressName);
+					
+					// 지역 게시판 작성시 사용
+					sessionStorage.setItem("regionDepthName1", regionDepthName1);
+					sessionStorage.setItem("regionDepthName2", regionDepthName2);
+					sessionStorage.setItem("regionDepthName3", regionDepthName3);
 					
 				},
 				error : function(error){

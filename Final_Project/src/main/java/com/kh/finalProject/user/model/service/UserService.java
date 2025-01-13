@@ -69,4 +69,7 @@ public interface UserService {
 	// 신고 당한 상태인지 확인하는 메소드
 	int checkDeclaration(Warning warning);
 
+	// 유저의 닉네임으로 유저이미지를 가져오는 메소드
+	User getUserImg(User user);
+
 }

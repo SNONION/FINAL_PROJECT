@@ -81,12 +81,12 @@
 		<result column="CREATE_DATE" property="createDate"/>
 	</resultMap>
   
-  <resultMap type="Warning" id="WarningResultSet">
+	<resultMap type="Warning" id="WarningResultSet">
 		<result column="USER_ID" property="userId"/>
 		<result column="WARNNING_DATE" property="warningDate"/>
 		<result column="DECLARATION_ID" property="declarationId"/>
 		<result column="DECLARATION_CONTENT" property="declarationContent"/>
-  </resultMap>
+	</resultMap>
 
 	<select id="loginUser" parameterType="User" resultMap="userResultSet">
 		SELECT	*
@@ -244,6 +244,12 @@
 		FROM	TB_WARNING
 		WHERE	USER_ID = #{userId}
 		AND		DECLARATION_ID = #{declarationId}
+	</select>
+	
+	<select id="getUserImg" parameterType="User" resultMap="userResultSet">
+		SELECT	*
+		FROM	TB_USER
+		WHERE	NICKNAME = #{nickname}
 	</select>
 	
 </mapper>

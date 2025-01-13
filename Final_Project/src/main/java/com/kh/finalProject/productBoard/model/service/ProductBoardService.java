@@ -2,12 +2,15 @@ package com.kh.finalProject.productBoard.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.finalProject.common.model.vo.BoardCategory;
 import com.kh.finalProject.common.model.vo.Category;
 import com.kh.finalProject.common.model.vo.ChatInfo;
 import com.kh.finalProject.common.model.vo.Kind;
 import com.kh.finalProject.common.model.vo.Location;
 import com.kh.finalProject.common.model.vo.PageInfo;
 import com.kh.finalProject.common.model.vo.ReportUser;
+import com.kh.finalProject.productBoard.model.vo.AreaBoard;
+import com.kh.finalProject.productBoard.model.vo.AreaBoardReply;
 import com.kh.finalProject.productBoard.model.vo.Media;
 import com.kh.finalProject.productBoard.model.vo.Notice;
 import com.kh.finalProject.productBoard.model.vo.ProductBoard;
@@ -233,5 +236,49 @@ public interface ProductBoardService {
 	//신고된 댓글 조회해오는 메소드
 	ArrayList<Reply> declarationReply();
 
+	//대댓글 삭제하는 메소드 
+	int redeleteReply(ReReply rereply);
+
+	//대댓글 수정하는 메소드 
+	int rereplyUpdate(ReReply rereply);
+	
+	//대댓글 신고하기 메소드
+	int rereplyReport(ReReply rereply);
+
+	// 유저정보의 지역에 해당하는 게시판의 갯수를 조회하는 메소드
+	int AreaBoardCount(int locationNo);
+	
+	// 유저정보의 지역에 해당하는 게시물이 없을 경우 전체 게시판의 갯수를 조회하는 메소드
+	int AreaBoardCount();
+	
+	// 유저정보의 지역에 해당하는 게시판을 조회해오는 메소드
+	ArrayList<AreaBoard> areaBoardForm(int address, PageInfo pi);
+
+	// 유저정보의 지역에 해당하는 게시물이 없을 경우 전체 조회하는 메소드
+	ArrayList<AreaBoard> areaBoardForm(PageInfo pi);
+
+	// 지역게시판 카테고리 조회해오는 메소드
+	ArrayList<BoardCategory> getBoardCate();
+
+	// 지역 게시판 작성하는 메소드
+	int insertAreaBoard(AreaBoard board);
+
+	// 지역 게시판 상세보기 조회 메소드
+	AreaBoard selectAreaBoard(int areaNo);
+
+	// 지역 게시판 조회수 올려주는 메소드
+	int updateCount(int areaNo);
+
+	// 지역 게시판 삭제 메소드
+	int deleteAreaBoard(int areaNo);
+
+	// 지역 게시판 수정 메소드
+	int updateAreaBoard(AreaBoard board);
+
+	// 지역 게시판 댓글 작성 메소드
+	int insertBoardReply(AreaBoardReply reply);
+
+	// 지역 게시판 댓글 조회해오는 메소드
+	ArrayList<AreaBoardReply> selectAreaBoardReply(AreaBoardReply reply);
 
 }

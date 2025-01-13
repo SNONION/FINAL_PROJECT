@@ -111,4 +111,9 @@ public class UserDao {
 		return sqlSession.selectOne("userMapper.checkDeclaration", warning);
 	}
 
+	public User getUserImg(SqlSessionTemplate sqlSession, User user) {
+		
+		return sqlSession.selectOne("userMapper.getUserImg", user);
+	}
+
 }

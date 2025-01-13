@@ -120,6 +120,37 @@
 		<result column="REREPLY_WRITER" property="reReplyWriter"/>
 		<result column="REREPLY_CONTENT" property="reReplyContent"/>
 		<result column="REREPLY_DATE" property="reReplyDate"/>
+		<result column="REREPLY_DECLARATION" property="reReplyDeclaration"/>
+	</resultMap>
+	
+	<resultMap type="AreaBoard" id="AreaResultSet">
+		<result column="AREAB_NO" property="areaNo"/>
+		<result column="LOCATION_NO" property="locationNo"/>
+		<result column="BOARDCATE_NO" property="boardCateNo"/>
+		<result column="AREAB_TITLE" property="areaTitle"/>
+		<result column="AREAB_CONTENT" property="areaContent"/>
+		<result column="COUNT" property="count"/>
+		<result column="AREAB_WRITER" property="areaWriter"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="AREAB_DECLARATION" property="areaDeclaration"/>
+		<result column="LOCATION_NAME" property="locationName"/>
+		<result column="LOCATION_DETAIL_1" property="locationDetail1"/>
+		<result column="LOCATION_DETAIL_2" property="locationDetail2"/>
+		<result column="BOARDCATE_NAME" property="boardCateName"/>
+	</resultMap>
+	
+	<resultMap type="BoardCategory" id="BoardCategoryResultSet">
+		<result column="BOARDCATE_NO" property="boardCateNo"/>
+		<result column="BOARDCATE_NAME" property="boardCateName"/>
+	</resultMap>
+	
+	<resultMap type="AreaBoardReply" id="AreaBoardReplyResultSet">
+		<result column="REPLY_NO" property="boardReplyNo"/>
+		<result column="REPLY_CONTENT" property="boardReplyContent"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="REF_BNO" property="refBno"/>
+		<result column="REPLY_DECLARATION" property="replyDeclaration"/>
+		<result column="REPLY_WRITER" property="boardReplyWriter"/>
 	</resultMap>
 	
 	<select id="declarationBoard" resultMap="PBResultSet">
@@ -451,23 +482,21 @@
 		SELECT	*
 		FROM	TB_PRODUCTBOARD
 		<where>
-			<choose>
-				<when test="categoryNo != 0">
-					CATEGORY_NO = #{categoryNo}
-				</when>
-				<when test="sellLocation != null">
-					SELL_LOCATION LIKE '%'||#{sellLocation}||'%'
-				</when>
-				<when test="kindNo != 0">
-					KIND_NO = #{kindNo}
-				</when>
-				<when test="productStatus != null">
-					PRODUCT_STATUS = #{productStatus}
-				</when>
-				<when test="sellWay != null">
-					SELL_WAY = #{sellWay}
-				</when>
-			</choose>
+			<if test="categoryNo != 0">
+				CATEGORY_NO = #{categoryNo}
+			</if>
+			<if test="sellLocation != null">
+				AND SELL_LOCATION LIKE '%'||#{sellLocation}||'%'
+			</if>
+			<if test="kindNo != 0">
+				AND KIND_NO = #{kindNo}
+			</if>
+			<if test="productStatus != null">
+				AND PRODUCT_STATUS = #{productStatus}
+			</if>
+			<if test="sellWay != null">
+				AND SELL_WAY = #{sellWay}
+			</if>
 		</where>
 	</select>
 	
@@ -640,6 +669,136 @@
 		FROM	TB_REREPLY
 		WHERE	REPLY_NO = #{replyNo}
 		ORDER BY REREPLY_DATE DESC
+	</select>
+
+	<update id="rereplyReport" parameterType="ReReply">
+		UPDATE	TB_REREPLY
+		SET		REREPLY_DECLARATION = 'Y'
+		WHERE	REREPLY_NO = #{reReplyNo}
+	</update>
+	
+	<delete id="redeleteReply" parameterType="ReReply">
+		DELETE FROM TB_REREPLY
+		WHERE	REREPLY_NO = #{reReplyNo}
+	</delete>
+	
+	<update id="rereplyUpdate" parameterType="ReReply">
+		UPDATE	TB_REREPLY
+		SET		REREPLY_CONTENT = #{reReplyContent}
+		WHERE	REREPLY_NO = #{reReplyNo}
+	</update>
+
+	<select id="AreaBoardCount1" parameterType="_int" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_AREABOARD
+		WHERE	LOCATION_NO = #{address}
+	</select>
+	
+	<select id="AreaBoardCount2" parameterType="_int" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_AREABOARD
+	</select>
+	
+	<select id="areaBoardForm1" parameterType="_int" resultMap="AreaResultSet">
+		SELECT	AREAB_NO,
+				LOCATION_NAME,
+				LOCATION_DETAIL_1,
+				LOCATION_DETAIL_2,
+				BOARDCATE_NAME,
+				AREAB_TITLE,
+				COUNT,
+				AREAB_WRITER,
+				CREATE_DATE,
+				AREAB_DECLARATION
+		FROM	TB_AREABOARD
+		WHERE	LOCATION_NO = #{address}
+		JOIN	TB_BOARDCATE USING(BOARDCATE_NO)
+		JOIN	TB_LOCATION USING(LOCATION_NO)
+	</select>
+	
+	<select id="areaBoardForm2" resultMap="AreaResultSet">
+		SELECT	AREAB_NO,
+				LOCATION_NAME,
+				LOCATION_DETAIL_1,
+				LOCATION_DETAIL_2,
+				BOARDCATE_NAME,
+				AREAB_TITLE,
+				COUNT,
+				AREAB_WRITER,
+				CREATE_DATE,
+				AREAB_DECLARATION
+		FROM	TB_AREABOARD
+		JOIN	TB_BOARDCATE USING(BOARDCATE_NO)
+		JOIN	TB_LOCATION USING(LOCATION_NO)
+	</select>
+	
+	<select id="getBoardCate" resultMap="BoardCategoryResultSet">
+		SELECT	*
+		FROM	TB_BOARDCATE
+	</select>
+	
+	<insert id="insertAreaBoard" parameterType="AreaBoard">
+		INSERT INTO TB_AREABOARD(AREAB_NO,
+								 LOCATION_NO,
+								 BOARDCATE_NO,
+								 AREAB_TITLE,
+								 AREAB_CONTENT,
+								 AREAB_WRITER)
+		VALUES(SEQ_AREANO.NEXTVAL, #{locationNo}, #{boardCateNo}, #{areaTitle}, #{areaContent}, #{areaWriter})
+	</insert>
+	
+	<select id="selectAreaBoard" parameterType="_int" resultMap="AreaResultSet">
+		SELECT	AREAB_NO,
+				LOCATION_NAME,
+				LOCATION_DETAIL_1,
+				LOCATION_DETAIL_2,
+				BOARDCATE_NAME,
+				AREAB_TITLE,
+				COUNT,
+				AREAB_CONTENT,
+				AREAB_WRITER,
+				CREATE_DATE,
+				AREAB_DECLARATION
+		FROM	TB_AREABOARD
+		JOIN	TB_BOARDCATE USING(BOARDCATE_NO)
+		JOIN	TB_LOCATION USING(LOCATION_NO)
+		WHERE	AREAB_NO = #{areaNo}
+	</select>
+	
+	<update id="updateCountArea" parameterType="_int">
+		UPDATE	TB_AREABOARD
+		SET		COUNT = COUNT + 1
+		WHERE	AREAB_NO = #{areaNo}
+	</update>
+	
+	<delete id="deleteAreaBoard" parameterType="_int">
+		DELETE FROM TB_AREABOARD
+		WHERE	AREAB_NO = #{areaNo}
+	</delete>
+	
+	<update id="updateAreaBoard" parameterType="AreaBoard">
+		UPDATE	TB_AREABOARD
+		SET		LOCATION_NO = CHANGE_LOC_NO(#{locationName}, #{locationDetail1}, #{locationDetail2}),
+				BOARDCATE_NO = #{boardCateNo},
+				AREAB_TITLE = #{areaTitle},
+				AREAB_CONTENT = #{areaContent},
+				COUNT = #{count}
+		WHERE	AREAB_NO = #{areaNo}
+	</update>
+	
+	<insert id="insertBoardReply" parameterType="AreaBoardReply">
+		INSERT INTO TB_BOARDREPLY(REPLY_NO,
+								  REPLY_CONTENT,
+								  REF_BNO,
+								  REPLY_WRITER)
+		VALUES(SEQ_BCRNO.NEXTVAL, #{boardReplyContent}, #{refBno}, #{boardReplyWriter})
+	</insert>
+	
+	<select id="selectAreaBoardReply" parameterType="AreaBoardReply" resultMap="AreaBoardReplyResultSet">
+		SELECT	*
+		FROM	TB_BOARDREPLY
+		WHERE	REF_BNO = #{refBno}
+		ORDER BY CREATE_DATE DESC
 	</select>
 	
 </mapper>

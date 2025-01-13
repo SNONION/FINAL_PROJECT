@@ -18,5 +18,5 @@ public class ReReply {
 	private String reReplyWriter; //	REREPLY_WRITER	VARCHAR2(15 BYTE)
 	private String reReplyContent; //	REREPLY_CONTENT	VARCHAR2(1000 BYTE)
 	private Date reReplyDate; //	REREPLY_DATE	DATE
-	
+	private String reReplyDeclaration;
 }

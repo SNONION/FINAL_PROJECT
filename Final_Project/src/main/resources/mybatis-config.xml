@@ -16,6 +16,7 @@
 		<typeAlias type="com.kh.finalProject.user.model.vo.UserInfo" alias="UserInfo"/>
 		<typeAlias type="com.kh.finalProject.user.model.vo.Warning" alias="Warning"/>
 		<typeAlias type="com.kh.finalProject.common.model.vo.Category" alias="Category"/>
+		<typeAlias type="com.kh.finalProject.common.model.vo.BoardCategory" alias="BoardCategory"/>
 		<typeAlias type="com.kh.finalProject.common.model.vo.Location" alias="Location"/>
 		<typeAlias type="com.kh.finalProject.common.model.vo.Kind" alias="Kind"/>
 		<typeAlias type="com.kh.finalProject.common.model.vo.ReportUser" alias="ReportUser"/>
@@ -28,6 +29,8 @@
 		<typeAlias type="com.kh.finalProject.productBoard.model.vo.ProductInfo" alias="ProductInfo"/>
 		<typeAlias type="com.kh.finalProject.productBoard.model.vo.Reply" alias="Reply"/>
 		<typeAlias type="com.kh.finalProject.productBoard.model.vo.ReReply" alias="ReReply"/>
+		<typeAlias type="com.kh.finalProject.productBoard.model.vo.AreaBoard" alias="AreaBoard"/>
+		<typeAlias type="com.kh.finalProject.productBoard.model.vo.AreaBoardReply" alias="AreaBoardReply"/>
 	</typeAliases>
 
 </configuration>
