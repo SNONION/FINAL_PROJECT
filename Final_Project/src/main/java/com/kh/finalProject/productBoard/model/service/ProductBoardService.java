@@ -230,6 +230,15 @@ public interface ProductBoardService {
 	// 대댓글을 조회해오는 메소드
 	ArrayList<ReReply> getReplyReply(ReReply reReply);
 
+	//대댓글 삭제하는 메소드 
+	int redeleteReply(ReReply rereply);
+
+	//대댓글 수정하는 메소드 
+	int rereplyUpdate(ReReply rereply);
+	
+	//대댓글 신고하기 메소드
+	int rereplyReport(ReReply rereply);
+
 	// 유저정보의 지역에 해당하는 게시판의 갯수를 조회하는 메소드
 	int AreaBoardCount(int locationNo);
 	

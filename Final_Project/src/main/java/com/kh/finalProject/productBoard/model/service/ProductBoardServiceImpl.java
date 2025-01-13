@@ -450,6 +450,23 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 	}
 
 	@Override
+	public int redeleteReply(ReReply rereply) {
+		
+		return productBoardDao.getredeleteReply(sqlSession, rereply);
+	}
+
+	@Override
+	public int rereplyUpdate(ReReply rereply) {
+		
+		return productBoardDao.getrereplyUpdate(sqlSession, rereply);
+	}
+	
+	@Override
+	public int rereplyReport(ReReply rereply) {
+		
+		return productBoardDao.rereplyReport(sqlSession, rereply);
+	}
+	
 	public ArrayList<AreaBoard> areaBoardForm(int address, PageInfo pi) {
 		
 		return productBoardDao.areaBoardForm(sqlSession, address, pi);

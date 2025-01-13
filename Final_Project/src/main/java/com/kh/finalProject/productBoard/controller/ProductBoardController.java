@@ -1066,7 +1066,6 @@ public class ProductBoardController {
 	@ResponseBody
 	@RequestMapping(value="replyUpdate", produces="html/text;charset=UTF-8")
 	public String replyUpdate(Reply reply) {
-		
 		int result = productBoardService.replyUpdate(reply);
 		
 		String msg = "";
@@ -1127,6 +1126,7 @@ public class ProductBoardController {
 	@ResponseBody
 	@RequestMapping(value="insertReplyToReply", produces="html/text;charset=UTF-8")
 	public String insertReplyToReply(ReReply reReply) {
+	
 		
 		int result = productBoardService.insertReplyToReply(reReply);
 		
@@ -1153,8 +1153,8 @@ public class ProductBoardController {
 		return rrList;
 		
 	}
-
-	// 채팅을 위해 아이디를 사용해 닉네임을 조회하는 메소드
+  
+  // 채팅을 위해 아이디를 사용해 닉네임을 조회하는 메소드
 	@ResponseBody
 	@RequestMapping(value="changeIdToNick", produces="html/text;charset=UTF-8")
 	public String changeIdToNick(User user) {
@@ -1164,8 +1164,8 @@ public class ProductBoardController {
 		return getUser.getNickname();
 		
 	}
-	
-	// 신고한 대상을 삽입하는 메소드
+    
+  // 신고한 대상을 삽입하는 메소드
 	@ResponseBody
 	@RequestMapping(value="insertWarningUser", produces="html/text;charset=UTF-8")
 	public String insertWarningUser(Warning warning, HttpServletRequest request) {
@@ -1179,7 +1179,7 @@ public class ProductBoardController {
 		
 		if(count == 0) {
 			int result = userService.insertWarningUser(warning);
-			
+
 			if(result > 0) {
 				msg = "NNNNY";
 			}
@@ -1194,6 +1194,66 @@ public class ProductBoardController {
 		return msg;
 		
 	}
+  
+  // 대댓글 삭제 메소드
+  @ResponseBody
+  @RequestMapping(value="redeleteReply", produces="html/text;charset=UTF-8")
+  public String redeleteReply(ReReply rereply) {
+    System.out.println("rereply : "+ rereply);
+    int result = productBoardService.redeleteReply(rereply);
+
+    String msg = "";
+
+    if(result > 0){
+      msg = "NNNNY";
+    }
+    else{
+      msg = "NNNNN";
+    }
+
+    return msg;
+
+  }
+  
+  // 대댓글 수정 메소드
+  @ResponseBody
+  @RequestMapping(value="rereplyUpdate", produces="html/text;charset=UTF-8")
+  public String rereplyUpdate(ReReply rereply) {
+    System.out.print("## rereplyUpdate" + rereply);
+    int result = productBoardService.rereplyUpdate(rereply);
+
+    String msg = "";
+
+    if(result > 0) {
+      msg = "NNNNY";
+    }
+    else {
+      msg = "NNNNN";
+    }
+
+    return msg;
+
+  }
+	
+  // 대댓글 신고 메소드
+  @ResponseBody
+  @RequestMapping(value="rereplyReport", produces="html/text;charset=UTF-8")
+  public String rereplyReport(ReReply rereply) {
+
+    int result = productBoardService.rereplyReport(rereply);
+
+    String msg = "";
+
+    if(result > 0) {
+      msg = "NNNNY";
+    }
+    else {
+      msg = "NNNNN";
+    }
+
+    return msg;
+
+  }
 	
 	// 지역 게시판으로 이동하는 메소드
 	@RequestMapping("areaBoardForm")
