@@ -954,27 +954,23 @@
 	            			
 	            			for(var i of result){
 	            				
-            					outDiv = $("<div class='chat-item' id='clickChat'>");
-            					
 	            				if("${loginUser.nickname}" == i.sellerId || "${loginUser.nickname}" != i.buyerId){
 	            					getUserImg(i.buyerId);
 	            				}
 	            				else if("${loginUser.nickname}" != i.sellerId || "${loginUser.nickname}" == i.buyerId){
 	            					getUserImg(i.sellerId);
 	            				}
-	            				
-	            				$(".first-page-content").append(outDiv);
 	            			}
-	            			
 	            		},
 	            		error : function(){
 	            			console.log("통신 오류");
 	            		}
 	            	});
-	            	
+	            	$("#openSlideBtn").addClass("hidden").removeClass("show"); // 오른쪽 하단 버튼 제거
 	                $("#chatBox").addClass("open");  // 채팅창 열기
 	                
 	            } else {
+	            	$("#openSlideBtn").addClass("show").removeClass("hidden"); // 오른쪽 하단 버튼 생성
 	                $("#chatBox").removeClass("open");  // 채팅창 닫기
 	            }
 	        }
@@ -987,9 +983,12 @@
 	        			nickname : userId
 	        		},
 	        		success : function(result){
+	        			outDiv = $("<div class='chat-item' id='clickChat'>");
 	        			var userImg = $("<img class='seller-img'>").attr("src", "${contextPath}" + result);
 	        			innerDiv = $("<div class='seller-id'>").text(userId);
 	        			outDiv.append(userImg).append(innerDiv);
+	        			
+	        			$(".first-page-content").append(outDiv);
 	        		},
 	        		error : function(){
 	        			console.log("통신 오류");
@@ -1000,6 +999,7 @@
 	        // 닫기 버튼 클릭 시 채팅창 닫기
 	        $("#closeChat").click(function() {
 	            $("#chatBox").removeClass("open");  // 채팅창 닫기
+	            $("#openSlideBtn").addClass("show").removeClass("hidden");
 	        });
 	
 	        // 채팅창 열기/닫기
@@ -1081,7 +1081,6 @@
 								<a href="${contextPath}/user/logout" class="btn-kakao" style="height: 39px;"><i class="fas fa-sign-in-alt"></i></a> 
 							</c:when>
 							<c:otherwise>
-								<a href="#" class="btn-kakao"><i class="fas fa-comment"></i>&nbsp;관리자문의</a>
 								<a href="${contextPath}/user/login" class="btn-kakao"><i class="fas fa-sign-in-alt"></i>&nbsp;로그인</a> 
 								<a href="${contextPath}/user/sginin" class="btn-kakao"><i class="fas fa-user-plus"></i>&nbsp;회원가입</a> 
 							</c:otherwise>
@@ -1128,27 +1127,6 @@
 			</div>
 		</div>
 		<div class="right"></div>
-	</div>
-	
-	<div id="slideSidebar" class="slide-sidebar">
-		<div id="userChatList">
-			<c:if test="${loginUser.userId != 'admin'}">
-				<div id="liststyle">채팅문의</div>
-			</c:if>
-		</div>
-		<div id="chatArea"></div>
-    	<div class="chat-input-container">
-	        <input type="text" name="sendMessage" id="sendMessage" style="color: white; border: none; background-color: black;"/>
-	        <button onclick="send();"><i class="w3-icon w3-large fa fa-paper-plane"></i></button>
-	    </div>
-		<div id="bottomButtons">
-			<button class="bottom-btn" id="closeSidebar">
-				<i class="fas fa-square" style="color: rgb(106, 78, 35);"></i>
-			</button>
-			<button class="bottom-btn" id="backChatList">
-				<i class="fas fa-arrow-left" style="color: rgb(106, 78, 35);"></i>
-			</button>
-		</div>
 	</div>
 	
 	<button type="button" onclick="scrollToTop();" id="scrollToTopBtn" class="btn-kakao" style="position: fixed; bottom: 100px; right: 20px; display: none; background-color: #ffcc00; z-index: 500;">
@@ -1198,32 +1176,6 @@
 			location.href="${contextPath}/board/productBoardEnrollForm";
 		}
 		
-		// 채팅에서 해당 닉네임 또는 채팅문의 클릭시 session에 해당 닉네임 저장(채팅용)
-		$("#userChatList").on("click", "div", function(){
-			otherUser = $(this).text();
-			
-			if(otherUser == '채팅문의'){
-				otherUser = '관리자';
-			}
-			
-			$("#userChatList").css("display","none");
-			$("#chatArea").css("display","block");
-			$(".chat-input-container").css("display","flex");
-			
-		});
-		
-		// 이전 버튼 클릭시 해당 세션에 담긴 상대 닉네임을 제거
-		$("#backChatList").click(function(){
-			var displayStatus = $("#userChatList").css("display");
-			
-			if(displayStatus == "none"){
-				
-				$("#userChatList").css("display","block");
-				$("#chatArea").css("display","none");
-				$(".chat-input-container").css("display","none");
-			}
-		})
-	
 		// 로그인 정보가 있는 경우(로그인한 경우) 웹소켓 연결
 		$(function(){
 			if("${loginUser.nickname}" != null){
@@ -1235,13 +1187,7 @@
 		});
 	
 		$("#openSlideBtn").click(function(){
-			$("#openSlideBtn").addClass("hidden").removeClass("show");
-			$("#slideSidebar").addClass("open").removeClass("close");
-		});
-		
-		$("#closeSidebar").click(function(){
-			$("#openSlideBtn").addClass("show").removeClass("hidden");
-			$("#slideSidebar").addClass("close").removeClass("open");
+			openChat();
 		});
 		
 		var socket;
@@ -1263,46 +1209,6 @@
 			// 연결 종료시 동작
 			socket.onclose = function(){
 				console.log("연결 종료!!");
-			}
-			
-			// 메시지 받아옴
-			socket.onmessage = function(message){
-				var originDiv = $("#chatArea");
-				
-				// 전달받은 json 형태의 문자열을 json객체로 파싱하기
-				var data = JSON.parse(message.data);
-				
-				var listDiv = $("<div id='liststyle'>").html(data.nickname);
-				
-				var newDiv = $("<div>").html(data.nickname + " : " + data.messageContent 
-						+ "<br> <h6 style='font-size: 12px; color:gray;'>[" + data.createData + "]</h6>");
-				
-				// 관리자 채팅에 채팅 리스트를 보여주는 부분
-				// 기존 채팅 리스트에 있는 유저들을 요소로 뽑아온다.
-				var children = $("#userChatList").children();
-				
-				// 존재 유무 판별용
-				var existNick = false;
-				
-				// 뽑아온 요소들의 text중에서 수신받은 메시지의 닉네임과 동일한 닉네임이 있는 경우 존재(true)로 변경
-				// 없다면 false 그대로 진행한다.
-				for(var i = 0; i < children.length; i++){
-					if($(children[i]).text() === data.nickname){
-						existNick = true;
-						break;
-					}
-				}
-				
-				// 자신의 닉네임은 올라오지 않는다.
-				if("${loginUser.nickname}" != data.nickname){
-					// 존재유무가 false(없다)라면 채팅 목록에 닉네임을 띄워준다.
-					if(!existNick){
-						$("#userChatList").append(listDiv);
-					}
-				}
-				
-				originDiv.append(newDiv);
-				originDiv.scrollTop(originDiv[0].scrollHeight);
 			}
 			
 			// 채팅창 수신

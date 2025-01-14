@@ -306,6 +306,24 @@
 	    color: #fee500;
 	}
 	
+	.list-area {
+	    display: flex;
+	    flex-wrap: wrap; /* 요소가 한 줄에 넘치면 다음 줄로 내려감 */
+	    gap: 20px; /* 요소 간 간격 */
+	  }
+	
+	  .recommended-products {
+	    display: flex;
+	    flex-wrap: wrap; /* 요소가 한 줄에 넘치면 다음 줄로 내려감 */
+	    justify-content: space-between; /* 요소를 한 줄에 균등하게 배치 */
+	    gap: 15px; /* 요소 간 간격 */
+	  }
+	  
+	  .product-info {
+	    padding: 10px;
+	    text-align: center;
+	  }
+	
 </style>
 
 </head>
