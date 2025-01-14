@@ -801,4 +801,55 @@
 		ORDER BY CREATE_DATE DESC
 	</select>
 	
+	<select id="getCountCateList" parameterType="AreaBoard" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	TB_AREABOARD
+		JOIN	TB_BOARDCATE USING(BOARDCATE_NO)
+		JOIN	TB_LOCATION USING(LOCATION_NO)
+		<where>
+			<if test="boardCateNo != 0">
+				BOARDCATE_NO = #{boardCateNo}
+			</if>
+			<if test="locationNo != 0">
+				<if test="boardCateNo == 0">
+					LOCATION_NO = #{locationNo}
+				</if>
+				<if test="boardCateNo != 0">
+					AND	LOCATION_NO = #{locationNo}
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectCateAreaBoard" parameterType="AreaBoard" resultMap="AreaResultSet">
+		SELECT	AREAB_NO,
+				LOCATION_NAME,
+				LOCATION_DETAIL_1,
+				LOCATION_DETAIL_2,
+				BOARDCATE_NAME,
+				AREAB_TITLE,
+				COUNT,
+				AREAB_CONTENT,
+				AREAB_WRITER,
+				CREATE_DATE,
+				AREAB_DECLARATION
+		FROM	TB_AREABOARD A
+		JOIN	TB_BOARDCATE B ON(A.BOARDCATE_NO = B.BOARDCATE_NO) 
+		JOIN	TB_LOCATION L ON(A.LOCATION_NO = L.LOCATION_NO)
+		<where>
+			<if test="boardCateNo != 0">
+				A.BOARDCATE_NO = #{boardCateNo}
+			</if>
+			<if test="locationNo != 0">
+				<if test="boardCateNo == 0">
+					A.LOCATION_NO = #{locationNo}
+				</if>
+				<if test="boardCateNo != 0">
+					AND	A.LOCATION_NO = #{locationNo}
+				</if>
+			</if>
+		</where>
+		ORDER BY CREATE_DATE DESC
+	</select>
+	
 </mapper>

@@ -114,11 +114,17 @@
 	<%@include file="/WEB-INF/views/common/header.jsp"%> 
 	
 	<div class="outer">
-		<br><br>
-		<div class="container" id="notice-container">
-			<c:if test="${loginUser.userId == 'admin' && loginUser != null}">
-				<button class="btn-kakao" style="float: left; margin-bottom: 10px;" onclick="writeAreaBoard();">글작성</button>
-			</c:if>
+	    <br><br>
+	    <div class="container" id="notice-container" style="position: relative;">
+	        <c:if test="${loginUser.userId == 'admin' && loginUser != null}">
+	            <button class="btn-kakao" style="float: left; margin-bottom: 10px;" onclick="writeAreaBoard();">글작성</button>
+		        <select id="boardCategory" style="position: absolute; margin-right: 20px; right: 0; background-color: #FFFFFF; color: #000000; border: 1px solid #CCCCCC; border-radius: 3px; padding: 3px; font-size: 12px; height: 30px;">
+		            <option value="0">전체</option>
+		            <c:forEach var="bcate" items="${bcList}">
+		                <option value="${bcate.boardCateNo}">${bcate.boardCateName}</option>
+		            </c:forEach>
+		        </select>
+	        </c:if>
 			<table class="table" id="notice-table">
 				<thead>
 					<tr id="notice-top">
@@ -127,34 +133,24 @@
 						<th width="200px">Cate</th>
 						<th id="titleBar-area">제목</th>
 						<th width="100px">작성자</th>
-						<th width="120px">작성일</th>
-						<th width="80px">조회수</th>
+						<th width="150px">작성일</th>
+						<th width="100px">조회수</th>
 					</tr>
 				</thead>
 				<tbody id="notice-click">
-					<c:forEach var="i" items="${abList}">
-						<tr align="center">
-							<td>${i.areaNo}</td>
-							<td>${i.locationName}</td>
-							<td>${i.boardCateName}</td>
-							<td id="titleBar-area">${i.areaTitle}</td>
-							<td>${i.areaWriter}</td>
-							<td>${i.createDate}</td>
-							<td>${i.count}</td>
-						</tr>
-					</c:forEach>
+					
 				</tbody>
 			</table>
 			<div class="paging-area">
 				<ul class="pagination">
 					<c:if test="${pi.currentPage > 1}">
-						<li class="page-item"><a class="page-link" href="${contextPath}/board/areaBoardForm?regionDepthName1=${regionDepthName1}&regionDepthName2=${regionDepthName1}&currentPage=${pi.currentPage - 1}"><</a></li>
+						<li class="page-item"><a class="page-link" onclick="areaBoardFilter(${pi.currentPage - 1})"><</a></li>
 					</c:if>
 					<c:forEach var="i" begin="${pi.startPage}" end="${pi.maxPage}">
-						<li class="page-item"><a class="page-link" href="${contextPath}/board/areaBoardForm?regionDepthName1=${regionDepthName1}&regionDepthName2=${regionDepthName1}&currentPage=${i}">${i + 1}</a></li>
+						<li class="page-item"><a class="page-link" onclick="areaBoardFilter(${i})">${i}</a></li>
 					</c:forEach>
 					<c:if test="${pi.currentPage != pi.endPage}">
-						<li class="page-item"><a class="page-link" href="${contextPath}/board/areaBoardForm?regionDepthName1=${regionDepthName1}&regionDepthName2=${regionDepthName1}&currentPage=${pi.currentPage + 1}">></a></li>
+						<li class="page-item"><a class="page-link" onclick="areaBoardFilter(${pi.currentPage + 1})">></a></li>
 					</c:if>
 				</ul>
 			</div>
@@ -162,6 +158,58 @@
 	</div>
 	
 	<script>
+		var boardCateNo;
+		
+		$(function(){
+			boardCateNo = $("#boardCategory").val();
+			areaBoardFilter(1);
+		});
+	
+		// select로 카테고리에 맞는 게시물 조회
+		$("#boardCategory").change(function(){
+			boardCateNo = $("#boardCategory").val();
+			areaBoardFilter(1);
+		});
+		
+		function areaBoardFilter(currentPage){
+			
+			var regionDepthName1 = sessionStorage.getItem("regionDepthName1");
+			var regionDepthName2 = sessionStorage.getItem("regionDepthName2");
+			var regionDepthName3 = sessionStorage.getItem("regionDepthName3");
+			
+			$.ajax({
+				url : "${contextPath}/board/boardCateList",
+				data : {
+					boardCateNo : boardCateNo,
+					currentPage : currentPage,
+					regionDepthName1 : regionDepthName1,
+					regionDepthName2 : regionDepthName2,
+					regionDepthName3 : regionDepthName3
+				},
+				success : function(result){
+					
+					$("#notice-click tr").remove();
+					
+					for(var cateB of result){
+						var tr = $("<tr align='center'>");
+						tr.append($("<td>").text(cateB.areaNo));
+						tr.append($("<td>").text(cateB.locationName));
+						tr.append($("<td>").text(cateB.boardCateName));
+						tr.append($("<td id='titleBar-area'>").text(cateB.areaTitle));
+						tr.append($("<td>").text(cateB.areaWriter));
+						tr.append($("<td>").text(cateB.createDate));
+						tr.append($("<td>").text(cateB.count));
+						
+						$("#notice-click").append(tr);
+					}
+					
+				},
+				error : function(){
+					console.log("통신 오류");	
+				}
+			});
+		}
+	
 		function writeAreaBoard(){
 			location.href="${contextPath}/board/areaBoardEnroll";
 		}

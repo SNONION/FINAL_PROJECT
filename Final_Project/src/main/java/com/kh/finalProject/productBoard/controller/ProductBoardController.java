@@ -1259,39 +1259,9 @@ public class ProductBoardController {
 	
 	// 지역 게시판으로 이동하는 메소드
 	@RequestMapping("areaBoardForm")
-	public ModelAndView areaBoardForm(@RequestParam(value="currentPage", defaultValue="1")int currentPage,
-									  AddressInfo addr, ModelAndView mv) {
+	public String areaBoardForm() {
 		
-		int pageLimit = 10;
-		int listLimit = 15;
-		
-		Location location = Location.builder().locationDetail1(addr.getRegionDepthName1())
-						  					  .locationDetail2(addr.getRegionDepthName2()).build();
-		
-		ArrayList<Location> list = productBoardService.getLocationNo(location);
-		
-		ArrayList<AreaBoard> abList = null;
-		PageInfo pi = null;
-		
-		if(list.size() != 0) {
-			int listCount = productBoardService.AreaBoardCount(list.get(0).getLocationNo());
-			pi = PageNation.pageNation(listCount, currentPage, pageLimit, listLimit);
-			
-			abList = productBoardService.areaBoardForm(list.get(0).getLocationNo(), pi);
-			mv.addObject("abList", abList);
-		}
-		else {
-			int listCount = productBoardService.AreaBoardCount();
-			pi = PageNation.pageNation(listCount, currentPage, pageLimit, listLimit);
-			
-			abList = productBoardService.areaBoardForm(pi);
-			mv.addObject("abList", abList);
-		}
-		
-		mv.addObject("abList", abList);
-		mv.setViewName("AreaBoard/areaBoardListForm");
-		
-		return mv;
+		return "AreaBoard/areaBoardListForm";
 		
 	}
 	
@@ -1319,7 +1289,7 @@ public class ProductBoardController {
 		
 		request.getSession().setAttribute("alertMsg", "글이 작성되었습니다.");
 		
-		return "redirect:/";
+		return "AreaBoard/areaBoardListForm";
 		
 	}
 	
@@ -1335,7 +1305,7 @@ public class ProductBoardController {
 			mv.setViewName("AreaBoard/areaBoardDetailForm");
 		}
 		else {
-			mv.setViewName("redirect:/");
+			mv.setViewName("AreaBoard/areaBoardListForm");
 		}
 		
 		return mv;
@@ -1352,7 +1322,7 @@ public class ProductBoardController {
 			request.getSession().setAttribute("alertMsg", "게시글이 삭제 되었습니다.");
 		}
 		
-		return "redirect:/";
+		return "AreaBoard/areaBoardListForm";
 		
 	}
 	
@@ -1381,7 +1351,7 @@ public class ProductBoardController {
 			request.getSession().setAttribute("alertMsg", "게시글이 수정되었습니다.");
 		}
 		
-		mv.setViewName("redirect:/");
+		mv.setViewName("AreaBoard/areaBoardListForm");
 		
 		return mv;
 		
@@ -1417,6 +1387,49 @@ public class ProductBoardController {
 		ArrayList<AreaBoardReply> replyAreaList = productBoardService.selectAreaBoardReply(reply);
 		
 		return replyAreaList;
+		
+	}
+	
+	// 지역 게시판 카테고리별 조회
+	@ResponseBody
+	@RequestMapping(value="boardCateList", produces="application/json;charset=UTF-8")
+	public ArrayList<AreaBoard> boardCateList(@RequestParam(value="currentPage", defaultValue="1")int currentPage,
+											  AddressInfo addr, BoardCategory category, HttpServletRequest request) {
+		
+		int pageLimit = 10;
+		int listLimit = 15;
+		
+		AreaBoard ab = null;
+		
+		if(addr.getRegionDepthName1() != null) {
+			
+			Location loc = Location.builder().locationName(addr.getRegionDepthName1())
+					.locationDetail1(addr.getRegionDepthName2())
+					.locationDetail2(addr.getRegionDepthName3()).build();
+			
+			ArrayList<Location> locNo = productBoardService.getLocationNo(loc);
+			ab = AreaBoard.builder().boardCateNo(category.getBoardCateNo())
+									.locationNo(locNo.get(0).getLocationNo()).build();
+		}
+		else {	
+			ab = AreaBoard.builder().boardCateNo(category.getBoardCateNo()).build();
+		}
+		
+		int listCount = productBoardService.getCountCateList(ab);
+		
+		PageInfo pi = PageNation.pageNation(listCount, currentPage, pageLimit, listLimit);
+		
+		ArrayList<AreaBoard> abList = productBoardService.selectCateAreaBoard(ab, pi);
+
+		ArrayList<BoardCategory> bcList = productBoardService.getBoardCate();
+		ArrayList<Location> locList = productBoardService.locationFilter();
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("locList", locList);
+		session.setAttribute("bcList", bcList);
+		session.setAttribute("pi", pi);
+		
+		return abList;
 		
 	}
 	

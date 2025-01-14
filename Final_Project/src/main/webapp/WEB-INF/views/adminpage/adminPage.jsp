@@ -263,7 +263,7 @@
     						<td>${wpb.boardNo}</td>
     						<td>${wpb.boardTitle}</td>
     						<td>${wpb.boardWriter}</td>
-    						<td><a href="http://localhost:8888/final/board/boardDetailForm?boardNo=+${wpb.boardNo}+"><input type="submit" value="이동"></a></td>
+    						<td><a onclick="location.href='${contextPath}/board/boardDetailForm?boardNo=${wpb.boardNo}'"><input type="button" value="이동"></a></td>
        				   </tr>
     				  </c:forEach>
                 </tbody>
@@ -285,7 +285,7 @@
     						<td>${r.replyWriter}</td>
     						<td>${r.refBno}</td>
     						<td>${r.replyContent}</td>
-    						<td><a href="http://localhost:8888/final/board/boardDetailForm?boardNo=+${r.refBno}+"><input type="submit" value="이동"></a></td>
+    						<td><a onclick="location.href='${contextPath}/board/boardDetailForm?boardNo=${r.refBno}'"><input type="button" value="이동"></a></td>
        				   </tr>
     				  </c:forEach>
                 </tbody>
@@ -309,24 +309,6 @@
             toggleButton.click(function () {
                 sidebar.toggleClass('collapsed');
             });
-
-            console.log(${wpbList});
-           
-            // 신고된 댓글 목록
-            const reportedComments = [
-                { commentId: 'cmt01', content: '불법 링크 공유' },
-                { commentId: 'cmt02', content: '욕설 및 비방' },
-                { commentId: 'cmt03', content: '허위 정보' }
-            ];
-
-            // 신고된 댓글 목록 동적으로 삽입
-            for (let comment of reportedComments) {
-                let row = $("<tr>");
-                row.append("<td>" + comment.commentId + "</td>");
-                row.append("<td>" + comment.content + "</td>");
-                row.append(`<td><button class="view-post-btn" onclick="viewPost('${comment.commentId}')">게시물 보기</button></td>`);
-                $("#reported-comments-list").append(row);
-            }
 
             // 신고된 댓글에 대해 게시물 보기
             window.viewPost = function(commentId) {

@@ -2,6 +2,7 @@ package com.kh.finalProject.productBoard.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.finalProject.common.model.vo.AddressInfo;
 import com.kh.finalProject.common.model.vo.BoardCategory;
 import com.kh.finalProject.common.model.vo.Category;
 import com.kh.finalProject.common.model.vo.ChatInfo;
@@ -280,5 +281,14 @@ public interface ProductBoardService {
 
 	// 지역 게시판 댓글 조회해오는 메소드
 	ArrayList<AreaBoardReply> selectAreaBoardReply(AreaBoardReply reply);
+
+	// 지역(옵션), 카테고리(필수)로 지역 게시판 갯수 조회해오는 메소드
+	int getCountCateList(AreaBoard ab);
+
+	// 지역(옵션), 카테고리(필수)로 지역 게시판 조회해오는 메소드
+	ArrayList<AreaBoard> selectCateAreaBoard(AreaBoard ab, PageInfo pi);
+
+
+	
 
 }

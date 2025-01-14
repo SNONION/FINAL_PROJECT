@@ -1449,8 +1449,8 @@
 				        	if(loginId === writerCheck){
 				        		var beforeReply = $(this).text();
 					        	$(this).text("");
-					        	$("#plusReply").css("display", "none");
-					        	$("#updateReBtn").css("display", "block");
+					        	$(this).siblings("#plusReply").css("display", "none");
+					        	$(this).siblings("#updateReBtn").css("display", "block");
 					        	$(this).append($("<input style='width: 500px; border-radius: 10px;'>").val(beforeReply));
 				        	}
 				        });
@@ -1504,6 +1504,7 @@
 							});
 				        });
 				     	
+				     	// 댓글 수정 버튼
 				        var updateButton = $("<button id='updateReBtn' style='display:none;'>").addClass("update-button").append("<i class='fas fa-edit'></i>").on("click", function(){
 				        	var replyNo = $(this).children("input").val();
 							var replyContent = $(this).siblings(".content-area").children("input").val();

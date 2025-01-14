@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.finalProject.common.model.vo.AddressInfo;
 import com.kh.finalProject.common.model.vo.BoardCategory;
 import com.kh.finalProject.common.model.vo.Category;
 import com.kh.finalProject.common.model.vo.ChatInfo;
@@ -549,5 +550,18 @@ public class ProductBoardServiceImpl implements ProductBoardService{
 		
 		return productBoardDao.selectAreaBoardReply(sqlSession, reply);
 	}
+
+	@Override
+	public int getCountCateList(AreaBoard ab) {
+		
+		return productBoardDao.getCountCateList(sqlSession, ab);
+	}
+	
+	@Override
+	public ArrayList<AreaBoard> selectCateAreaBoard(AreaBoard ab, PageInfo pi) {
+		
+		return productBoardDao.selectCateAreaBoard(sqlSession, ab, pi);
+	}
+
   
 }
