@@ -1164,7 +1164,7 @@
 		// 지역 게시판 이동 메소드
 		function goAreaBoard(){
 			
-			location.href="${contextPath}/board/areaBoardForm?regionDepthName1=" + regionDepthName1 + "&regionDepthName2=" + regionDepthName1 + "&currentPage=1";
+			location.href="${contextPath}/board/areaBoardForm";
 		};
 	
 		$("#category-area").on("click", "li.dropdown-item", function(event) {

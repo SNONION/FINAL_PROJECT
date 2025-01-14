@@ -497,5 +497,18 @@ public class ProductBoardDao {
 		return (ArrayList)sqlSession.selectList("productBoardMapper.selectAreaBoardReply", reply);
 	}
 
+	public ArrayList<AreaBoard> selectCateAreaBoard(SqlSessionTemplate sqlSession, AreaBoard ab, PageInfo pi) {
+		
+		int limit = pi.getListLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		
+		return (ArrayList)sqlSession.selectList("productBoardMapper.selectCateAreaBoard", ab, new RowBounds(offset, limit));
+	}
+
+	public int getCountCateList(SqlSessionTemplate sqlSession, AreaBoard ab) {
+		
+		return sqlSession.selectOne("productBoardMapper.getCountCateList", ab);
+	}
+
 
 }
