@@ -818,6 +818,9 @@
 					AND	LOCATION_NO = #{locationNo}
 				</if>
 			</if>
+			<if test="areaTitle != null">
+				AND AREAB_TITLE LIKE '%'||#{areaTitle}||'%'
+			</if>
 		</where>
 	</select>
 	
@@ -847,6 +850,9 @@
 				<if test="boardCateNo != 0">
 					AND	A.LOCATION_NO = #{locationNo}
 				</if>
+			</if>
+			<if test="areaTitle != null">
+				AND AREAB_TITLE LIKE '%'||#{areaTitle}||'%'
 			</if>
 		</where>
 		ORDER BY CREATE_DATE DESC

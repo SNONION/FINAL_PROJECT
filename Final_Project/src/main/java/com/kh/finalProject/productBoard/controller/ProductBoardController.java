@@ -1394,13 +1394,14 @@ public class ProductBoardController {
 	@ResponseBody
 	@RequestMapping(value="boardCateList", produces="application/json;charset=UTF-8")
 	public ArrayList<AreaBoard> boardCateList(@RequestParam(value="currentPage", defaultValue="1")int currentPage,
-											  AddressInfo addr, BoardCategory category, HttpServletRequest request) {
+											  AddressInfo addr, BoardCategory category, HttpServletRequest request,
+											  String keyword) {
 		
 		int pageLimit = 10;
 		int listLimit = 15;
 		
 		AreaBoard ab = null;
-		
+
 		if(addr.getRegionDepthName1() != null) {
 			
 			Location loc = Location.builder().locationName(addr.getRegionDepthName1())
@@ -1409,10 +1410,10 @@ public class ProductBoardController {
 			
 			ArrayList<Location> locNo = productBoardService.getLocationNo(loc);
 			ab = AreaBoard.builder().boardCateNo(category.getBoardCateNo())
-									.locationNo(locNo.get(0).getLocationNo()).build();
+									.locationNo(locNo.get(0).getLocationNo()).areaTitle(keyword).build();
 		}
 		else {	
-			ab = AreaBoard.builder().boardCateNo(category.getBoardCateNo()).build();
+			ab = AreaBoard.builder().boardCateNo(category.getBoardCateNo()).areaTitle(keyword).build();
 		}
 		
 		int listCount = productBoardService.getCountCateList(ab);

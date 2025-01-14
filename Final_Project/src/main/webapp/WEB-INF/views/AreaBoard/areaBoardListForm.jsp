@@ -124,7 +124,11 @@
 		                <option value="${bcate.boardCateNo}">${bcate.boardCateName}</option>
 		            </c:forEach>
 		        </select>
-	        </c:if>
+				<div class="form-inline" style="margin-left: 220px;">
+					<input id="keyword" class="form-control mr-sm-2" type="text" placeholder="Search">
+					<button id="keywordSearch" class="btn btn-success" type="button" style="background-color: #ffdd00; border: none; color: black; font-weight: bold;">검색</button>
+				</div>
+			</c:if>
 			<table class="table" id="notice-table">
 				<thead>
 					<tr id="notice-top">
@@ -172,22 +176,22 @@
 		});
 		
 		function areaBoardFilter(currentPage){
-			
+			var keyword = $("#keyword").val();
 			var regionDepthName1 = sessionStorage.getItem("regionDepthName1");
 			var regionDepthName2 = sessionStorage.getItem("regionDepthName2");
 			var regionDepthName3 = sessionStorage.getItem("regionDepthName3");
-			
+			console.log(keyword);
 			$.ajax({
 				url : "${contextPath}/board/boardCateList",
 				data : {
 					boardCateNo : boardCateNo,
 					currentPage : currentPage,
+					keyword : keyword,
 					regionDepthName1 : regionDepthName1,
 					regionDepthName2 : regionDepthName2,
 					regionDepthName3 : regionDepthName3
 				},
 				success : function(result){
-					
 					$("#notice-click tr").remove();
 					
 					for(var cateB of result){
@@ -209,6 +213,14 @@
 				}
 			});
 		}
+		
+		$("#keywordSearch").click(function(){
+			var keyword = $("#keyword").val();
+			
+			if(keyword != ""){
+				areaBoardFilter(1);
+			}
+		});
 	
 		function writeAreaBoard(){
 			location.href="${contextPath}/board/areaBoardEnroll";
