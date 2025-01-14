@@ -150,9 +150,9 @@
 			    
 			    <!-- 게시판 내용 -->
 			    <div id="notice-content">
-			    	<button class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortRight();"><i class="fas fa-align-right"></i></button>
-			    	<button class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortCenter();"><i class="fas fa-align-center"></i></button>
-			    	<button class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortLeft();"><i class="fas fa-align-left"></i></button>
+			    	<button type="button" class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortRight();"><i class="fas fa-align-right"></i></button>
+			    	<button type="button" class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortCenter();"><i class="fas fa-align-center"></i></button>
+			    	<button type="button" class="btn-kakao" style="float: right; margin-right: 5px;" onclick="sortLeft();"><i class="fas fa-align-left"></i></button>
 			        <p><textarea id="noticeContent" name="areaContent" style="resize: none;">${ab.areaContent}</textarea></p>
 			    </div>
 			    

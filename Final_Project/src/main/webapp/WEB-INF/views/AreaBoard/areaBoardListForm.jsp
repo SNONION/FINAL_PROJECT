@@ -116,7 +116,7 @@
 	<div class="outer">
 	    <br><br>
 	    <div class="container" id="notice-container" style="position: relative;">
-	        <c:if test="${loginUser.userId == 'admin' && loginUser != null}">
+	        <c:if test="${loginUser.userId == 'admin' || loginUser != null}">
 	            <button class="btn-kakao" style="float: left; margin-bottom: 10px;" onclick="writeAreaBoard();">글작성</button>
 		        <select id="boardCategory" style="position: absolute; margin-right: 20px; right: 0; background-color: #FFFFFF; color: #000000; border: 1px solid #CCCCCC; border-radius: 3px; padding: 3px; font-size: 12px; height: 30px;">
 		            <option value="0">전체</option>
